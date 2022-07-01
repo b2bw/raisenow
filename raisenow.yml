@@ -1,0 +1,19 @@
+tamaro:
+  rnwSpendeAllgemein:
+    language: de
+    paymentWidgetBlocks:
+      - payment_purposes
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile
+      - if: showPaymentAddress() == true
+        then:
+          - payment_address
+    purposes: [ p1, p2, p3, p4 ]
+    translations:
+      de:
+        purposes:
+          p1: Allgemein
+          p2: OTOL
+          p3: Rettungsstation
+          p4: Auswilderung

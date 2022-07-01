@@ -1,0 +1,14 @@
+// define tamaro widgets
+
+const RNW = ${RNW_JSON};
+
+// initialize all tamaro widgets defined in rnws
+Object.keys(RNW).forEach(key => {
+  window.rnw.tamaro.runWidget('#'+key, RNW[key]);
+});
+
+// HACK: wait until tamaro widget is initialized
+setTimeout(() => {
+  $('#stored_customer_email_permission-info-widget p')
+    .append(' <span>BOS Schweiz</span>');
+}, 1000)
