@@ -17,3 +17,27 @@ tamaro:
           p2: OTOL
           p3: Rettungsstation
           p4: Auswilderung
+  rnwSpendeBaeume:
+    language: de
+  rnwSpendeWaldschutz:
+    language: de
+  rnwSpendeRettungsstationen:
+    language: de
+  rnwSpendeAuswilderungen:
+    language: de
+  rnwSpendeBaeren:
+    language: de
+  rnwPatenschaftAllgemein:
+    language: de
+  rnwPatenschaftRettungsstationen:
+    language: de
+  rnwPatenschaftTopan:
+    language: de
+  rnwPatenschaftBumi:
+    language: de
+  rnwPatenschaftDavi:
+    language: de
+  rnwPatenschaftKopral:
+    language: de
+  rnwPatenschaftShelton:
+    language: de

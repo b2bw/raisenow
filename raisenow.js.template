@@ -1,10 +1,21 @@
-// define tamaro widgets
+// -*- mode: js -*-
 
+// define tamaro widgets
 const RNW = ${RNW_JSON};
 
-// initialize all tamaro widgets defined in rnws
-Object.keys(RNW).forEach(key => {
-  window.rnw.tamaro.runWidget('#'+key, RNW[key]);
+// initialize all tamaro widgets defined in RNW
+$(() => {
+  Object.keys(RNW.tamaro).forEach(key => {
+    const selector = '#'+key;
+    const options = RNW.tamaro[key];
+    console.log('initialize', selector, 'with', options);
+    // check if it exists
+    if ($(selector).length) {
+      window.rnw.tamaro.runWidget(selector, options);
+    } else {
+      console.log(selector, "not found.");
+    }
+  });
 });
 
 // HACK: wait until tamaro widget is initialized
