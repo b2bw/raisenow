@@ -37,7 +37,7 @@ tamaro:
       - payment_purposes
       - payment_amounts_and_intervals
       - payment_payment_methods
-      - payment_profile"
+      - payment_profile
       - if: showPaymentAddress() == true
         then: [ payment_address ]
     purposes: [ p2 ]
@@ -59,7 +59,7 @@ tamaro:
       - payment_purposes
       - payment_amounts_and_intervals
       - payment_payment_methods
-      - payment_profile"
+      - payment_profile
       - if: showPaymentAddress() == true
         then: [ payment_address ]
     purposes: [ p3 ]
@@ -81,7 +81,7 @@ tamaro:
       - payment_purposes
       - payment_amounts_and_intervals
       - payment_payment_methods
-      - payment_profile"
+      - payment_profile
       - if: showPaymentAddress() == true
         then: [ payment_address ]
     purposes: [ p4 ]
@@ -103,7 +103,7 @@ tamaro:
       - payment_purposes
       - payment_amounts_and_intervals
       - payment_payment_methods
-      - payment_profile"
+      - payment_profile
       - if: showPaymentAddress() == true
         then: [ payment_address ]
     purposes: [ p5 ]
@@ -125,7 +125,7 @@ tamaro:
       - payment_purposes
       - payment_amounts_and_intervals
       - payment_payment_methods
-      - payment_profile"
+      - payment_profile
       - if: showPaymentAddress() == true
         then: [ payment_address ]
     purposes: [ p6 ]
