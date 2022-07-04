@@ -1,4 +1,13 @@
-# https://www.bos-schweiz.ch/raisenow-forms/index.html
+# The format of this file is YAML, here is a brief overview:
+#
+#   https://de.wikipedia.org/wiki/YAML
+#
+# The generated pages will be available here
+#
+#   https://www.bos-schweiz.ch/raisenow-forms/index.html
+#
+# Processing changes takes (at time of writing) approx. 20 seconds.
+#
 tamaro:
   rnwSpendeAllgemein:
     language: de
@@ -42,12 +51,16 @@ tamaro:
     language: de
   rnwPatenschaftShelton:
     language: de
+
+# This is the extra text that will be appended to the terms of service
+# section of all forms.
 datenschutz: >-
-Die Übermittlung der Daten erfolgt verschlüsselt. BOS Schweiz speichert 
-selbst keine Kartendaten, Ihre Zahlungsdaten laufen direkt über RaiseNow, 
-einem von der Kreditkartenindustrie (PCI DSS) zertifizierten Partner. Unsere 
-Dienstleistenden dürfen die Informationen ausschliesslich zur Erfüllung 
-ihrer Aufgaben nutzen und sind verpflichtet, die Datenschutzbestimmungen 
-einzuhalten. Sie können Ihre Spende von Ihrem steuerbaren Einkommen abziehen. 
-Spender*innen erhalten per E-Mail eine Spendenbestätigung für die 
-Steuerbehörden. Die Spenden gehen an BOS Schweiz.
+  Die Übermittlung der Daten erfolgt verschlüsselt. BOS Schweiz
+  speichert selbst keine Kartendaten, Ihre Zahlungsdaten laufen direkt
+  über RaiseNow, einem von der Kreditkartenindustrie (PCI DSS)
+  zertifizierten Partner. Unsere Dienstleistenden dürfen die
+  Informationen ausschliesslich zur Erfüllung ihrer Aufgaben nutzen
+  und sind verpflichtet, die Datenschutzbestimmungen einzuhalten. Sie
+  können Ihre Spende von Ihrem steuerbaren Einkommen abziehen.
+  Spender*innen erhalten per E-Mail eine Spendenbestätigung für die
+  Steuerbehörden. Die Spenden gehen an BOS Schweiz.
