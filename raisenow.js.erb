@@ -1,13 +1,13 @@
 // -*- mode: js -*-
 
 // define tamaro widgets
-const RNW = "<%= forms %>";
+const RNW = <%= forms %>;
 
 // initialize all tamaro widgets defined in RNW
 $(() => {
-  Object.keys(RNW.tamaro).forEach(key => {
+  Object.keys(RNW).forEach(key => {
     const selector = '#'+key;
-    const options = RNW.tamaro[key];
+    const options = RNW[key];
     console.log('initialize', selector, 'with', options);
     // check if it exists
     if ($(selector).length) {
