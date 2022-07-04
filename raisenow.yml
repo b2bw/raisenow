@@ -27,28 +27,60 @@ tamaro:
           p2: Bäume spenden
           p3: Rettungsstationen
           p4: Auswilderung
+
   rnwSpendeBaeume:
     language: de
+    paymentWidgetBlocks:
+      - payment_purposes
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile"
+      - if: showPaymentAddress() == true
+        then: [ payment_address ]
+    purposes: [ p1 ]
+    translations:
+      de:
+        purposes:
+          p1: Bäume pflanzen
+    amounts:
+      - if: paymentType() == onetime
+        then:
+          - 7.65
+          - 38.25
+          - 76.50
+          - 765.00
+
   rnwSpendeWaldschutz:
     language: de
+
   rnwSpendeRettungsstationen:
     language: de
+
   rnwSpendeAuswilderungen:
     language: de
+
   rnwSpendeBaeren:
     language: de
+
+  # raisenow default
   rnwPatenschaftAllgemein:
     language: de
+
   rnwPatenschaftRettungsstationen:
     language: de
+
   rnwPatenschaftTopan:
     language: de
+
   rnwPatenschaftBumi:
     language: de
+
   rnwPatenschaftDavi:
     language: de
+
   rnwPatenschaftKopral:
     language: de
+
   rnwPatenschaftShelton:
     language: de
 
