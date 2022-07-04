@@ -8,12 +8,12 @@ $(() => {
   Object.keys(RNW).forEach(key => {
     const selector = '#'+key;
     const options = RNW[key];
-    console.log('initialize', selector, 'with', options);
+    // console.log('initialize', selector, 'with', options);
     // check if it exists
     if ($(selector).length) {
       window.rnw.tamaro.runWidget(selector, options);
     } else {
-      console.log(selector, "not found.");
+      // console.log(selector, "not found.");
     }
   });
 });
@@ -21,5 +21,5 @@ $(() => {
 // HACK: wait until tamaro widget is initialized
 setTimeout(() => {
   $('#stored_customer_email_permission-info-widget p')
-    .append(' <span><%= datenschutz %></span>');
+    .append(' <span><%= terms %></span>');
 }, 1000)

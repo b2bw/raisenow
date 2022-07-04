@@ -34,7 +34,7 @@ File.open(index_target, 'w') { |f| f.puts(index_content) }
 script = File.expand_path(File.join('templates', 'raisenow.js.erb'), base)
 script_target = File.join('public', 'raisenow.js')
 context = { forms: JSON.unparse(data['tamaro']),
-            terms: data['datenschutz'] }
+            terms: data['terms'] }
 script_content = ERB.new(File.read(script)).result(ErbBinding.new(context).get_binding)
 puts "Writing #{script_target}"
 File.open(script_target, 'w') { |f| f.puts(script_content) }

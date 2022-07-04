@@ -1,6 +1,10 @@
 #+TITLE: RaiseNow Forms for BOS Schweiz
 
-https://www.bos-schweiz.ch/raisenow-forms/index.html
+Please edit =raisenow.yml=.
+
+Results will be available here:
+
+  https://www.bos-schweiz.ch/raisenow-forms/index.html
 
 * References
 

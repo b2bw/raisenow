@@ -54,7 +54,7 @@ tamaro:
 
 # This is the extra text that will be appended to the terms of service
 # section of all forms.
-datenschutz: >-
+terms: >-
   Die Übermittlung der Daten erfolgt verschlüsselt. BOS Schweiz
   speichert selbst keine Kartendaten, Ihre Zahlungsdaten laufen direkt
   über RaiseNow, einem von der Kreditkartenindustrie (PCI DSS)
