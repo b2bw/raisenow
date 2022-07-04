@@ -9,6 +9,9 @@
 # Processing changes takes (at time of writing) approx. 20 seconds.
 #
 tamaro:
+
+  # ------------------------------ Teil I - Spenden
+
   rnwSpendeAllgemein:
     language: de
     paymentWidgetBlocks:
@@ -24,7 +27,7 @@ tamaro:
       de:
         purposes:
           p1: Allgemein
-          p2: Bäume spenden
+          p2: Bäume pflanzen
           p3: Rettungsstationen
           p4: Auswilderung
 
@@ -37,11 +40,55 @@ tamaro:
       - payment_profile"
       - if: showPaymentAddress() == true
         then: [ payment_address ]
-    purposes: [ p1 ]
+    purposes: [ p2 ]
     translations:
       de:
         purposes:
-          p1: Bäume pflanzen
+          p2: Bäume pflanzen
+    amounts:
+      - if: paymentType() == onetime
+        then:
+          - 7.65
+          - 38.25
+          - 76.50
+          - 765.00
+
+  rnwSpendeRettungsstationen:
+    language: de
+    paymentWidgetBlocks:
+      - payment_purposes
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile"
+      - if: showPaymentAddress() == true
+        then: [ payment_address ]
+    purposes: [ p3 ]
+    translations:
+      de:
+        purposes:
+          p3: Rettungsstationen
+    amounts:
+      - if: paymentType() == onetime
+        then:
+          - 7.65
+          - 38.25
+          - 76.50
+          - 765.00
+
+  rnwSpendeAuswilderungen:
+    language: de
+    paymentWidgetBlocks:
+      - payment_purposes
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile"
+      - if: showPaymentAddress() == true
+        then: [ payment_address ]
+    purposes: [ p4 ]
+    translations:
+      de:
+        purposes:
+          p4: Auswilderungen
     amounts:
       - if: paymentType() == onetime
         then:
@@ -52,37 +99,165 @@ tamaro:
 
   rnwSpendeWaldschutz:
     language: de
-
-  rnwSpendeRettungsstationen:
-    language: de
-
-  rnwSpendeAuswilderungen:
-    language: de
+    paymentWidgetBlocks:
+      - payment_purposes
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile"
+      - if: showPaymentAddress() == true
+        then: [ payment_address ]
+    purposes: [ p5 ]
+    translations:
+      de:
+        purposes:
+          p5: Waldschutz
+    amounts:
+      - if: paymentType() == onetime
+        then:
+          - 7.65
+          - 38.25
+          - 76.50
+          - 765.00
 
   rnwSpendeBaeren:
     language: de
+    paymentWidgetBlocks:
+      - payment_purposes
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile"
+      - if: showPaymentAddress() == true
+        then: [ payment_address ]
+    purposes: [ p6 ]
+    translations:
+      de:
+        purposes:
+          p6: Bären
+    amounts:
+      - if: paymentType() == onetime
+        then:
+          - 7.65
+          - 38.25
+          - 76.50
+          - 765.00
 
-  # raisenow default
+  # ------------------------------ Teil II - Patenschaften
+
   rnwPatenschaftAllgemein:
     language: de
+    paymentWidgetBlocks:
+      - payment_purposes
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile
+      - if: showPaymentAddress() == true
+        then:
+          - payment_address
+    purposes: [ p1, p2, p3, p4, p5 ]
+    translations:
+      de:
+        purposes:
+          p1: Topan
+          p2: Bumi
+          p3: Davi
+          p4: Kopral
+          p5: Shelton
 
   rnwPatenschaftRettungsstationen:
     language: de
+    paymentWidgetBlocks:
+      - payment_purposes
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile
+      - if: showPaymentAddress() == true
+        then:
+          - payment_address
+    purposes: [ p6 ]
+    translations:
+      de:
+        purposes:
+          p6: Rettungstationen
 
   rnwPatenschaftTopan:
     language: de
+    paymentWidgetBlocks:
+      - payment_purposes
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile
+      - if: showPaymentAddress() == true
+        then:
+          - payment_address
+    purposes: [ p1 ]
+    translations:
+      de:
+        purposes:
+          p1: Topan
 
   rnwPatenschaftBumi:
     language: de
+    paymentWidgetBlocks:
+      - payment_purposes
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile
+      - if: showPaymentAddress() == true
+        then:
+          - payment_address
+    purposes: [ p2 ]
+    translations:
+      de:
+        purposes:
+          p2: Bumi
 
   rnwPatenschaftDavi:
     language: de
+    paymentWidgetBlocks:
+      - payment_purposes
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile
+      - if: showPaymentAddress() == true
+        then:
+          - payment_address
+    purposes: [ p3 ]
+    translations:
+      de:
+        purposes:
+          p3: Davi
 
   rnwPatenschaftKopral:
     language: de
+    paymentWidgetBlocks:
+      - payment_purposes
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile
+      - if: showPaymentAddress() == true
+        then:
+          - payment_address
+    purposes: [ p4 ]
+    translations:
+      de:
+        purposes:
+          p4: Kopral
 
   rnwPatenschaftShelton:
     language: de
+    paymentWidgetBlocks:
+      - payment_purposes
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile
+      - if: showPaymentAddress() == true
+        then:
+          - payment_address
+    purposes: [ p5 ]
+    translations:
+      de:
+        purposes:
+          p5: Shelton
 
 # This is the extra text that will be appended to the terms of service
 # section of all forms.
