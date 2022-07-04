@@ -15,8 +15,8 @@ tamaro:
       de:
         purposes:
           p1: Allgemein
-          p2: OTOL
-          p3: Rettungsstation
+          p2: Bäume spenden
+          p3: Rettungsstationen
           p4: Auswilderung
   rnwSpendeBaeume:
     language: de
@@ -42,3 +42,12 @@ tamaro:
     language: de
   rnwPatenschaftShelton:
     language: de
+datenschutz: >-
+Die Übermittlung der Daten erfolgt verschlüsselt. BOS Schweiz speichert 
+selbst keine Kartendaten, Ihre Zahlungsdaten laufen direkt über RaiseNow, 
+einem von der Kreditkartenindustrie (PCI DSS) zertifizierten Partner. Unsere 
+Dienstleistenden dürfen die Informationen ausschliesslich zur Erfüllung 
+ihrer Aufgaben nutzen und sind verpflichtet, die Datenschutzbestimmungen 
+einzuhalten. Sie können Ihre Spende von Ihrem steuerbaren Einkommen abziehen. 
+Spender*innen erhalten per E-Mail eine Spendenbestätigung für die 
+Steuerbehörden. Die Spenden gehen an BOS Schweiz.
