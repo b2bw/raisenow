@@ -16,7 +16,7 @@ class ErbBinding < OpenStruct
 end
 
 data['tamaro'].each do |key, options|
-  page = File.expand_path('page.html.erb', base)
+  page = File.expand_path(File.join('templates', 'page.html.erb'), base)
   page_target = File.join('public', key + '.html')
   context = { key: key }
   page_content = ERB.new(File.read(page)).result(ErbBinding.new(context).get_binding)
@@ -24,14 +24,14 @@ data['tamaro'].each do |key, options|
   puts "Writing #{page_target}"
 end
 
-index = File.expand_path('index.html.erb', base)
+index = File.expand_path(File.join('templates', 'index.html.erb'), base)
 index_target = File.join('public', 'index.html')
 context = { keys: data['tamaro'].keys }
 index_content = ERB.new(File.read(index)).result(ErbBinding.new(context).get_binding)
 puts "Writing #{index_target}"
 File.open(index_target, 'w') { |f| f.puts(index_content) }
 
-script = File.expand_path('raisenow.js.erb', base)
+script = File.expand_path(File.join('templates', 'raisenow.js.erb'), base)
 script_target = File.join('public', 'raisenow.js')
 context = { forms: JSON.unparse(data['tamaro']),
             terms: data['datenschutz'] }
