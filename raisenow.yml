@@ -15,7 +15,7 @@ tamaro:
         purposes:
           p1: Allgemein
           p2: Bäume spenden
-          p3: Rettungsstation
+          p3: Rettungsstationen
           p4: Auswilderung
   rnwSpendeBaeume:
     language: de
