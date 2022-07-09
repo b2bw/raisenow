@@ -153,10 +153,11 @@ tamaro:
       - if: showPaymentAddress() == true
         then:
           - payment_address
-    purposes: [ p1, p2, p3, p4, p5 ]
+    purposes: [ p0, p1, p2, p3, p4, p5 ]
     translations:
       de:
         purposes:
+          p0: Rettungsstationen
           p1: Topan
           p2: Bumi
           p3: Davi
@@ -173,11 +174,11 @@ tamaro:
       - if: showPaymentAddress() == true
         then:
           - payment_address
-    purposes: [ p6 ]
+    purposes: [ p0 ]
     translations:
       de:
         purposes:
-          p6: Rettungstationen
+          p0: Rettungstationen
 
   rnwPatenschaftTopan:
     language: de
