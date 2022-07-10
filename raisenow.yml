@@ -130,6 +130,13 @@ tamaro:
           - 38.25
           - 76.50
           - 765.00
+    translations:
+      de:
+        amount_descriptions:
+          - { if: 'amount() == 7.65', then: [ einen Baum spenden ] }
+          - { if: 'amount() == 38.25', then: [ fünf Bäume spenden ] }
+          - { if: 'amount() == 76.5', then: [ zehn Bäume spenden ] }
+          - { if: 'amount() == 765', then: [ hundert Bäume spenden ] }
 
   rnwSpendeRettungsstationen:
     << : *BLUEPRINT_SPENDE
