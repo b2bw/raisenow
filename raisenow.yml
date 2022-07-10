@@ -48,6 +48,12 @@ tamaro:
       - { if: 'paymentType() == recurring and recurringInterval() == semestral', then: [60] }
       - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [120] }
 
+     slots:
+       profile_form_6: snake_case
+       profileForm6: camelCase
+       profile_form_7: <b>bold</b>
+       profileForm7: <i>italics</i>
+
   rnwSpendeBaeume:
     << : *BLUEPRINT_SPENDE
     purposes: [ p2 ]
