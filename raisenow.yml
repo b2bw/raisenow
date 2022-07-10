@@ -171,6 +171,13 @@ tamaro:
     recurringIntervals:
       - monthly
       - yearly
+    amounts:
+      - { if: 'paymentType() == onetime', then: [300, 180] }
+      - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25, 15] }
+      - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300, 180] }
+    minimumCustomAmount:
+      - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25, 15] }
+      - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300, 180] }
     translations:
       de:
         purposes:
