@@ -15,9 +15,9 @@
 debugging: &DEBUGGING
   debug: true
   # debugErrorMessages: true
-  debugSlots: true
-  debugStyles: true
-  testMode: true
+  # debugSlots: true
+  # debugStyles: true
+  # testMode: true
 
 tamaro:
 
@@ -32,9 +32,8 @@ tamaro:
       - payment_payment_methods
       - payment_profile
       - if: showPaymentAddress() == true
-        then:
-          - payment_address
-    purposes: [ p1, p2, p3, p4, p5, p6 ]
+        then: [ payment_address ]
+    purposes: [ s1, s2, s3, s4, s5, s6 ]
     salutations:
       - Frau
       - Herr
@@ -42,18 +41,18 @@ tamaro:
     translations:
       de:
         purposes:
-          p1: Allgemein
-          p2: Bäume spenden
-          p3: Rettungsstationen
-          p4: Auswilderungen
-          p5: Bären
-          p6: Waldschutz
-        payment_form:
-          stored_customer_form_of_address: Anrede
-          stored_customer_form_of_address_options:
-            female: Frau
-            male: Herr
-            other: Divers
+          s1: Allgemein
+          s2: Bäume spenden
+          s3: Rettungsstationen
+          s4: Auswilderungen
+          s5: Bären
+          s6: Waldschutz
+        # payment_form:
+        #   stored_customer_form_of_address: Anrede
+        #   stored_customer_form_of_address_options:
+        #     female: Frau
+        #     male: Herr
+        #     other: Divers
     showStoredCustomerBirthdate: true
     minimumCustomAmount:
       - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [10] }
@@ -61,8 +60,8 @@ tamaro:
       - { if: 'paymentType() == recurring and recurringInterval() == semestral', then: [60] }
       - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [120] }
 
-    paymentFormPrefill:
-      stored_customer_form_of_address: null
+    # paymentFormPrefill:
+    #   stored_customer_form_of_address: null
     # slots:
     #   profile_form_1:
     #     component: field
@@ -122,7 +121,7 @@ tamaro:
 
   rnwSpendeBaeume:
     << : *BLUEPRINT_SPENDE
-    purposes: [ p2 ]
+    purposes: [ s2 ]
     amounts:
       - if: paymentType() == onetime
         then:
@@ -133,25 +132,25 @@ tamaro:
 
   rnwSpendeRettungsstationen:
     << : *BLUEPRINT_SPENDE
-    purposes: [ p3 ]
+    purposes: [ s3 ]
 
   rnwSpendeAuswilderungen:
     << : *BLUEPRINT_SPENDE
-    purposes: [ p4 ]
+    purposes: [ s4 ]
 
   rnwSpendeBaeren:
     << : *BLUEPRINT_SPENDE
-    purposes: [ p5 ]
+    purposes: [ s5 ]
 
   rnwSpendeWaldschutz:
     << : *BLUEPRINT_SPENDE
-    purposes: [ p6 ]
+    purposes: [ s6 ]
 
   # ------------------------------ Teil II - Patenschaften
 
   rnwPatenschaftAllgemein: &BLUEPRINT_PATENSCHAFT
     << : *BLUEPRINT_SPENDE
-    purposes: [ p0, p1, p2, p3, p4, p5 ]
+    purposes: [ p1, p2, p3, p4, p5, p6 ]
     recurringIntervals:
       - monthly
       - yearly
@@ -165,39 +164,39 @@ tamaro:
     translations:
       de:
         purposes:
-          p0: Patenschaft für die Rettungsstationen
-          p1: Patenschaft für Topan
-          p2: Patenschaft für Bumi
-          p3: Patenschaft für Davi
-          p4: Patenschaft für Kopral
-          p5: Patenschaft für Shelton
-        amountDescriptions:
+          p1: Patenschaft für die Rettungsstationen
+          p2: Patenschaft für Topan
+          p3: Patenschaft für Bumi
+          p4: Patenschaft für Davi
+          p5: Patenschaft für Kopral
+          p6: Patenschaft für Shelton
+        amount_descriptions:
           - Normalpreis
           - Ermässigt für Kinder
 
   rnwPatenschaftRettungsstationen:
     << : *BLUEPRINT_PATENSCHAFT
-    purposes: [ p0 ]
+    purposes: [ p1 ]
 
   rnwPatenschaftTopan:
     << : *BLUEPRINT_PATENSCHAFT
-    purposes: [ p1 ]
+    purposes: [ p2 ]
 
   rnwPatenschaftBumi:
     << : *BLUEPRINT_PATENSCHAFT
-    purposes: [ p2 ]
+    purposes: [ p3 ]
 
   rnwPatenschaftDavi:
     << : *BLUEPRINT_PATENSCHAFT
-    purposes: [ p3 ]
+    purposes: [ p4 ]
 
   rnwPatenschaftKopral:
     << : *BLUEPRINT_PATENSCHAFT
-    purposes: [ p4 ]
+    purposes: [ p5 ]
 
   rnwPatenschaftShelton:
     << : *BLUEPRINT_PATENSCHAFT
-    purposes: [ p5 ]
+    purposes: [ p6 ]
 
 # This is the extra text that will be appended to the terms of service
 # section of all forms.
