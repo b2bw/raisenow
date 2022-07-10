@@ -8,9 +8,16 @@
 #
 # Processing changes takes (at time of writing) approx. 20 seconds.
 #
+# Some docu can be found here
+#
+#   https://support.raisenow.com/hc/de/articles/360011968358-Anpassen-der-Konfiguration-Sprache-und-Bedingungen
+#
 debugging: &DEBUGGING
   debug: true
+  # debugErrorMessages: true
   debugSlots: true
+  debugStyles: true
+  testMode: true
 
 tamaro:
 
@@ -41,6 +48,12 @@ tamaro:
           p4: Auswilderungen
           p5: Bären
           p6: Waldschutz
+        payment_form:
+          stored_customer_form_of_address: Anrede
+          stored_customer_form_of_address_options:
+            female: Frau
+            male: Herr
+            other: Divers
     showStoredCustomerBirthdate: true
     minimumCustomAmount:
       - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [10] }
@@ -48,7 +61,30 @@ tamaro:
       - { if: 'paymentType() == recurring and recurringInterval() == semestral', then: [60] }
       - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [120] }
 
+    paymentFormPrefill:
+      stored_customer_form_of_address: null
     slots:
+      profile_form_1:
+        component: field
+        type: radio-group
+        name: stored_customer_form_of_address
+        label: payment_form.stored_customer_form_of_address
+        children:
+          - component: field
+            type: radio-in-group
+            name: stored_customer_form_of_address
+            text: payment_form.stored_customer_form_of_address_options.female
+            value: female
+          - component: field
+            type: radio-in-group
+            name: stored_customer_form_of_address
+            text: payment_form.stored_customer_form_of_address_options.male
+            value: male
+          - component: field
+            type: radio-in-group
+            name: stored_customer_form_of_address
+            text: payment_form.stored_customer_form_of_address_options.other
+            value: other
       profile_form_6:
         # - component: paragraph
         #   html: HTML1
@@ -135,6 +171,9 @@ tamaro:
           p3: Patenschaft für Davi
           p4: Patenschaft für Kopral
           p5: Patenschaft für Shelton
+        amountDescriptions:
+          - Normalpreis
+          - Ermässigt für Kinder
 
   rnwPatenschaftRettungsstationen:
     << : *BLUEPRINT_PATENSCHAFT
