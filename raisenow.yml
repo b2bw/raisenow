@@ -55,6 +55,7 @@ tamaro:
         #     other: Divers
     showStoredCustomerBirthdate: true
     minimumCustomAmount:
+      - { if: 'paymentType() == onetime', then: [20] }
       - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [10] }
       - { if: 'paymentType() == recurring and recurringInterval() == quaterly', then: [30] }
       - { if: 'paymentType() == recurring and recurringInterval() == semestral', then: [60] }
@@ -159,6 +160,7 @@ tamaro:
       - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25, 15] }
       - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300, 180] }
     minimumCustomAmount:
+      - { if: 'paymentType() == onetime', then: [300, 180] }
       - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25, 15] }
       - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300, 180] }
     translations:
@@ -171,7 +173,8 @@ tamaro:
           p5: Patenschaft für Kopral
           p6: Patenschaft für Shelton
         amount_descriptions:
-          - Normalpreis
+          - { if: 'amount() == 25', then: ['Normalpreis'] }
+          - { if: 'amount() == 300', then: ['Normalpreis'] }
           - Ermässigt für Kinder
 
   rnwPatenschaftRettungsstationen:
