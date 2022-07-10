@@ -10,3 +10,5 @@ Results will be available here:
 
 - [[https://manage.raisenow.com][RaiseNow Management Interface]]
 - [[https://support.raisenow.com/hc/en-us/articles/360001586658-Integrate-the-Widget-into-your-Page][Integrate the Widget into your Page]]
+- [[https://support.raisenow.com/hc/de/articles/360011968358-Anpassen-der-Konfiguration-Sprache-und-Bedingungen][Anpassen der Konfiguration Sprache und Bedingungen]]
+- [[https://github.com/DimitarChristoff/epik][epik]]
