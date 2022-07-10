@@ -25,6 +25,7 @@ tamaro:
         then:
           - payment_address
     purposes: [ p1, p2, p3, p4, p5, p6 ]
+    alutations: [ s1, s2, s3 ]
     translations:
       de:
         purposes:
@@ -34,6 +35,10 @@ tamaro:
           p4: Auswilderungen
           p5: Bären
           p6: Waldschutz
+        salutations:
+          s1: Frau
+          s2: Herr
+          s3: Divers
     minimumCustomAmount:
       - if: paymentType() != onetime
         then:
