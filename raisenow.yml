@@ -25,7 +25,7 @@ tamaro:
         then:
           - payment_address
     purposes: [ p1, p2, p3, p4, p5, p6 ]
-    alutations: [ s1, s2, s3 ]
+    salutations: [ s1, s2, s3 ]
     translations:
       de:
         purposes:
@@ -41,7 +41,10 @@ tamaro:
           s3: Divers
     showStoredCustomerBirthdate: true
     minimumCustomAmount:
-      - { if: 'paymentType() == recurring',  then: [10] }
+      - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [10] }
+      - { if: 'paymentType() == recurring and recurringInterval() == quaterly', then: [30] }
+      - { if: 'paymentType() == recurring and recurringInterval() == semestral', then: [60] }
+      - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [120] }
 
   rnwSpendeBaeume:
     language: de
