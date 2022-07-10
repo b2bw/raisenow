@@ -25,7 +25,10 @@ tamaro:
         then:
           - payment_address
     purposes: [ p1, p2, p3, p4, p5, p6 ]
-    salutations: [ s1, s2, s3 ]
+    salutations:
+      - Frau
+      - Herr
+      - Divers
     translations:
       de:
         purposes:
@@ -35,10 +38,6 @@ tamaro:
           p4: Auswilderungen
           p5: Bären
           p6: Waldschutz
-        salutations:
-          s1: Frau
-          s2: Herr
-          s3: Divers
     showStoredCustomerBirthdate: true
     minimumCustomAmount:
       - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [10] }
@@ -169,15 +168,18 @@ tamaro:
         then:
           - payment_address
     purposes: [ p0, p1, p2, p3, p4, p5 ]
+    recurringIntervals:
+      - monthly
+      - yearly
     translations:
       de:
         purposes:
-          p0: Rettungsstationen
-          p1: Topan
-          p2: Bumi
-          p3: Davi
-          p4: Kopral
-          p5: Shelton
+          p0: Patenschaft für die Rettungsstationen
+          p1: Patenschaft für Topan
+          p2: Patenschaft für Bumi
+          p3: Patenschaft für Davi
+          p4: Patenschaft für Kopral
+          p5: Patenschaft für Shelton
 
   rnwPatenschaftRettungsstationen:
     language: de
