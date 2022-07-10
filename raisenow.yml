@@ -50,12 +50,12 @@ tamaro:
 
     slots:
       profile_form_6:
-        - component: paragraph
-          html: HTML1
-          inner_html: INNER_HTML1
-          content: CONTENT1
-          text: TEXT1
-          text_html: TEXT_HTML1
+        # - component: paragraph
+        #   html: HTML1
+        #   inner_html: INNER_HTML1
+        #   content: CONTENT1
+        #   text: TEXT1
+        #   text_html: TEXT_HTML1
         - component: text
           html: HTML2
           inner_html: INNER_HTML2
