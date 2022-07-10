@@ -56,12 +56,12 @@ tamaro:
         #   content: CONTENT1
         #   text: TEXT1
         #   text_html: TEXT_HTML1
-        - component: text
-          html: HTML2
-          inner_html: INNER_HTML2
-          content: CONTENT2
-          text: TEXT2
-          text_html: TEXT_HTML2
+        # - component: text
+        #   html: HTML2
+        #   inner_html: INNER_HTML2
+        #   content: CONTENT2
+        #   text: TEXT2
+        #   text_html: TEXT_HTML2
         - component: section
           html: HTML3
           inner_html: INNER_HTML3
