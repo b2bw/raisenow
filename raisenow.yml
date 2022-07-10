@@ -24,7 +24,7 @@ tamaro:
   # ------------------------------ Teil I - Spenden
 
   rnwSpendeAllgemein: &BLUEPRINT_SPENDE
-    << : *DEBUGGING
+    # << : *DEBUGGING
     language: de
     paymentWidgetBlocks:
       - payment_purposes
