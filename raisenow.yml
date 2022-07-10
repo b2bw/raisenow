@@ -38,7 +38,7 @@ tamaro:
       - Frau
       - Herr
       - Divers
-    translations:
+    translations: &TRANSLATIONS_SPENDE
       de:
         purposes:
           s1: Allgemein
@@ -130,7 +130,14 @@ tamaro:
           - 38.25
           - 76.50
           - 765.00
+    minimumCustomAmount:
+      - { if: 'paymentType() == onetime', then: [7.65] }
+      - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [10] }
+      - { if: 'paymentType() == recurring and recurringInterval() == quaterly', then: [30] }
+      - { if: 'paymentType() == recurring and recurringInterval() == semestral', then: [60] }
+      - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [120] }
     translations:
+      << : *TRANSLATIONS_SPENDE
       de:
         amount_descriptions:
           - { if: 'amount() == 7.65', then: [ einen Baum spenden ] }
