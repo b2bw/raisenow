@@ -173,8 +173,12 @@ tamaro:
           p5: Patenschaft für Kopral
           p6: Patenschaft für Shelton
         amount_descriptions:
-          - { if: 'amount() == 25', then: ['Normalpreis'] }
-          - { if: 'amount() == 300', then: ['Normalpreis'] }
+          - if: 'paymentType() == recurring and recurringInterval() == monthly and amount() == 25'
+            then: [ Normalpreis ]
+          - if: 'amount() == 300'
+            then: [ Normalpreis ]
+          - if: 'amount() == custom_amount'
+            then: [ '' ]
           - Ermässigt für Kinder
 
   rnwPatenschaftRettungsstationen:
