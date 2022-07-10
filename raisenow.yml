@@ -68,18 +68,18 @@ tamaro:
         #   content: CONTENT3
         #   text: TEXT3
         #   text_html: TEXT_HTML3
-        - component: p
-          html: HTML4
-          inner_html: INNER_HTML4
-          content: CONTENT4
-          text: TEXT4
-          text_html: TEXT_HTML4
-        - component: div
-          html: HTML5
-          inner_html: INNER_HTML5
-          content: CONTENT5
-          text: TEXT5
-          text_html: TEXT_HTML5
+        # - component: p
+        #   html: HTML4
+        #   inner_html: INNER_HTML4
+        #   content: CONTENT4
+        #   text: TEXT4
+        #   text_html: TEXT_HTML4
+        # - component: div
+        #   html: HTML5
+        #   inner_html: INNER_HTML5
+        #   content: CONTENT5
+        #   text: TEXT5
+        #   text_html: TEXT_HTML5
       #profileForm6: camelCase
       #profile_form_7: <b>bold</b>
       #profileForm7: <i>italics</i>
