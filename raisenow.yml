@@ -8,13 +8,16 @@
 #
 # Processing changes takes (at time of writing) approx. 20 seconds.
 #
+debugging: &DEBUGGING
+  debug: true
+  debugSlots: true
+
 tamaro:
 
   # ------------------------------ Teil I - Spenden
 
-  rnwSpendeAllgemein: &BLUEPRINT
-    # debug: true
-    # debugSlots: true
+  rnwSpendeAllgemein: &BLUEPRINT_SPENDE
+    << : *DEBUGGING
     language: de
     paymentWidgetBlocks:
       - payment_purposes
@@ -46,7 +49,7 @@ tamaro:
       - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [120] }
 
   rnwSpendeBaeume:
-    << : *BLUEPRINT
+    << : *BLUEPRINT_SPENDE
     purposes: [ p2 ]
     amounts:
       - if: paymentType() == onetime
@@ -57,105 +60,25 @@ tamaro:
           - 765.00
 
   rnwSpendeRettungsstationen:
-    language: de
-    paymentWidgetBlocks:
-      - payment_purposes
-      - payment_amounts_and_intervals
-      - payment_payment_methods
-      - payment_profile
-      - if: showPaymentAddress() == true
-        then: [ payment_address ]
+    << : *BLUEPRINT_SPENDE
     purposes: [ p3 ]
-    translations:
-      de:
-        purposes:
-          p3: Rettungsstationen
-    amounts:
-      - if: paymentType() == onetime
-        then:
-          - 7.65
-          - 38.25
-          - 76.50
-          - 765.00
 
   rnwSpendeAuswilderungen:
-    language: de
-    paymentWidgetBlocks:
-      - payment_purposes
-      - payment_amounts_and_intervals
-      - payment_payment_methods
-      - payment_profile
-      - if: showPaymentAddress() == true
-        then: [ payment_address ]
+    << : *BLUEPRINT_SPENDE
     purposes: [ p4 ]
-    translations:
-      de:
-        purposes:
-          p4: Auswilderungen
-    amounts:
-      - if: paymentType() == onetime
-        then:
-          - 7.65
-          - 38.25
-          - 76.50
-          - 765.00
-
-  rnwSpendeWaldschutz:
-    language: de
-    paymentWidgetBlocks:
-      - payment_purposes
-      - payment_amounts_and_intervals
-      - payment_payment_methods
-      - payment_profile
-      - if: showPaymentAddress() == true
-        then: [ payment_address ]
-    purposes: [ p5 ]
-    translations:
-      de:
-        purposes:
-          p5: Waldschutz
-    amounts:
-      - if: paymentType() == onetime
-        then:
-          - 7.65
-          - 38.25
-          - 76.50
-          - 765.00
 
   rnwSpendeBaeren:
-    language: de
-    paymentWidgetBlocks:
-      - payment_purposes
-      - payment_amounts_and_intervals
-      - payment_payment_methods
-      - payment_profile
-      - if: showPaymentAddress() == true
-        then: [ payment_address ]
+    << : *BLUEPRINT_SPENDE
+    purposes: [ p5 ]
+
+  rnwSpendeWaldschutz:
+    << : *BLUEPRINT_SPENDE
     purposes: [ p6 ]
-    translations:
-      de:
-        purposes:
-          p6: Bären
-    amounts:
-      - if: paymentType() == onetime
-        then:
-          - 7.65
-          - 38.25
-          - 76.50
-          - 765.00
 
   # ------------------------------ Teil II - Patenschaften
 
-  rnwPatenschaftAllgemein:
-    language: de
-    paymentWidgetBlocks:
-      - payment_purposes
-      - payment_amounts_and_intervals
-      - payment_payment_methods
-      - payment_profile
-      - if: showPaymentAddress() == true
-        then:
-          - payment_address
+  rnwPatenschaftAllgemein: &BLUEPRINT_PATENSCHAFT
+    << : *BLUEPRINT_SPENDE
     purposes: [ p0, p1, p2, p3, p4, p5 ]
     recurringIntervals:
       - monthly
@@ -178,100 +101,28 @@ tamaro:
           p5: Patenschaft für Shelton
 
   rnwPatenschaftRettungsstationen:
-    language: de
-    paymentWidgetBlocks:
-      - payment_purposes
-      - payment_amounts_and_intervals
-      - payment_payment_methods
-      - payment_profile
-      - if: showPaymentAddress() == true
-        then:
-          - payment_address
+    << : *BLUEPRINT_PATENSCHAFT
     purposes: [ p0 ]
-    translations:
-      de:
-        purposes:
-          p0: Rettungstationen
 
   rnwPatenschaftTopan:
-    language: de
-    paymentWidgetBlocks:
-      - payment_purposes
-      - payment_amounts_and_intervals
-      - payment_payment_methods
-      - payment_profile
-      - if: showPaymentAddress() == true
-        then:
-          - payment_address
+    << : *BLUEPRINT_PATENSCHAFT
     purposes: [ p1 ]
-    translations:
-      de:
-        purposes:
-          p1: Topan
 
   rnwPatenschaftBumi:
-    language: de
-    paymentWidgetBlocks:
-      - payment_purposes
-      - payment_amounts_and_intervals
-      - payment_payment_methods
-      - payment_profile
-      - if: showPaymentAddress() == true
-        then:
-          - payment_address
+    << : *BLUEPRINT_PATENSCHAFT
     purposes: [ p2 ]
-    translations:
-      de:
-        purposes:
-          p2: Bumi
 
   rnwPatenschaftDavi:
-    language: de
-    paymentWidgetBlocks:
-      - payment_purposes
-      - payment_amounts_and_intervals
-      - payment_payment_methods
-      - payment_profile
-      - if: showPaymentAddress() == true
-        then:
-          - payment_address
+    << : *BLUEPRINT_PATENSCHAFT
     purposes: [ p3 ]
-    translations:
-      de:
-        purposes:
-          p3: Davi
 
   rnwPatenschaftKopral:
-    language: de
-    paymentWidgetBlocks:
-      - payment_purposes
-      - payment_amounts_and_intervals
-      - payment_payment_methods
-      - payment_profile
-      - if: showPaymentAddress() == true
-        then:
-          - payment_address
+    << : *BLUEPRINT_PATENSCHAFT
     purposes: [ p4 ]
-    translations:
-      de:
-        purposes:
-          p4: Kopral
 
   rnwPatenschaftShelton:
-    language: de
-    paymentWidgetBlocks:
-      - payment_purposes
-      - payment_amounts_and_intervals
-      - payment_payment_methods
-      - payment_profile
-      - if: showPaymentAddress() == true
-        then:
-          - payment_address
+    << : *BLUEPRINT_PATENSCHAFT
     purposes: [ p5 ]
-    translations:
-      de:
-        purposes:
-          p5: Shelton
 
 # This is the extra text that will be appended to the terms of service
 # section of all forms.
