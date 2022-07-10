@@ -12,7 +12,7 @@ tamaro:
 
   # ------------------------------ Teil I - Spenden
 
-  rnwSpendeAllgemein:
+  rnwSpendeAllgemein: &BLUEPRINT
     # debug: true
     # debugSlots: true
     language: de
@@ -46,19 +46,8 @@ tamaro:
       - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [120] }
 
   rnwSpendeBaeume:
-    language: de
-    paymentWidgetBlocks:
-      - payment_purposes
-      - payment_amounts_and_intervals
-      - payment_payment_methods
-      - payment_profile
-      - if: showPaymentAddress() == true
-        then: [ payment_address ]
+    << : *BLUEPRINT
     purposes: [ p2 ]
-    translations:
-      de:
-        purposes:
-          p2: Bäume pflanzen
     amounts:
       - if: paymentType() == onetime
         then:
