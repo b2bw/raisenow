@@ -13,8 +13,8 @@ tamaro:
   # ------------------------------ Teil I - Spenden
 
   rnwSpendeAllgemein:
-    debug: true
-    debugSlots: true
+    # debug: true
+    # debugSlots: true
     language: de
     paymentWidgetBlocks:
       - payment_purposes
@@ -39,10 +39,9 @@ tamaro:
           s1: Frau
           s2: Herr
           s3: Divers
+    showStoredCustomerBirthdate: true
     minimumCustomAmount:
-      - if: paymentType() != onetime
-        then:
-          - 10
+      - { if: 'paymentType() == recurring',  then: [10] }
 
   rnwSpendeBaeume:
     language: de
