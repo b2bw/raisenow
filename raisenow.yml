@@ -23,8 +23,8 @@ tamaro:
 
   # ------------------------------ Teil I - Spenden
 
-  rnwSpendeAllgemein: &BLUEPRINT_SPENDE
-    << : *DEBUGGING
+  rnwSpendeAllgemein: &SPENDE
+    <<: *DEBUGGING
     language: de
     paymentWidgetBlocks:
       - payment_purposes
@@ -34,11 +34,13 @@ tamaro:
       - if: showPaymentAddress() == true
         then: [ payment_address ]
     purposes: [ s1, s2, s3, s4, s5, s6 ]
+    paymentFormPrefill:
+      stored_customer_phone: null
     salutations:
       - Frau
       - Herr
       - Divers
-    translations: &TRANSLATIONS_SPENDE
+    translations: &SPENDE_TRANSLATIONS
       de:
         purposes:
           s1: Allgemein
@@ -50,6 +52,8 @@ tamaro:
         payment_profile:
           donation_receipt_info_html: >-
             <p>Der Versand einer Spendenbescheinigung erfordert die Eingabe der Postadresse.</p>
+        payment_form: &SPENDE_TRANSLATIONS_PAYMENT_FORM
+          stored_customer_phone: Telefonnummer
         # payment_form:
         #   stored_customer_form_of_address: Anrede
         #   stored_customer_form_of_address_options:
@@ -63,6 +67,13 @@ tamaro:
       - { if: 'paymentType() == recurring and recurringInterval() == quaterly', then: [30] }
       - { if: 'paymentType() == recurring and recurringInterval() == semestral', then: [60] }
       - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [120] }
+
+    slots: &SPENDE_SLOTS
+      profile_form_4:
+        - component: field
+          type: text
+          name: stored_customer_phone
+          label: payment_form.stored_customer_phone
 
     # paymentFormPrefill:
     #   stored_customer_form_of_address: null
@@ -124,7 +135,7 @@ tamaro:
     #   #profileForm7: <i>italics</i>
 
   rnwSpendeBaeume:
-    << : *BLUEPRINT_SPENDE
+    <<: *SPENDE
     purposes: [ s2 ]
     amounts:
       - if: paymentType() == onetime
@@ -140,7 +151,7 @@ tamaro:
       - { if: 'paymentType() == recurring and recurringInterval() == semestral', then: [60] }
       - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [120] }
     translations:
-      << : *TRANSLATIONS_SPENDE
+      <<: *SPENDE_TRANSLATIONS
       de:
         amount_descriptions:
           - { if: 'amount() == 7.65', then: [ einen Baum spenden ] }
@@ -149,25 +160,25 @@ tamaro:
           - { if: 'amount() == 765', then: [ hundert Bäume spenden ] }
 
   rnwSpendeRettungsstationen:
-    << : *BLUEPRINT_SPENDE
+    <<: *SPENDE
     purposes: [ s3 ]
 
   rnwSpendeAuswilderungen:
-    << : *BLUEPRINT_SPENDE
+    <<: *SPENDE
     purposes: [ s4 ]
 
   rnwSpendeBaeren:
-    << : *BLUEPRINT_SPENDE
+    <<: *SPENDE
     purposes: [ s5 ]
 
   rnwSpendeWaldschutz:
-    << : *BLUEPRINT_SPENDE
+    <<: *SPENDE
     purposes: [ s6 ]
 
   # ------------------------------ Teil II - Patenschaften
 
-  rnwPatenschaftAllgemein: &BLUEPRINT_PATENSCHAFT
-    << : *BLUEPRINT_SPENDE
+  rnwPatenschaftAllgemein: &PATENSCHAFT
+    <<: *SPENDE
     paymentWidgetBlocks:
       - payment_purposes
       - slot_1
@@ -189,41 +200,147 @@ tamaro:
       - { if: 'paymentType() == onetime', then: [300, 180] }
       - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25, 15] }
       - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300, 180] }
+    # hide it here, but add it in blocks at a diffrent location
+    showStoredCustomerDonationReceipt: false
+    # this is also used to define custom fields
+    paymentFormPrefill:
+      stored_customer_donation_receipt: true
+      stored_recipient_salutation: null
+      stored_recipient_firstname: null
+      stored_recipient_lastname: null
+      stored_recipient_email: null
+      stored_recipient_street: null
+      stored_recipient_street_number: null
+      stored_recipient_zip_code: null
+      stored_recipient_city: null
+      stored_recipient_country: null
+      stored_customer_delivery: null
+      stored_customer_sponsorship: null
+      stored_recipient_salutation_text: null
+      stored_customer_delivery_to_customer: null
+      stored_sxt_communication_keywords: 1888278
+    # in order of appearance in the form
     slots:
+      <<: *SPENDE_SLOTS
       slot_1:
-        component: block
-        children:
-          - component: block_header
-            title: blocks.slot_1.title
-          - component: block_content
-            children:
-              - component: field
-                type: radio-group
-                inline: true
-                name: stored_customer_sponsorship
-                label: payment_form.stored_customer_sponsorship
-                formName: payment_form
-                children:
-                  - component: field
-                    type: radio-in-group
-                    name: stored_customer_sponsorship
-                    text: payment_form.stored_customer_sponsorships.regular
-                    value: regular
-                  - component: field
-                    type: radio-in-group
-                    name: stored_customer_sponsorship
-                    text: payment_form.stored_customer_sponsorships.gift
-                    value: gift
-      # slot_2:
-      #   component: block
-      #   children:
-      #     - component: block_header
-      #       title: blocks.slot_2.title
-      #     - component: block_content
-      #       children:
-      #         - component: field
-      #           type: select
-    translations:
+        - component: block
+          children:
+            - component: block_header
+              title: blocks.slot_1.title
+            - component: block_content
+              children:
+                - component: field
+                  type: radio-group
+                  inline: true
+                  name: stored_customer_sponsorship
+                  label: payment_form.stored_customer_sponsorship
+                  formName: payment_form
+                  children:
+                    - component: field
+                      type: radio-in-group
+                      name: stored_customer_sponsorship
+                      text: payment_form.stored_customer_sponsorships.regular
+                      value: regular
+                    - component: field
+                      type: radio-in-group
+                      name: stored_customer_sponsorship
+                      text: payment_form.stored_customer_sponsorships.gift
+                      value: gift
+      slot_2:
+        - component: block
+          children:
+            - component: block_header
+              title: blocks.slot_2.title
+            - component: block_content
+              children:
+                - component: field
+                  type: select
+                  formName: payment_form
+                  name: stored_recipient_salutation
+                  label: payment_form.stored_recipient_salutation_label
+                  placeholder: payment_form.stored_recipient_salutation_placeholder
+                  options:
+                    - value: mr
+                      label: payment_form.salutations.mr
+                    - value: ms
+                      label: payment_form.salutations.ms
+                    - value: neutral
+                      label: payment_form.salutations.neutral
+                - component: field
+                  type: text
+                  formName: payment_form
+                  name: stored_recipient_firstname
+                  label: payment_form.stored_customer_firstname
+                  placeholder: payment_form.stored_customer_firstname
+                - component: field
+                  type: text
+                  formName: payment_form
+                  name: stored_recipient_lastname
+                  label: payment_form.stored_customer_lastname
+                  placeholder: payment_form.stored_customer_lastname
+                - component: field
+                  type: text
+                  formName: payment_form
+                  name: stored_recipient_email
+                  label: payment_form.stored_customer_email
+                  placeholder: payment_form.stored_customer_email
+                - component: field
+                  type: text
+                  formName: payment_form
+                  name: stored_recipient_street
+                  label: payment_form.stored_customer_street
+                  placeholder: payment_form.stored_customer_street
+                - component: field
+                  type: text
+                  formName: payment_form
+                  name: stored_recipient_street_number
+                  label: payment_form.stored_customer_street_number
+                  placeholder: payment_form.stored_customer_street_number
+                - component: field
+                  type: text
+                  formName: payment_form
+                  name: stored_recipient_zip_code
+                  label: payment_form.stored_customer_zip_code
+                  placeholder: payment_form.stored_customer_zip_code
+                - component: field
+                  type: text
+                  formName: payment_form
+                  name: stored_recipient_city
+                  label: payment_form.stored_customer_city
+                  placeholder: payment_form.stored_customer_city
+                - component: field
+                  type: select
+                  formName: payment_form
+                  name: stored_recipient_country
+                  label: payment_form.stored_customer_country
+                  placeholder: payment_form.stored_customer_country
+                  options: null
+                - component: field
+                  type: radio-group
+                  inline: false
+                  name: stored_customer_delivery
+                  label: payment_form.stored_customer_delivery
+                  formName: payment_form
+                  children:
+                    - component: field
+                      type: radio-in-group
+                      name: stored_customer_delivery
+                      text: payment_form.stored_customer_deliverys.customer
+                      value: customer
+                    - component: field
+                      type: radio-in-group
+                      name: stored_customer_delivery
+                      text: payment_form.stored_customer_deliverys.recipient
+                      value: recipient
+      address_form_end:
+        - component: field
+          type: checkbox
+          name: stored_customer_donation_receipt
+          text: payment_form.stored_customer_donation_receipt
+          formName: paymentFrom
+          value: receipt
+    translations: &PATENSCHAFT_TRANSLATIONS
+      <<: *SPENDE_TRANSLATIONS
       de:
         purposes:
           p1: Patenschaft für die Rettungsstationen
@@ -240,43 +357,64 @@ tamaro:
           - if: 'amount() == custom_amount'
             then: [ '' ]
           - Ermässigt für Kinder
-        stored_customer_delivery: Versand
-        stored_customer_deliverys:
-          customer: Versand an mich
-          recipient: Versand an beschenkte Person
-        stored_customer_sponsorship: Bitte auswählen
-        stored_customer_sponsorships:
-          regular: Patenschaft
-          gift: Geschenkpatenschaft
-        slot_1:
-          title: Art der Patenschaft
-        slot_2:
-          title: Geschenkpatenschaft für
+        payment_form:
+          <<: *SPENDE_TRANSLATIONS_PAYMENT_FORM
+          stored_customer_delivery: Versand
+          stored_customer_deliverys:
+            customer: Versand an mich
+            recipient: Versand an beschenkte Person
+          stored_recipient_salutation_label: Anrede
+          stored_customer_sponsorship: Bitte auswählen
+          stored_customer_sponsorships:
+            regular: Patenschaft für mich
+            gift: Patenschaft als Geschenk
+          salutations:
+            neutral: Divers
+        blocks: &PATENSCHAFT_TRANSLATIONS_BLOCKS
+          slot_1:
+            title: Art der Patenschaft
+          payment_profile:
+            title: Personalien angeben (für Patenurkunde und -update)
+          payment_address:
+            title: Adresse angeben (für Versand der Patenurkunde)
+          slot_2:
+            title: Personalien der/des Beschenkten (für Patenurkunde und -update)
         payment_submit:
           submit: Patenschaftsbeitrag sicher übermitteln
 
+  # TODO: this is a work in progress
+  rnwPatenschaftSchenken: &PATENSCHAFT_SCHENKEN
+    <<: *PATENSCHAFT
+    paymentTypes: [ onetime ]
+    translations:
+      <<: *PATENSCHAFT_TRANSLATIONS
+      blocks:
+        <<: *PATENSCHAFT_TRANSLATIONS_BLOCKS
+        payment_amounts_and_intervals:
+          title: Betrag der Spende wählen
+
   rnwPatenschaftRettungsstationen:
-    << : *BLUEPRINT_PATENSCHAFT
+    <<: *PATENSCHAFT
     purposes: [ p1 ]
 
   rnwPatenschaftTopan:
-    << : *BLUEPRINT_PATENSCHAFT
+    <<: *PATENSCHAFT
     purposes: [ p2 ]
 
   rnwPatenschaftBumi:
-    << : *BLUEPRINT_PATENSCHAFT
+    <<: *PATENSCHAFT
     purposes: [ p3 ]
 
   rnwPatenschaftDavi:
-    << : *BLUEPRINT_PATENSCHAFT
+    <<: *PATENSCHAFT
     purposes: [ p4 ]
 
   rnwPatenschaftKopral:
-    << : *BLUEPRINT_PATENSCHAFT
+    <<: *PATENSCHAFT
     purposes: [ p5 ]
 
   rnwPatenschaftShelton:
-    << : *BLUEPRINT_PATENSCHAFT
+    <<: *PATENSCHAFT
     purposes: [ p6 ]
 
 # This is the extra text that will be appended to the terms of service

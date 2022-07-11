@@ -1,3 +1,7 @@
+# Dependencies:
+#
+#   ruby aws-cli entr
+
 -include local.mk
 
 .PHONY: build
@@ -14,3 +18,7 @@ deploy:
 .PHONY: clean
 clean:
 	rm -rf public
+
+.PHONY: watch
+watch:
+	ls -1 *.yml *.rb */*.erb | entr make
