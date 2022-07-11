@@ -1,10 +1,22 @@
 #+TITLE: RaiseNow Forms for BOS Schweiz
 
-Please edit =raisenow.yml=.
+To adjust the config please edit =raisenow.yml=.
 
 Results will be available here:
 
   https://www.bos-schweiz.ch/raisenow-forms/index.html
+
+* Overview
+
+This repo holds the configuration and setup for RaiseNow forms used by
+BOS Schweiz. The configuration is maintained in YAML. Compared to
+JSON, YAML is easier to read and edit, more powerful (e.g. merge
+keys), and can include comments, and thus can easily be documented
+inline.
+
+There is a Makefile to build the project to =public= and deploy the
+project to bos-schweiz.ch hosting on AWS (seven49). CI is set up, so
+pushes to the master branch will trigger a deploy automatically.
 
 * References
 

@@ -47,6 +47,9 @@ tamaro:
           s4: Auswilderungen
           s5: Bären
           s6: Waldschutz
+        payment_profile:
+          donation_receipt_info_html: >-
+            <p>Der Versand einer Spendenbescheinigung erfordert die Eingabe der Postadresse.</p>
         # payment_form:
         #   stored_customer_form_of_address: Anrede
         #   stored_customer_form_of_address_options:
@@ -165,6 +168,15 @@ tamaro:
 
   rnwPatenschaftAllgemein: &BLUEPRINT_PATENSCHAFT
     << : *BLUEPRINT_SPENDE
+    paymentWidgetBlocks:
+      - payment_purposes
+      - slot_1
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile
+      - payment_address
+      - if: paymentForm(stored_customer_sponsorship) == gift
+        then: slot_2
     purposes: [ p1, p2, p3, p4, p5, p6 ]
     recurringIntervals:
       - monthly
@@ -177,6 +189,40 @@ tamaro:
       - { if: 'paymentType() == onetime', then: [300, 180] }
       - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25, 15] }
       - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300, 180] }
+    slots:
+      slot_1:
+        component: block
+        children:
+          - component: block_header
+            title: blocks.slot_1.title
+          - component: block_content
+            children:
+              - component: field
+                type: radio-group
+                inline: true
+                name: stored_customer_sponsorship
+                label: payment_form.stored_customer_sponsorship
+                formName: payment_form
+                children:
+                  - component: field
+                    type: radio-in-group
+                    name: stored_customer_sponsorship
+                    text: payment_form.stored_customer_sponsorships.regular
+                    value: regular
+                  - component: field
+                    type: radio-in-group
+                    name: stored_customer_sponsorship
+                    text: payment_form.stored_customer_sponsorships.gift
+                    value: gift
+      # slot_2:
+      #   component: block
+      #   children:
+      #     - component: block_header
+      #       title: blocks.slot_2.title
+      #     - component: block_content
+      #       children:
+      #         - component: field
+      #           type: select
     translations:
       de:
         purposes:
@@ -194,6 +240,20 @@ tamaro:
           - if: 'amount() == custom_amount'
             then: [ '' ]
           - Ermässigt für Kinder
+        stored_customer_delivery: Versand
+        stored_customer_deliverys:
+          customer: Versand an mich
+          recipient: Versand an beschenkte Person
+        stored_customer_sponsorship: Bitte auswählen
+        stored_customer_sponsorships:
+          regular: Patenschaft
+          gift: Geschenkpatenschaft
+        slot_1:
+          title: Art der Patenschaft
+        slot_2:
+          title: Geschenkpatenschaft für
+        payment_submit:
+          submit: Patenschaftsbeitrag sicher übermitteln
 
   rnwPatenschaftRettungsstationen:
     << : *BLUEPRINT_PATENSCHAFT
