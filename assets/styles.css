@@ -1,3 +1,8 @@
+body {
+    font-size: 0.9em;
+    font-family: sans-serif;
+}
+
 table {
     border-collapse: collapse;
     margin: 25px 0;
@@ -30,7 +35,15 @@ table tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
 }
 
-table tbody tr.active-row {
-    font-weight: bold;
+table tbody tr:hover {
+    background-color: #009879;
+    color: #ffffff;
+}
+
+table tbody tr:hover a {
+    color: #ffffff;
+}
+
+a {
     color: #009879;
 }

@@ -34,14 +34,16 @@ tamaro:
       - if: showPaymentAddress() == true
         then: [ payment_address ]
     purposes: [ s1, s2, s3, s4, s5, s6 ]
-    paymentFormPrefill:
+    paymentFormPrefill: &SPENDE_PAYMENTFORMPREFILL
+      # by default the checkbox donation receipt is checked
+      stored_customer_donation_receipt: true
       stored_customer_phone: null
     salutations:
       - Frau
       - Herr
       - Divers
-    translations: &SPENDE_TRANSLATIONS
-      de:
+    translations:
+      de: &SPENDE_TRANSLATIONS_DE
         purposes:
           s1: Allgemein
           s2: Bäume spenden
@@ -155,8 +157,8 @@ tamaro:
       - { if: 'paymentType() == recurring and recurringInterval() == semestral', then: [60] }
       - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [120] }
     translations:
-      <<: *SPENDE_TRANSLATIONS
       de:
+        <<: *SPENDE_TRANSLATIONS_DE
         amount_descriptions:
           - { if: 'amount() == 7.65', then: [ einen Baum spenden ] }
           - { if: 'amount() == 38.25', then: [ fünf Bäume spenden ] }
@@ -185,13 +187,10 @@ tamaro:
     <<: *SPENDE
     paymentWidgetBlocks:
       - payment_purposes
-      - slot_1
       - payment_amounts_and_intervals
       - payment_payment_methods
       - payment_profile
       - payment_address
-      - if: paymentForm(stored_customer_sponsorship) == gift
-        then: slot_2
     purposes: [ p1, p2, p3, p4, p5, p6 ]
     recurringIntervals:
       - monthly
@@ -204,11 +203,94 @@ tamaro:
       - { if: 'paymentType() == onetime', then: [300, 180] }
       - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25, 15] }
       - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300, 180] }
-    # hide it here, but add it in blocks at a diffrent location
+    # hide it here, but add it in blocks at a different location
     showStoredCustomerDonationReceipt: false
-    # this is also used to define custom fields
+    slots: &PATENSCHAFT_SLOTS
+      <<: *SPENDE_SLOTS
+      # add the donation receipt field to the end of the address form
+      address_form_end:
+        - component: field
+          type: checkbox
+          name: stored_customer_donation_receipt
+          text: payment_form.stored_customer_donation_receipt
+          formName: paymentFrom
+          value: receipt
+    translations:
+      de: &PATENSCHAFT_TRANSLATIONS_DE
+        <<: *SPENDE_TRANSLATIONS_DE
+        purposes:
+          p1: Patenschaft für die Rettungsstationen
+          p2: Patenschaft für Topan
+          p3: Patenschaft für Bumi
+          p4: Patenschaft für Davi
+          p5: Patenschaft für Kopral
+          p6: Patenschaft für Shelton
+        amount_descriptions:
+          - if: 'paymentType() == recurring and recurringInterval() == monthly and amount() == 25'
+            then: [ Normalpreis ]
+          - if: 'amount() == 300'
+            then: [ Normalpreis ]
+          - if: 'amount() == custom_amount'
+            then: [ '' ]
+          - Ermässigt für Kinder
+        payment_form:
+          <<: *SPENDE_TRANSLATIONS_PAYMENT_FORM
+          stored_customer_delivery: Versand
+          stored_customer_deliverys:
+            customer: Versand an mich
+            recipient: Versand an beschenkte Person
+          stored_recipient_salutation_label: Anrede
+          salutations:
+            neutral: Divers
+        blocks: &PATENSCHAFT_TRANSLATIONS_BLOCKS
+          payment_profile:
+            title: Personalien angeben (für Patenurkunde und -update)
+          payment_address:
+            title: Adresse angeben (für Versand der Patenurkunde)
+        payment_submit:
+          submit: Patenschaftsbeitrag sicher übermitteln
+
+  rnwPatenschaftRettungsstationen:
+    <<: *PATENSCHAFT
+    purposes: [ p1 ]
+
+  rnwPatenschaftTopan:
+    <<: *PATENSCHAFT
+    purposes: [ p2 ]
+
+  rnwPatenschaftBumi:
+    <<: *PATENSCHAFT
+    purposes: [ p3 ]
+
+  rnwPatenschaftDavi:
+    <<: *PATENSCHAFT
+    purposes: [ p4 ]
+
+  rnwPatenschaftKopral:
+    <<: *PATENSCHAFT
+    purposes: [ p5 ]
+
+  rnwPatenschaftShelton:
+    <<: *PATENSCHAFT
+    purposes: [ p6 ]
+
+  # ------------------------------ Teil III - Patenschaften schenken
+
+  rnwPatenschaftSchenken: &PATENSCHAFT_SCHENKEN
+    <<: *PATENSCHAFT
+    paymentWidgetBlocks:
+      - payment_purposes
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile
+      - payment_address
+      - slot_1
+      - if: paymentForm(stored_customer_delivery) == recipient
+        then: slot_2
+    # gifts cannot be recurring
+    paymentTypes: [ onetime ]
     paymentFormPrefill:
-      stored_customer_donation_receipt: true
+      <<: *SPENDE_PAYMENTFORMPREFILL
       stored_recipient_salutation: null
       stored_recipient_firstname: null
       stored_recipient_lastname: null
@@ -219,13 +301,22 @@ tamaro:
       stored_recipient_city: null
       stored_recipient_country: null
       stored_customer_delivery: null
-      stored_customer_sponsorship: null
-      stored_recipient_salutation_text: null
       stored_customer_delivery_to_customer: null
+      stored_recipient_salutation_text: null
       stored_sxt_communication_keywords: 1888278
-    # in order of appearance in the form
+    translations:
+      de:
+        <<: *PATENSCHAFT_TRANSLATIONS_DE
+        blocks:
+          <<: *PATENSCHAFT_TRANSLATIONS_BLOCKS
+          payment_amounts_and_intervals:
+            title: Betrag der Spende wählen
+          slot_1:
+            title: Versand der Urkunde
+          slot_2:
+            title: Adresse der beschenkten Person
     slots:
-      <<: *SPENDE_SLOTS
+      <<: *PATENSCHAFT_SLOTS
       slot_1:
         - component: block
           children:
@@ -236,20 +327,20 @@ tamaro:
                 - component: field
                   type: radio-group
                   inline: true
-                  name: stored_customer_sponsorship
-                  label: payment_form.stored_customer_sponsorship
+                  name: stored_customer_delivery
+                  label: payment_form.stored_customer_delivery
                   formName: payment_form
                   children:
                     - component: field
                       type: radio-in-group
-                      name: stored_customer_sponsorship
-                      text: payment_form.stored_customer_sponsorships.regular
-                      value: regular
+                      name: stored_customer_delivery
+                      text: payment_form.stored_customer_deliverys.customer
+                      value: customer
                     - component: field
                       type: radio-in-group
-                      name: stored_customer_sponsorship
-                      text: payment_form.stored_customer_sponsorships.gift
-                      value: gift
+                      name: stored_customer_delivery
+                      text: payment_form.stored_customer_deliverys.recipient
+                      value: recipient
       slot_2:
         - component: block
           children:
@@ -319,106 +410,29 @@ tamaro:
                   label: payment_form.stored_customer_country
                   placeholder: payment_form.stored_customer_country
                   options: null
-                - component: field
-                  type: radio-group
-                  inline: false
-                  name: stored_customer_delivery
-                  label: payment_form.stored_customer_delivery
-                  formName: payment_form
-                  children:
-                    - component: field
-                      type: radio-in-group
-                      name: stored_customer_delivery
-                      text: payment_form.stored_customer_deliverys.customer
-                      value: customer
-                    - component: field
-                      type: radio-in-group
-                      name: stored_customer_delivery
-                      text: payment_form.stored_customer_deliverys.recipient
-                      value: recipient
-      address_form_end:
-        - component: field
-          type: checkbox
-          name: stored_customer_donation_receipt
-          text: payment_form.stored_customer_donation_receipt
-          formName: paymentFrom
-          value: receipt
-    translations: &PATENSCHAFT_TRANSLATIONS
-      <<: *SPENDE_TRANSLATIONS
-      de:
-        purposes:
-          p1: Patenschaft für die Rettungsstationen
-          p2: Patenschaft für Topan
-          p3: Patenschaft für Bumi
-          p4: Patenschaft für Davi
-          p5: Patenschaft für Kopral
-          p6: Patenschaft für Shelton
-        amount_descriptions:
-          - if: 'paymentType() == recurring and recurringInterval() == monthly and amount() == 25'
-            then: [ Normalpreis ]
-          - if: 'amount() == 300'
-            then: [ Normalpreis ]
-          - if: 'amount() == custom_amount'
-            then: [ '' ]
-          - Ermässigt für Kinder
-        payment_form:
-          <<: *SPENDE_TRANSLATIONS_PAYMENT_FORM
-          stored_customer_delivery: Versand
-          stored_customer_deliverys:
-            customer: Versand an mich
-            recipient: Versand an beschenkte Person
-          stored_recipient_salutation_label: Anrede
-          stored_customer_sponsorship: Bitte auswählen
-          stored_customer_sponsorships:
-            regular: Patenschaft für mich
-            gift: Patenschaft als Geschenk
-          salutations:
-            neutral: Divers
-        blocks: &PATENSCHAFT_TRANSLATIONS_BLOCKS
-          slot_1:
-            title: Art der Patenschaft
-          payment_profile:
-            title: Personalien angeben (für Patenurkunde und -update)
-          payment_address:
-            title: Adresse angeben (für Versand der Patenurkunde)
-          slot_2:
-            title: Personalien der/des Beschenkten (für Patenurkunde und -update)
-        payment_submit:
-          submit: Patenschaftsbeitrag sicher übermitteln
 
-  # TODO: this is a work in progress
-  rnwPatenschaftSchenken: &PATENSCHAFT_SCHENKEN
-    <<: *PATENSCHAFT
-    paymentTypes: [ onetime ]
-    translations:
-      <<: *PATENSCHAFT_TRANSLATIONS
-      blocks:
-        <<: *PATENSCHAFT_TRANSLATIONS_BLOCKS
-        payment_amounts_and_intervals:
-          title: Betrag der Spende wählen
-
-  rnwPatenschaftRettungsstationen:
-    <<: *PATENSCHAFT
+  rnwPatenschaftSchenkenRettungsstationen:
+    <<: *PATENSCHAFT_SCHENKEN
     purposes: [ p1 ]
 
-  rnwPatenschaftTopan:
-    <<: *PATENSCHAFT
+  rnwPatenschaftSchenkenTopan:
+    <<: *PATENSCHAFT_SCHENKEN
     purposes: [ p2 ]
 
-  rnwPatenschaftBumi:
-    <<: *PATENSCHAFT
+  rnwPatenschaftSchenkenBumi:
+    <<: *PATENSCHAFT_SCHENKEN
     purposes: [ p3 ]
 
-  rnwPatenschaftDavi:
-    <<: *PATENSCHAFT
+  rnwPatenschaftSchenkenDavi:
+    <<: *PATENSCHAFT_SCHENKEN
     purposes: [ p4 ]
 
-  rnwPatenschaftKopral:
-    <<: *PATENSCHAFT
+  rnwPatenschaftSchenkenKopral:
+    <<: *PATENSCHAFT_SCHENKEN
     purposes: [ p5 ]
 
-  rnwPatenschaftShelton:
-    <<: *PATENSCHAFT
+  rnwPatenschaftSchenkenShelton:
+    <<: *PATENSCHAFT_SCHENKEN
     purposes: [ p6 ]
 
 # This is the extra text that will be appended to the terms of service

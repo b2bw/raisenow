@@ -22,4 +22,4 @@ clean:
 
 .PHONY: watch
 watch:
-	ls -1 *.yml *.rb */*.erb | entr make
+	ls -1 assets/* *.yml *.rb */*.erb | entr make
