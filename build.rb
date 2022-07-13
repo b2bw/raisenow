@@ -15,7 +15,7 @@ class ErbBinding < OpenStruct
   end
 end
 
-data['tamaro'].each do |key, options|
+data['tamaro'].each do |key, _|
   page = File.expand_path(File.join('templates', 'page.html.erb'), base)
   page_target = File.join('public', key + '.html')
   context = { key: key }
@@ -26,7 +26,8 @@ end
 
 index = File.expand_path(File.join('templates', 'index.html.erb'), base)
 index_target = File.join('public', 'index.html')
-context = { keys: data['tamaro'].keys }
+context = { keys: data['tamaro'].keys,
+            data: data['tamaro'] }
 index_content = ERB.new(File.read(index)).result(ErbBinding.new(context).get_binding)
 puts "Writing #{index_target}"
 File.open(index_target, 'w') { |f| f.puts(index_content) }

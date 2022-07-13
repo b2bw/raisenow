@@ -6,6 +6,7 @@
 
 .PHONY: build
 build: public
+	cp -v assets/* public/
 	./build.rb
 
 public:

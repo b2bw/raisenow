@@ -2,12 +2,24 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <ul>
-      <% keys.each do |key| %>
-      <li><a href="<%= key %>.html"><%= key %></a></li>
-      <% end %>
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Forumlar</th>
+          <th>#Z</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% keys.each do |key| %>
+        <tr>
+          <td><a href="<%= key %>.html"><%= key %></a></td>
+          <td><%= data[key]['purposes'].count %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
   </body>
 </html>

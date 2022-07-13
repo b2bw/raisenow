@@ -52,6 +52,10 @@ tamaro:
         payment_profile:
           donation_receipt_info_html: >-
             <p>Der Versand einer Spendenbescheinigung erfordert die Eingabe der Postadresse.</p>
+        info_toggle:
+          stored_customer_birthdate:
+            text_html: >-
+              Hallo, dies ist ein Test. Bitte ändere mich.
         payment_form: &SPENDE_TRANSLATIONS_PAYMENT_FORM
           stored_customer_phone: Telefonnummer
         # payment_form:
