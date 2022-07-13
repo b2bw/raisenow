@@ -31,8 +31,7 @@ tamaro:
       - payment_amounts_and_intervals
       - payment_payment_methods
       - payment_profile
-      - if: showPaymentAddress() == true
-        then: [ payment_address ]
+      - payment_address
     purposes: [ s1, s2, s3, s4, s5, s6 ]
     paymentFormPrefill: &SPENDE_PAYMENTFORMPREFILL
       # by default the checkbox donation receipt is checked
@@ -73,14 +72,27 @@ tamaro:
       - { if: 'paymentType() == recurring and recurringInterval() == quaterly', then: [30] }
       - { if: 'paymentType() == recurring and recurringInterval() == semestral', then: [60] }
       - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [120] }
-
     slots: &SPENDE_SLOTS
       profile_form_4:
         - component: field
           type: text
           name: stored_customer_phone
           label: payment_form.stored_customer_phone
-
+    # in order of appearance
+    paymentValidations: &SPENDE_PAYMENTVALIDATIONS
+      stored_customer_salutation: { required: true }
+      stored_customer_firstname: { required: true }
+      stored_customer_lastname: { required: true }
+      stored_customer_email:
+        if: paymentForm(stored_customer_email_permission)
+        required: true
+      stored_customer_street: &SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT
+        if: paymentForm(stored_customer_donation_receipt)
+        required: true
+      stored_customer_street_number: *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT
+      stored_customer_zip_code: *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT
+      stored_customer_city: *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT
+      stored_customer_country: *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT
     # paymentFormPrefill:
     #   stored_customer_form_of_address: null
     # slots:
@@ -246,9 +258,16 @@ tamaro:
           payment_profile:
             title: Personalien angeben (für Patenurkunde und -update)
           payment_address:
-            title: Adresse angeben (für Versand der Patenurkunde)
+            title: Adresse angeben (für den Versand der Patenurkunde)
         payment_submit:
           submit: Patenschaftsbeitrag sicher übermitteln
+    paymentValidations: &PATENSCHAFT_PAYMENTVALIDATIONS
+      <<: *SPENDE_PAYMENTVALIDATIONS
+      stored_customer_street: { required: true }
+      stored_customer_street_number: { required: true }
+      stored_customer_zip_code: { required: true }
+      stored_customer_city: { required: true }
+      stored_customer_country: { required: true }
 
   rnwPatenschaftRettungsstationen:
     <<: *PATENSCHAFT
@@ -276,7 +295,7 @@ tamaro:
 
   # ------------------------------ Teil III - Patenschaften schenken
 
-  rnwPatenschaftSchenken: &PATENSCHAFT_SCHENKEN
+  rnwPatenschaftSchenkenAllgemein: &PATENSCHAFT_SCHENKEN
     <<: *PATENSCHAFT
     paymentWidgetBlocks:
       - payment_purposes
@@ -311,6 +330,10 @@ tamaro:
           <<: *PATENSCHAFT_TRANSLATIONS_BLOCKS
           payment_amounts_and_intervals:
             title: Betrag der Spende wählen
+          payment_profile:
+            title: Personalien der schenkenden Person (für Zahlung, Rückfragen und Updates)
+          payment_address:
+            title: Adresse der schenkenden Person (für Zahlung)
           slot_1:
             title: Versand der Urkunde
           slot_2:
@@ -410,6 +433,21 @@ tamaro:
                   label: payment_form.stored_customer_country
                   placeholder: payment_form.stored_customer_country
                   options: null
+    paymentValidations:
+      <<: *PATENSCHAFT_PAYMENTVALIDATIONS
+      # TODO: why does this not work
+      stored_customer_email: { required: true }
+      stored_customer_delivery: { required: true }
+      stored_recipient_salutation: &PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
+        if: paymentForm(stored_customer_delivery) == recipient
+        required: true
+      stored_recipient_firstname: *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
+      stored_recipient_lastname: *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
+      stored_recipient_street: *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
+      stored_recipient_street_number: *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
+      stored_recipient_zip_code: *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
+      stored_recipient_city: *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
+      stored_recipient_country: *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
 
   rnwPatenschaftSchenkenRettungsstationen:
     <<: *PATENSCHAFT_SCHENKEN
