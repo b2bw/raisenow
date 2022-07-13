@@ -33,23 +33,22 @@ tamaro:
       - payment_profile
       - payment_address
     purposes: [ s1, s2, s3, s4, s5, s6 ]
+    paymentTypes: [ onetime, recurring ]
     paymentFormPrefill: &SPENDE_PAYMENTFORMPREFILL
       # by default the checkbox donation receipt is checked
       stored_customer_donation_receipt: true
       stored_customer_phone: null
-    salutations:
-      - Frau
-      - Herr
-      - Divers
     translations:
       de: &SPENDE_TRANSLATIONS_DE
         purposes:
           s1: Allgemein
-          s2: Bäume spenden
+          s2: Aufforstung
           s3: Rettungsstationen
           s4: Auswilderungen
           s5: Bären
           s6: Waldschutz
+          s7: Bäume spenden mit Urkunde
+          s8: Bäume spenden ohne Urkunde
         payment_profile:
           donation_receipt_info_html: >-
             <p>Der Versand einer Spendenbescheinigung erfordert die Eingabe der Postadresse.</p>
@@ -57,14 +56,27 @@ tamaro:
           stored_customer_birthdate:
             text_html: >-
               Hallo, dies ist ein Test. Bitte ändere mich.
+          # this is theoretically the right place if RaiseNow supports it
+          stored_recipient_email:
+            text_html: >-
+              Für Updates und so. Bitte ändere mich.
         payment_form: &SPENDE_TRANSLATIONS_PAYMENT_FORM
           stored_customer_phone: Telefonnummer
-        # payment_form:
-        #   stored_customer_form_of_address: Anrede
-        #   stored_customer_form_of_address_options:
-        #     female: Frau
-        #     male: Herr
-        #     other: Divers
+          stored_customer_info_text_long: >-
+            <p style="padding: 1rem; font-size: 80%; border: thin
+            solid lightgray">Die Übermittlung der Daten erfolgt
+            verschlüsselt. BOS Schweiz speichert selbst keine
+            Kartendaten, Ihre Zahlungsdaten laufen direkt über
+            RaiseNow, einem von der Kreditkartenindustrie (PCI DSS)
+            zertifizierten Partner. Unsere Dienstleistenden dürfen die
+            Informationen ausschliesslich zur Erfüllung ihrer Aufgaben
+            nutzen und sind verpflichtet, die Datenschutzbestimmungen
+            einzuhalten. Sie können Ihre Spende von Ihrem steuerbaren
+            Einkommen abziehen. Spender*innen erhalten per Post oder
+            per E-Mail eine Spendenbestätigung für die Steuerbehörden.
+            Die Spenden gehen an BOS Schweiz.</p>
+          salutations:
+            neutral: Neutrale Anrede
     showStoredCustomerBirthdate: true
     minimumCustomAmount:
       - { if: 'paymentType() == onetime', then: [20] }
@@ -78,104 +90,65 @@ tamaro:
           type: text
           name: stored_customer_phone
           label: payment_form.stored_customer_phone
+      blocks_end:
+        - component: content
+          formName: payment_form
+          text_html: payment_form.stored_customer_info_text_long
     # in order of appearance
     paymentValidations: &SPENDE_PAYMENTVALIDATIONS
+      amount:
+        minimum_custom_amount: true
+        maximum_custom_amount: true
       stored_customer_salutation: { required: true }
-      stored_customer_firstname: { required: true }
-      stored_customer_lastname: { required: true }
+      stored_customer_firstname:  { required: true }
+      stored_customer_lastname:   { required: true }
       stored_customer_email:
         if: paymentForm(stored_customer_email_permission)
         required: true
-      stored_customer_street: &SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT
-        if: paymentForm(stored_customer_donation_receipt)
+      stored_customer_street: &SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT_OR_S7
+        if: paymentForm(stored_customer_donation_receipt) or purpose() == s7
         required: true
-      stored_customer_street_number: *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT
-      stored_customer_zip_code: *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT
-      stored_customer_city: *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT
-      stored_customer_country: *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT
-    # paymentFormPrefill:
-    #   stored_customer_form_of_address: null
-    # slots:
-    #   profile_form_1:
-    #     component: field
-    #     type: radio-group
-    #     name: stored_customer_form_of_address
-    #     label: payment_form.stored_customer_form_of_address
-    #     children:
-    #       - component: field
-    #         type: radio-in-group
-    #         name: stored_customer_form_of_address
-    #         text: payment_form.stored_customer_form_of_address_options.female
-    #         value: female
-    #       - component: field
-    #         type: radio-in-group
-    #         name: stored_customer_form_of_address
-    #         text: payment_form.stored_customer_form_of_address_options.male
-    #         value: male
-    #       - component: field
-    #         type: radio-in-group
-    #         name: stored_customer_form_of_address
-    #         text: payment_form.stored_customer_form_of_address_options.other
-    #         value: other
-    #   profile_form_6:
-    #     # - component: paragraph
-    #     #   html: HTML1
-    #     #   inner_html: INNER_HTML1
-    #     #   content: CONTENT1
-    #     #   text: TEXT1
-    #     #   text_html: TEXT_HTML1
-    #     # - component: text
-    #     #   html: HTML2
-    #     #   inner_html: INNER_HTML2
-    #     #   content: CONTENT2
-    #     #   text: TEXT2
-    #     #   text_html: TEXT_HTML2
-    #     # - component: section
-    #     #   html: HTML3
-    #     #   inner_html: INNER_HTML3
-    #     #   content: CONTENT3
-    #     #   text: TEXT3
-    #     #   text_html: TEXT_HTML3
-    #     # - component: p
-    #     #   html: HTML4
-    #     #   inner_html: INNER_HTML4
-    #     #   content: CONTENT4
-    #     #   text: TEXT4
-    #     #   text_html: TEXT_HTML4
-    #     # - component: div
-    #     #   html: HTML5
-    #     #   inner_html: INNER_HTML5
-    #     #   content: CONTENT5
-    #     #   text: TEXT5
-    #     #   text_html: TEXT_HTML5
-    #   #profileForm6: camelCase
-    #   #profile_form_7: <b>bold</b>
-    #   #profileForm7: <i>italics</i>
+      stored_customer_street_number: *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT_OR_S7
+      stored_customer_zip_code:      *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT_OR_S7
+      stored_customer_city:          *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT_OR_S7
+      stored_customer_country:       *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT_OR_S7
 
   rnwSpendeBaeume:
     <<: *SPENDE
-    purposes: [ s2 ]
+    purposes: [ s7, s8 ]
     amounts:
-      - if: paymentType() == onetime
+      - if: purpose() == s7
+        then:
+          - 9.65
+          - 40.25
+          - 78.50
+          - 193.25
+      - if: purpose() == s8
         then:
           - 7.65
           - 38.25
           - 76.50
-          - 765.00
+          - 191.25
     minimumCustomAmount:
-      - { if: 'paymentType() == onetime', then: [7.65] }
-      - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [10] }
-      - { if: 'paymentType() == recurring and recurringInterval() == quaterly', then: [30] }
-      - { if: 'paymentType() == recurring and recurringInterval() == semestral', then: [60] }
-      - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [120] }
+      - { if: 'purpose() == s7', then: [9.65] }
+      - { if: 'purpose() == s8', then: [7.65] }
     translations:
       de:
         <<: *SPENDE_TRANSLATIONS_DE
         amount_descriptions:
-          - { if: 'amount() == 7.65', then: [ einen Baum spenden ] }
-          - { if: 'amount() == 38.25', then: [ fünf Bäume spenden ] }
-          - { if: 'amount() == 76.5', then: [ zehn Bäume spenden ] }
-          - { if: 'amount() == 765', then: [ hundert Bäume spenden ] }
+          # s7: with paper
+          - { if: 'amount() == 9.65', then: [ 1 Baum inkl. 5 Jahre Pflege ] }
+          - { if: 'amount() == 40.25', then: [ 5 Bäume inkl. 5 Jahre Pflege ] }
+          - { if: 'amount() == 78.50', then: [ 10 Bäume inkl. 5 Jahre Pflege ] }
+          - { if: 'amount() == 193.25', then: [ 25 Bäume inkl. 5 Jahre Pflege ] }
+          # s8: without paper
+          - { if: 'amount() == 7.65', then: [ 1 Baum inkl. 5 Jahre Pflege ] }
+          - { if: 'amount() == 38.25', then: [ 5 Bäume inkl. 5 Jahre Pflege ] }
+          - { if: 'amount() == 76.5', then: [ 10 Bäume inkl. 5 Jahre Pflege ] }
+          - { if: 'amount() == 191.25', then: [ 25 Bäume inkl. 5 Jahre Pflege ] }
+        blocks:
+         payment_address:
+           title: Adresse angeben (für Zahlung und ggf. Versand der Urkunde)
 
   rnwSpendeRettungsstationen:
     <<: *SPENDE
@@ -212,9 +185,9 @@ tamaro:
       - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25, 15] }
       - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300, 180] }
     minimumCustomAmount:
-      - { if: 'paymentType() == onetime', then: [300, 180] }
-      - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25, 15] }
-      - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300, 180] }
+      - { if: 'paymentType() == onetime', then: [300] }
+      - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25] }
+      - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300] }
     # hide it here, but add it in blocks at a different location
     showStoredCustomerDonationReceipt: false
     slots: &PATENSCHAFT_SLOTS
@@ -252,8 +225,8 @@ tamaro:
             customer: Versand an mich
             recipient: Versand an beschenkte Person
           stored_recipient_salutation_label: Anrede
-          salutations:
-            neutral: Divers
+          #salutations:
+          #  neutral: Divers
         blocks: &PATENSCHAFT_TRANSLATIONS_BLOCKS
           payment_profile:
             title: Personalien angeben (für Patenurkunde und -update)
@@ -338,6 +311,17 @@ tamaro:
             title: Versand der Urkunde
           slot_2:
             title: Adresse der beschenkten Person
+        validation_errors:
+          stored_customer_delivery:       { field_is_missing: Bitte eine Option wählen }
+          stored_recipient_salutation:    { field_is_missing: Bitte Anrede auswählen }
+          stored_recipient_firstname:     { field_is_missing: Bitte Vorname angeben }
+          stored_recipient_lastname:      { field_is_missing: Bitte Nachname angeben }
+          stored_recipient_email:         { field_is_missing: Bitte Emailadresse angeben }
+          stored_recipient_street:        { field_is_missing: Bitte Strasse angeben }
+          stored_recipient_street_number: { field_is_missing: Bitte Hausnummer angeben }
+          stored_recipient_zip_code:      { field_is_missing: Bitte Postleitzahl angeben }
+          stored_recipient_city:          { field_is_missing: Bitte Ort angeben }
+          stored_recipient_country:       { field_is_missing: Bitte Land auswählen }
     slots:
       <<: *PATENSCHAFT_SLOTS
       slot_1:
@@ -417,6 +401,12 @@ tamaro:
                 - component: field
                   type: text
                   formName: payment_form
+                  name: stored_recipient_street2
+                  label: payment_form.stored_customer_street2
+                  placeholder: payment_form.stored_customer_street2
+                - component: field
+                  type: text
+                  formName: payment_form
                   name: stored_recipient_zip_code
                   label: payment_form.stored_customer_zip_code
                   placeholder: payment_form.stored_customer_zip_code
@@ -441,13 +431,13 @@ tamaro:
       stored_recipient_salutation: &PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
         if: paymentForm(stored_customer_delivery) == recipient
         required: true
-      stored_recipient_firstname: *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
-      stored_recipient_lastname: *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
-      stored_recipient_street: *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
+      stored_recipient_firstname:     *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
+      stored_recipient_lastname:      *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
+      stored_recipient_street:        *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
       stored_recipient_street_number: *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
-      stored_recipient_zip_code: *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
-      stored_recipient_city: *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
-      stored_recipient_country: *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
+      stored_recipient_zip_code:      *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
+      stored_recipient_city:          *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
+      stored_recipient_country:       *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
 
   rnwPatenschaftSchenkenRettungsstationen:
     <<: *PATENSCHAFT_SCHENKEN
@@ -473,15 +463,4 @@ tamaro:
     <<: *PATENSCHAFT_SCHENKEN
     purposes: [ p6 ]
 
-# This is the extra text that will be appended to the terms of service
-# section of all forms.
-terms: >-
-  Die Übermittlung der Daten erfolgt verschlüsselt. BOS Schweiz
-  speichert selbst keine Kartendaten, Ihre Zahlungsdaten laufen direkt
-  über RaiseNow, einem von der Kreditkartenindustrie (PCI DSS)
-  zertifizierten Partner. Unsere Dienstleistenden dürfen die
-  Informationen ausschliesslich zur Erfüllung ihrer Aufgaben nutzen
-  und sind verpflichtet, die Datenschutzbestimmungen einzuhalten. Sie
-  können Ihre Spende von Ihrem steuerbaren Einkommen abziehen.
-  Spender*innen erhalten per E-Mail eine Spendenbestätigung für die
-  Steuerbehörden. Die Spenden gehen an BOS Schweiz.
+# Goodbye and good night. EOF

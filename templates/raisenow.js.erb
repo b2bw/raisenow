@@ -17,10 +17,3 @@ $(() => {
     }
   });
 });
-
-// HACK: wait until tamaro widget is initialized
-// TODO: rewrite to use raisnow slots instead
-setTimeout(() => {
-  $('#stored_customer_email_permission-info-widget p')
-    .append(' <span><%= terms %></span>');
-}, 1000)
