@@ -47,8 +47,21 @@ tamaro:
           s4: Auswilderungen
           s5: Bären
           s6: Waldschutz
-          s7: Bäume spenden mit Urkunde
+          s7: Bäume spenden mit Grasspapier Urkunde
           s8: Bäume spenden ohne Urkunde
+          s9: Bäume schenken mit Grasspapier Urkunde
+          s10: Bäume schenken mit digitaler Urkunde
+          s11: Hilfspaket spenden mit Grasspapier Urkunde
+          s12: Hilfspaket spenden ohne Urkunde
+          s13: Fördermitgliedschaft
+          s14: Hilfspaket schenken mit Grasspapier Urkunde
+          s15: Hilfspaket schenken mit digitaler Urkunde
+          p1: Patenschaft für die Rettungsstationen
+          p2: Patenschaft für Topan
+          p3: Patenschaft für Bumi
+          p4: Patenschaft für Davi
+          p5: Patenschaft für Kopral
+          p6: Patenschaft für Shelton
         payment_profile:
           donation_receipt_info_html: >-
             <p>Der Versand einer Spendenbescheinigung erfordert die Eingabe der Postadresse.</p>
@@ -78,12 +91,12 @@ tamaro:
           salutations:
             neutral: Neutrale Anrede
     showStoredCustomerBirthdate: true
-    minimumCustomAmount:
-      - { if: 'paymentType() == onetime', then: [20] }
-      - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [10] }
-      - { if: 'paymentType() == recurring and recurringInterval() == quaterly', then: [30] }
-      - { if: 'paymentType() == recurring and recurringInterval() == semestral', then: [60] }
-      - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [120] }
+    # minimumCustomAmount:
+    #   - { if: 'paymentType() == onetime', then: [20] }
+    #   - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [10] }
+    #   - { if: 'paymentType() == recurring and recurringInterval() == quaterly', then: [30] }
+    #   - { if: 'paymentType() == recurring and recurringInterval() == semestral', then: [60] }
+    #   - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [120] }
     slots: &SPENDE_SLOTS
       profile_form_4:
         - component: field
@@ -113,29 +126,29 @@ tamaro:
       stored_customer_city:          *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT_OR_S7
       stored_customer_country:       *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT_OR_S7
 
-  rnwSpendeBaeume:
+  rnwSpendeBaeume: &SPENDE_BAEUME
     <<: *SPENDE
     purposes: [ s7, s8 ]
-    amounts:
-      - if: purpose() == s7
+    amounts: &SPENDE_BAEUME_AMOUNTS
+      - if: purpose() == s7 || purpose() == s9
         then:
           - 9.65
           - 40.25
           - 78.50
           - 193.25
-      - if: purpose() == s8
+      - if: purpose() == s8 || purpose() == s10
         then:
           - 7.65
           - 38.25
           - 76.50
           - 191.25
-    minimumCustomAmount:
-      - { if: 'purpose() == s7', then: [9.65] }
-      - { if: 'purpose() == s8', then: [7.65] }
+    minimumCustomAmount: &SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
+      - { if: 'purpose() == s7 || purpose() == s9', then: [9.65] }
+      - { if: 'purpose() == s8 || purpose() == s10', then: [7.65] }
     translations:
       de:
         <<: *SPENDE_TRANSLATIONS_DE
-        amount_descriptions:
+        amount_descriptions: &SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
           # s7: with paper
           - { if: 'amount() == 9.65', then: [ 1 Baum inkl. 5 Jahre Pflege ] }
           - { if: 'amount() == 40.25', then: [ 5 Bäume inkl. 5 Jahre Pflege ] }
@@ -165,6 +178,74 @@ tamaro:
   rnwSpendeWaldschutz:
     <<: *SPENDE
     purposes: [ s6 ]
+
+  rnwSpendeHilfspakete:
+    <<: *SPENDE
+    purposes: [ s11, s12 ]
+    amounts: &SPENDE_BAEUME_AMOUNTS
+      - if: purpose() == s11
+        then:
+          - 14
+          - 22
+          - 47
+          - 62
+          - 122
+          - 202
+      - if: purpose() == s12
+        then:
+          - 12
+          - 20
+          - 45
+          - 60
+          - 120
+          - 200
+    minimumCustomAmount: &SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
+      - { if: 'purpose() == s11', then: [14] }
+      - { if: 'purpose() == s12', then: [12] }
+    translations:
+      de:
+        <<: *SPENDE_TRANSLATIONS_DE
+        amount_descriptions: &SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
+          # s7: with paper
+          - { if: 'amount() == 14', then:  [ Milchfläschchen ] }
+          - { if: 'amount() == 22', then:  [ Gemüse- und Früchtekorb ] }
+          - { if: 'amount() == 47', then:  [ Spielzeug ] }
+          - { if: 'amount() == 62', then:  [ Schubkarren ] }
+          - { if: 'amount() == 122', then: [ Versorgung Auswilderung ] }
+          - { if: 'amount() == 202', then: [ Medikamente ] }
+          # s8: without paper
+          - { if: 'amount() == 12', then:  [ Milchfläschchen ] }
+          - { if: 'amount() == 20', then:  [ Gemüse- und Früchtekorb ] }
+          - { if: 'amount() == 45', then:  [ Spielzeug ] }
+          - { if: 'amount() == 60', then:  [ Schubkarren ] }
+          - { if: 'amount() == 120', then: [ Versorgung Auswilderung ] }
+          - { if: 'amount() == 200', then: [ Medikamente ] }
+
+  rnwSpendeFoerdermitglied:
+    <<: *SPENDE
+    purposes: [ s13 ]
+    amounts:
+      - 60
+      - 120
+      - 300
+    paymentTypes: [ recurring ]
+    recurringIntervals: [ yearly ]
+    allowCustomAmount: false
+    translations:
+      de:
+        <<: *SPENDE_TRANSLATIONS_DE
+        amount_descriptions: &SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
+          - { if: 'amount() == 60', then:  [ Einzelperson ] }
+          - { if: 'amount() == 120', then:  [ Familie ] }
+          - { if: 'amount() == 300', then:  [ Juristische Person ] }
+        payment_form:
+          supscription_cancelation_policy: >-
+            Ihr Mitgliedsbeitrag wird jährlich fällig. Sie können Ihre Mitgliedschaft jederzeit beenden.
+    slots:
+      payment_types_end:
+        - component: content
+          formName: payment_form
+          text_html: payment_form.supscription_cancelation_policy
 
   # ------------------------------ Teil II - Patenschaften
 
@@ -203,13 +284,6 @@ tamaro:
     translations:
       de: &PATENSCHAFT_TRANSLATIONS_DE
         <<: *SPENDE_TRANSLATIONS_DE
-        purposes:
-          p1: Patenschaft für die Rettungsstationen
-          p2: Patenschaft für Topan
-          p3: Patenschaft für Bumi
-          p4: Patenschaft für Davi
-          p5: Patenschaft für Kopral
-          p6: Patenschaft für Shelton
         amount_descriptions:
           - if: 'paymentType() == recurring and recurringInterval() == monthly and amount() == 25'
             then: [ Normalpreis ]
@@ -266,11 +340,11 @@ tamaro:
     <<: *PATENSCHAFT
     purposes: [ p6 ]
 
-  # ------------------------------ Teil III - Patenschaften schenken
+  # ------------------------------ Teil III - Schenken
 
-  rnwPatenschaftSchenkenAllgemein: &PATENSCHAFT_SCHENKEN
+  rnwSchenkenPatenschaftAllgemein: &PATENSCHAFT_SCHENKEN
     <<: *PATENSCHAFT
-    paymentWidgetBlocks:
+    paymentWidgetBlocks: &PATENSCHAFT_SCHENKEN_PAYMENTWIDGETBLOCKS
       - payment_purposes
       - payment_amounts_and_intervals
       - payment_payment_methods
@@ -297,7 +371,7 @@ tamaro:
       stored_recipient_salutation_text: null
       stored_sxt_communication_keywords: 1888278
     translations:
-      de:
+      de: &PATENSCHAFT_SCHENKEN_TRANSLATIONS_DE
         <<: *PATENSCHAFT_TRANSLATIONS_DE
         blocks:
           <<: *PATENSCHAFT_TRANSLATIONS_BLOCKS
@@ -322,7 +396,7 @@ tamaro:
           stored_recipient_zip_code:      { field_is_missing: Bitte Postleitzahl angeben }
           stored_recipient_city:          { field_is_missing: Bitte Ort angeben }
           stored_recipient_country:       { field_is_missing: Bitte Land auswählen }
-    slots:
+    slots: &PATENSCHAFT_SCHENKEN_SLOTS
       <<: *PATENSCHAFT_SLOTS
       slot_1:
         - component: block
@@ -374,6 +448,9 @@ tamaro:
                   name: stored_recipient_firstname
                   label: payment_form.stored_customer_firstname
                   placeholder: payment_form.stored_customer_firstname
+                  infoToggleTitle: "asdf"
+                  infoToggleTextHTML: >-
+                    ajshdkasjhd
                 - component: field
                   type: text
                   formName: payment_form
@@ -439,28 +516,43 @@ tamaro:
       stored_recipient_city:          *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
       stored_recipient_country:       *PATENSCHAFT_PAYMENTVALIDATION_RECIPIENT
 
-  rnwPatenschaftSchenkenRettungsstationen:
+  rnwSchenkenPatenschaftRettungsstationen:
     <<: *PATENSCHAFT_SCHENKEN
     purposes: [ p1 ]
 
-  rnwPatenschaftSchenkenTopan:
+  rnwSchenkenPatenschaftTopan:
     <<: *PATENSCHAFT_SCHENKEN
     purposes: [ p2 ]
 
-  rnwPatenschaftSchenkenBumi:
+  rnwSchenkenPatenschaftBumi:
     <<: *PATENSCHAFT_SCHENKEN
     purposes: [ p3 ]
 
-  rnwPatenschaftSchenkenDavi:
+  rnwSchenkenPatenschaftDavi:
     <<: *PATENSCHAFT_SCHENKEN
     purposes: [ p4 ]
 
-  rnwPatenschaftSchenkenKopral:
+  rnwSchenkenPatenschaftKopral:
     <<: *PATENSCHAFT_SCHENKEN
     purposes: [ p5 ]
 
-  rnwPatenschaftSchenkenShelton:
+  rnwSchenkenPatenschaftShelton:
     <<: *PATENSCHAFT_SCHENKEN
     purposes: [ p6 ]
+
+  # ------------------------------ Teil IV - Bäume schenken
+
+  rnwSchenkenBaeume:
+    <<: *PATENSCHAFT_SCHENKEN
+    purposes: [ s9, s10 ]
+    amounts: *SPENDE_BAEUME_AMOUNTS
+    minimumCustomAmount: *SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
+    translations:
+      de:
+        <<: *PATENSCHAFT_SCHENKEN_TRANSLATIONS_DE
+        amount_descriptions: *SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
+
+    # stored_customer_email
+    # if: purpose() == s10, then: required: true
 
 # Goodbye and good night. EOF
