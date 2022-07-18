@@ -32,13 +32,9 @@ end
 
 module YamlDeepMerge
   def load(*args)
-    super(*args).tap do |result|
-      if result.class.method_defined?(:walk)
-        result.walk do |h|
-          if (x = h.delete('<<<'))
-            h.deep_merge!(x) { |_, this, _| this }
-          end
-        end
+    super(*args).walk do |h|
+      if (x = h.delete('<<<'))
+        h.deep_merge!(x) { |_, this, _| this }
       end
     end
   end

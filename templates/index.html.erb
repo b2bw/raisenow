@@ -3,31 +3,51 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="styles.css">
+    <title>BOS Spendenformulare: Feature Matrix</title>
   </head>
   <body>
+    <h2>BOS Spendenformulare: Feature Matrix</h2>
     <table>
       <thead>
         <tr>
-          <th>Form</th>
+          <th class='left'>Form</th>
           <th title="Number of purposes">#p</th>
           <th title="Number of blocks">#b</th>
           <th title="Custom info text birthday">ctb</th>
           <th title="Receipt on by default">rd</th>
           <th title="Number of payment types (onetime, recurring)">#t</th>
+          <th title="Show stored_customer_birthdate">scb</th>
+          <th title="Show stored_customer_donation_receipt">scdr</th>
+          <th title="custom stored_customer_donation_receipt field">cdrf</th>
+          <th title="Info text at the end of the form">it</th>
+          <th title="custom stored_customer_phone field">cpf</th>
+          <th title="salutation required">sal req</th>
+          <th title="email required">eml req</th>
         </tr>
       </thead>
       <tbody>
         <% keys.each do |key| %>
         <tr>
-          <td><a href="<%= key %>.html"><%= key %></a></td>
-          <td><%= data.dig(key, 'purposes').size  %></td>
+          <td class='left'><a href="<%= key %>.html"><%= key %></a></td>
+          <td><%= data.dig(key, 'purposes').join(', ')  %></td>
           <td><%= data.dig(key, 'paymentWidgetBlocks').size  %></td>
-          <td><%= !!data.dig(key, *%w(translations de info_toggle stored_customer_birthdate text_html)) %></td>
-          <td><%= !!data.dig(key, *%w(paymentFormPrefill stored_customer_donation_receipt)) %></td>
-          <td><%= data.dig(key, 'paymentTypes').size  %></td>
+          <td><%= (!!data.dig(key, *%w(translations de info_toggle stored_customer_birthdate text_html))).to_i %></td>
+          <td><%= (!!data.dig(key, *%w(paymentFormPrefill stored_customer_donation_receipt))).to_i %></td>
+          <td><%= payment_types[data.dig(key, 'paymentTypes')]  %></td>
+          <td><%= data.dig(key, 'showStoredCustomerBirthdate').to_i %></td>
+          <td><%= data.dig(key, 'showStoredCustomerDonationReceipt').to_i %></td>
+          <td><%= (!!data.dig(key, *%w(slots address_form_end))).to_i %></td>
+          <td><%= (!!data.dig(key, *%w(slots blocks_end))).to_i %></td>
+          <td><%= (!!data.dig(key, *%w(slots profile_form_4))).to_i %></td>
+          <td><%= data.dig(key, *%w(paymentValidations stored_customer_salutation if)) ? 'c' :
+                  data.dig(key, *%w(paymentValidations stored_customer_salutation required)).to_i %></td>
+          <td><%= data.dig(key, *%w(paymentValidations stored_customer_email if)) ? 'c' :
+                  data.dig(key, *%w(paymentValidations stored_customer_email required)).to_i %></td>
         </tr>
         <% end %>
       </tbody>
     </table>
+    <h3>Spendenzwecke</h3>
+    <pre><%= YAML.dump(data.dig(*%w[rnwSpendeAllgemein translations de purposes])) %></pre>
   </body>
 </html>

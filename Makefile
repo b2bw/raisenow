@@ -5,7 +5,7 @@
 -include local.mk
 
 .PHONY: build
-build: public
+build: clean public
 	cp -v assets/* public/
 	./build.rb
 
@@ -18,7 +18,7 @@ deploy:
 
 .PHONY: clean
 clean:
-	rm -rf public
+	rm -rf public/*
 
 .PHONY: watch
 watch:

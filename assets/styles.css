@@ -21,6 +21,12 @@ table thead tr {
 table th,
 table td {
     padding: 12px 15px;
+    text-align: center;
+}
+
+table th.left,
+table td.left {
+    text-align: left;
 }
 
 table tbody tr {
