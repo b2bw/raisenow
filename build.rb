@@ -6,45 +6,11 @@ require 'ostruct'
 require 'json'
 
 base = File.dirname(__FILE__)
+
+require File.expand_path('yaml_deep_merge', base)
+
 config = File.expand_path('raisenow.yml', base)
 data = YAML.load(File.read(config))
-
-# --- YAML deep merge ---
-
-class Hash
-  def deep_merge!(other_hash)
-    merge!(other_hash) do |key, this_val, other_val|
-      if this_val.is_a?(Hash) && other_val.is_a?(Hash)
-        this_val.deep_merge(other_val)
-      else
-        other_val
-      end
-    end
-  end
-end
-
-def walk(x, &bloc)
-  case x
-  when Array
-    x.map { |e| walk(e, &bloc) }
-  when Hash
-    x.reduce({}) do |a, e|
-      key, val = e
-      a.merge(key => walk(val, &bloc)).tap do |b|
-        bloc.call(b, key) if block_given?
-      end
-    end
-  else
-    x
-  end
-end
-
-data = walk(data) do |h, k|
-  k == '<<<' &&
-    h.deep_merge!(h.delete(k))
-end
-
-# --- YAML deep merge end ---
 
 class ErbBinding < OpenStruct
   def get_binding

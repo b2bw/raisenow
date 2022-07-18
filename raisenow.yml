@@ -26,6 +26,13 @@ tamaro:
   rnwSpendeAllgemein: &SPENDE
     <<: *DEBUGGING
     language: de
+    paymentMethods:
+      - twi # twint
+      - vis # visa
+      - eca # mastercard
+      - pfc # postfinance card
+      - pef # postfinance e-finance
+      - pp  # paypal
     paymentWidgetBlocks:
       - payment_purposes
       - payment_amounts_and_intervals
@@ -51,11 +58,17 @@ tamaro:
           s8: Bäume spenden ohne Urkunde
           s9: Bäume schenken mit Grasspapier Urkunde
           s10: Bäume schenken mit digitaler Urkunde
-          s11: Hilfspaket spenden mit Grasspapier Urkunde
-          s12: Hilfspaket spenden ohne Urkunde
+          s11: BOS Schweiz Bildungsprogramm
+          s12: Kondolenz-Spende
           s13: Fördermitgliedschaft
-          s14: Hilfspaket schenken mit Grasspapier Urkunde
-          s15: Hilfspaket schenken mit digitaler Urkunde
+          s14: Besondere Spendenaktion
+          s15:
+          s16: Milchfläschchen
+          s17: Gemüse- und Früchtekorb
+          s18: Spielzeug
+          s19: Schubkarren
+          s20: Versorgung Auswilderung
+          s21: Medikamente
           p1: Patenschaft für die Rettungsstationen
           p2: Patenschaft für Topan
           p3: Patenschaft für Bumi
@@ -67,8 +80,8 @@ tamaro:
             <p>Der Versand einer Spendenbescheinigung erfordert die Eingabe der Postadresse.</p>
         info_toggle:
           stored_customer_birthdate:
-            text_html: >-
-              Hallo, dies ist ein Test. Bitte ändere mich.
+            #text_html: >-
+            #  Hallo, dies ist ein Test. Bitte ändere mich.
           # this is theoretically the right place if RaiseNow supports it
           stored_recipient_email:
             text_html: >-
@@ -97,8 +110,19 @@ tamaro:
     #   - { if: 'paymentType() == recurring and recurringInterval() == quaterly', then: [30] }
     #   - { if: 'paymentType() == recurring and recurringInterval() == semestral', then: [60] }
     #   - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [120] }
+    # hide it here, but add it in blocks at a different location
+    showStoredCustomerDonationReceipt: false
     slots: &SPENDE_SLOTS
+      # add the donation receipt field to the end of the address form
+      address_form_end:
+        - component: field
+          type: checkbox
+          name: stored_customer_donation_receipt
+          text: payment_form.stored_customer_donation_receipt
+          formName: paymentFrom
+          value: receipt
       profile_form_4:
+        # TODO: make "optional" show up
         - component: field
           type: text
           name: stored_customer_phone
@@ -118,13 +142,11 @@ tamaro:
       stored_customer_email:
         if: paymentForm(stored_customer_email_permission)
         required: true
-      stored_customer_street: &SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT_OR_S7
-        if: paymentForm(stored_customer_donation_receipt) or purpose() == s7
-        required: true
-      stored_customer_street_number: *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT_OR_S7
-      stored_customer_zip_code:      *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT_OR_S7
-      stored_customer_city:          *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT_OR_S7
-      stored_customer_country:       *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT_OR_S7
+      stored_customer_street:        { required: true }
+      stored_customer_street_number: { required: true }
+      stored_customer_zip_code:      { required: true }
+      stored_customer_city:          { required: true }
+      stored_customer_country:       { required: true }
 
   rnwSpendeBaeume: &SPENDE_BAEUME
     <<: *SPENDE
@@ -179,47 +201,137 @@ tamaro:
     <<: *SPENDE
     purposes: [ s6 ]
 
-  rnwSpendeHilfspakete:
+  rnwSpendeBildungsprogramm:
     <<: *SPENDE
-    purposes: [ s11, s12 ]
-    amounts: &SPENDE_BAEUME_AMOUNTS
-      - if: purpose() == s11
-        then:
-          - 14
-          - 22
-          - 47
-          - 62
-          - 122
-          - 202
-      - if: purpose() == s12
-        then:
-          - 12
-          - 20
-          - 45
-          - 60
-          - 120
-          - 200
-    minimumCustomAmount: &SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
-      - { if: 'purpose() == s11', then: [14] }
-      - { if: 'purpose() == s12', then: [12] }
+    purposes: [ s11 ]
+
+  rnwSpendeKondolenz: &SPENDE_KONDOLENZ
+    <<: *SPENDE
+    purposes: [ s12 ]
+    paymentTypes: [ onetime ]
+    slots:
+      purposes_end:
+        - component: field
+          type: text
+          name: stored_customer_subject
+          placeholder: payment_form.stored_customer_subject_placeholder
+          label: payment_form.stored_customer_subject
+    paymentFormPrefill:
+      <<: *SPENDE_PAYMENTFORMPREFILL
+      stored_customer_subject: null
     translations:
       de:
         <<: *SPENDE_TRANSLATIONS_DE
-        amount_descriptions: &SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
-          # s7: with paper
-          - { if: 'amount() == 14', then:  [ Milchfläschchen ] }
-          - { if: 'amount() == 22', then:  [ Gemüse- und Früchtekorb ] }
-          - { if: 'amount() == 47', then:  [ Spielzeug ] }
-          - { if: 'amount() == 62', then:  [ Schubkarren ] }
-          - { if: 'amount() == 122', then: [ Versorgung Auswilderung ] }
-          - { if: 'amount() == 202', then: [ Medikamente ] }
-          # s8: without paper
-          - { if: 'amount() == 12', then:  [ Milchfläschchen ] }
-          - { if: 'amount() == 20', then:  [ Gemüse- und Früchtekorb ] }
-          - { if: 'amount() == 45', then:  [ Spielzeug ] }
-          - { if: 'amount() == 60', then:  [ Schubkarren ] }
-          - { if: 'amount() == 120', then: [ Versorgung Auswilderung ] }
-          - { if: 'amount() == 200', then: [ Medikamente ] }
+        payment_form:
+          stored_customer_subject: Name der/des Verstorbenen
+        validation_errors:
+          stored_customer_subject:
+            field_is_missing: Für die Zuordnung Ihrer Spende benötigen wir einen Namen
+    paymentValidations:
+      <<: *SPENDE_PAYMENTVALIDATIONS
+      stored_customer_subject:
+        required: true
+
+  rnwSpendeBesondereAktionen:
+    <<: *SPENDE_KONDOLENZ
+    purposes: [ s14 ]
+    translations:
+      de:
+        <<: *SPENDE_TRANSLATIONS_DE
+        payment_form:
+          stored_customer_subject: Details zum Spendenaufruf
+          stored_customer_subject_placeholder: z.B. Geburtstag Hans Muster
+        validation_errors:
+          stored_customer_subject:
+            field_is_missing: Für die Zuordnung Ihrer Spende benötigen wir einen Namen
+
+  rnwSpendeNurEmail:
+    <<: *SPENDE
+    paymentFormPrefill:
+      <<: *SPENDE_PAYMENTFORMPREFILL
+      stored_customer_donation_receipt: false
+    paymentValidations:
+      stored_customer_salutation: { required: true }
+      stored_customer_firstname:  { required: true }
+      stored_customer_lastname:   { required: true }
+      stored_customer_email:      { required: true }
+      stored_customer_street: &SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT
+        if: paymentForm(stored_customer_donation_receipt)
+        required: true
+      stored_customer_street_number: *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT
+      stored_customer_zip_code:      *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT
+      stored_customer_city:          *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT
+      stored_customer_country:       *SPENDE_PAYMENTVALIDATION_DONATIONRECEIPT
+    showStoredCustomerDonationReceipt: true
+    slots:
+      profile_form_4:
+        # TODO: make "optional" show up
+        - component: field
+          type: text
+          name: stored_customer_phone
+          label: payment_form.stored_customer_phone
+      blocks_end:
+        - component: content
+          formName: payment_form
+          text_html: payment_form.stored_customer_info_text_long
+
+  rnwSpendeHilfspakete:
+    <<: *SPENDE
+    paymentWidgetBlocks:
+      - payment_purposes
+      - slot_1
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile
+      - payment_address
+    purposes: [ s16, s17, s18, s19, s20, s21 ]
+    paymentFormPrefill:
+      stored_customer_certificate: grasspaper
+    amounts:
+      - if: paymentForm(stored_customer_certificate) == none
+        then: [ 20, 50, 100, 200 ]
+      - if: paymentForm(stored_customer_certificate) == grasspaper
+        then: [ 22, 52, 102, 202 ]
+    minimumCustomAmount:
+      - { if: 'paymentForm(stored_customer_certificate) == none', then: [20] }
+      - { if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [22] }
+    translations:
+      de:
+        <<: *SPENDE_TRANSLATIONS_DE
+        blocks:
+          payment_purposes:
+            title: Hilfspakete wählen
+          slot_1:
+            title: Urkunde wählen
+        payment_form:
+          stored_customer_certificates:
+            grasspaper: Mit Grasspapier Urkunde
+            none: Ohne Urkunde
+    slots:
+      slot_1:
+        - component: block
+          children:
+            - component: block_header
+              title: blocks.slot_1.title
+            - component: block_content
+              children:
+                - component: field
+                  type: radio-group
+                  inline: true
+                  name: stored_customer_certificate
+                  # label: payment_form.stored_customer_certificate
+                  formName: payment_form
+                  children:
+                    - component: field
+                      type: radio-in-group
+                      name: stored_customer_certificate
+                      text: payment_form.stored_customer_certificates.grasspaper
+                      value: grasspaper
+                    - component: field
+                      type: radio-in-group
+                      name: stored_customer_certificate
+                      text: payment_form.stored_customer_certificates.none
+                      value: none
 
   rnwSpendeFoerdermitglied:
     <<: *SPENDE
@@ -269,18 +381,6 @@ tamaro:
       - { if: 'paymentType() == onetime', then: [300] }
       - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25] }
       - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300] }
-    # hide it here, but add it in blocks at a different location
-    showStoredCustomerDonationReceipt: false
-    slots: &PATENSCHAFT_SLOTS
-      <<: *SPENDE_SLOTS
-      # add the donation receipt field to the end of the address form
-      address_form_end:
-        - component: field
-          type: checkbox
-          name: stored_customer_donation_receipt
-          text: payment_form.stored_customer_donation_receipt
-          formName: paymentFrom
-          value: receipt
     translations:
       de: &PATENSCHAFT_TRANSLATIONS_DE
         <<: *SPENDE_TRANSLATIONS_DE
@@ -295,7 +395,7 @@ tamaro:
         payment_form:
           <<: *SPENDE_TRANSLATIONS_PAYMENT_FORM
           stored_customer_delivery: Versand
-          stored_customer_deliverys:
+          stored_customer_deliveries:
             customer: Versand an mich
             recipient: Versand an beschenkte Person
           stored_recipient_salutation_label: Anrede
@@ -308,13 +408,6 @@ tamaro:
             title: Adresse angeben (für den Versand der Patenurkunde)
         payment_submit:
           submit: Patenschaftsbeitrag sicher übermitteln
-    paymentValidations: &PATENSCHAFT_PAYMENTVALIDATIONS
-      <<: *SPENDE_PAYMENTVALIDATIONS
-      stored_customer_street: { required: true }
-      stored_customer_street_number: { required: true }
-      stored_customer_zip_code: { required: true }
-      stored_customer_city: { required: true }
-      stored_customer_country: { required: true }
 
   rnwPatenschaftRettungsstationen:
     <<: *PATENSCHAFT
@@ -373,7 +466,7 @@ tamaro:
     translations:
       de: &PATENSCHAFT_SCHENKEN_TRANSLATIONS_DE
         <<: *PATENSCHAFT_TRANSLATIONS_DE
-        blocks:
+        blocks: &SCHENKEN_PATENSCHAFT_TRANSLATIONS_BLOCKS
           <<: *PATENSCHAFT_TRANSLATIONS_BLOCKS
           payment_amounts_and_intervals:
             title: Betrag der Spende wählen
@@ -397,7 +490,7 @@ tamaro:
           stored_recipient_city:          { field_is_missing: Bitte Ort angeben }
           stored_recipient_country:       { field_is_missing: Bitte Land auswählen }
     slots: &PATENSCHAFT_SCHENKEN_SLOTS
-      <<: *PATENSCHAFT_SLOTS
+      <<: *SPENDE_SLOTS
       slot_1:
         - component: block
           children:
@@ -409,18 +502,18 @@ tamaro:
                   type: radio-group
                   inline: true
                   name: stored_customer_delivery
-                  label: payment_form.stored_customer_delivery
+                  # label: payment_form.stored_customer_delivery
                   formName: payment_form
                   children:
                     - component: field
                       type: radio-in-group
                       name: stored_customer_delivery
-                      text: payment_form.stored_customer_deliverys.customer
+                      text: payment_form.stored_customer_deliveries.customer
                       value: customer
                     - component: field
                       type: radio-in-group
                       name: stored_customer_delivery
-                      text: payment_form.stored_customer_deliverys.recipient
+                      text: payment_form.stored_customer_deliveries.recipient
                       value: recipient
       slot_2:
         - component: block
@@ -448,6 +541,7 @@ tamaro:
                   name: stored_recipient_firstname
                   label: payment_form.stored_customer_firstname
                   placeholder: payment_form.stored_customer_firstname
+                  # TODO: use this for
                   infoToggleTitle: "asdf"
                   infoToggleTextHTML: >-
                     ajshdkasjhd
@@ -501,7 +595,7 @@ tamaro:
                   placeholder: payment_form.stored_customer_country
                   options: null
     paymentValidations:
-      <<: *PATENSCHAFT_PAYMENTVALIDATIONS
+      <<: *SPENDE_PAYMENTVALIDATIONS
       # TODO: why does this not work
       stored_customer_email: { required: true }
       stored_customer_delivery: { required: true }
@@ -539,6 +633,20 @@ tamaro:
   rnwSchenkenPatenschaftShelton:
     <<: *PATENSCHAFT_SCHENKEN
     purposes: [ p6 ]
+
+  rnwSchenkenHilfspakete:
+    <<: *PATENSCHAFT_SCHENKEN
+    purposes: [ s16, s17, s18, s19, s20, s21 ]
+    amounts: [ 22, 52, 102, 202 ]
+    minimumCustomAmount: 22
+    translations:
+      de:
+        <<: *PATENSCHAFT_SCHENKEN_TRANSLATIONS_DE
+        amount_descriptions: []
+        blocks:
+          <<: *SCHENKEN_PATENSCHAFT_TRANSLATIONS_BLOCKS
+          payment_purposes:
+            title: Hilfspakete wählen
 
   # ------------------------------ Teil IV - Bäume schenken
 
