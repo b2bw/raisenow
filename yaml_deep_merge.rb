@@ -3,38 +3,39 @@
 require 'yaml'
 
 class Hash
-  def deep_merge!(other_hash)
-    merge!(other_hash) do |_, this_val, other_val|
-      if this_val.is_a?(Hash) && other_val.is_a?(Hash)
-        this_val.deep_merge(other_val)
+  def deep_merge!(other_hash, &block)
+    merge!(other_hash) do |key, this, that|
+      if this.is_a?(Hash) && that.is_a?(Hash)
+        this.deep_merge!(that, &block)
+      elsif block_given?
+        yield(key, this, that)
       else
-        other_val
+        that
       end
     end
   end
 
-  def walk(&bloc)
+  def walk(&block)
     reduce({}) do |aggregator, entry|
       key, val = entry
-      nval = val.class.method_defined?(:walk) ? val.walk(&bloc) : val
-      aggregator.merge(key => nval).tap do |result|
-        yield(result, key) if block_given?
-      end
-    end
+      nval = val.class.method_defined?(:walk) ? val.walk(&block) : val
+      aggregator.merge(key => nval)
+    end.tap { |result| yield(result) if block_given? }
   end
 end
 
 class Array
-  def walk(&bloc)
-    map { |e| e.class.method_defined?(:walk) ? e.walk(&bloc) : e }
+  def walk(&block)
+    map { |e| e.class.method_defined?(:walk) ? e.walk(&block) : e }
   end
 end
 
 module YamlDeepMerge
   def load(*args)
-    super(*args).walk do |h, k|
-      k == '<<<' &&
-        h.deep_merge!(h.delete(k))
+    super(*args).walk do |h|
+      if (x = h.delete('<<<'))
+        h.deep_merge!(x) { |_, this, _| this }
+      end
     end
   end
 end
