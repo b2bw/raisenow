@@ -33,8 +33,10 @@ end
 module YamlDeepMerge
   def load(*args)
     super(*args).walk do |h|
-      if (x = h.delete('<<<'))
-        h.deep_merge!(x) { |_, this, _| this }
+      h.keys.sort.reverse_each do |key|
+        if key =~ /^<<<\d*$/
+          h.deep_merge!(h.delete(key)) { |_, this, _| this }
+        end
       end
     end
   end

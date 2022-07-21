@@ -16,4 +16,21 @@ $(() => {
       // console.log(selector, "not found.");
     }
   });
+
+  // const json = window.location.hash.match(/#rn(.+)/)[1];
+  // if (json) {
+  //   const details = JSON.parse(json);
+  //   console.log(details);
+  //   // rnw.tamaro.instance.paymentForm.
+  // }
+
+  const beforePaymentSendHandler = (event) => {
+    const api = event.data.api;
+    window.api = api;
+    console.log("Amount is", api.paymentForm.data.amount);
+    console.log("Campaign id is", api.paymentForm.data.stored_campaign_id);
+    console.log("Campaign subid is", api.paymentForm.data.stored_campaign_subid);
+  }
+
+  window.rnw.tamaro.events.beforePaymentSend.subscribe(beforePaymentSendHandler);
 });

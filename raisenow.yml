@@ -19,6 +19,63 @@ debugging: &DEBUGGING
   # debugStyles: true
   # testMode: true
 
+features:
+  two-options-certificate: &TWO-OPTIONS-CERTIFICATE
+    paymentWidgetBlocks:
+      - payment_purposes
+      - slot_1
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile
+      - payment_address
+    paymentFormPrefill:
+      stored_customer_certificate: grasspaper
+    amounts: &SPENDE_BAEUME_AMOUNTS
+      - if: paymentForm(stored_customer_certificate) == grasspaper
+        then: [ 9.65, 40.25, 78.50, 193.25 ]
+      - if: paymentForm(stored_customer_certificate) != grasspaper
+        then: [ 7.65, 38.25, 76.50, 191.25 ]
+    minimumCustomAmount: &SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
+      - { if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [9.65] }
+      - { if: 'paymentForm(stored_customer_certificate) != grasspaper', then: [7.65] }
+    translations:
+      de:
+        blocks:
+          payment_address:
+            title: Adresse angeben (für Zahlung und ggf. Versand der Urkunde)
+          slot_1:
+            title: Urkunde wählen
+        payment_form:
+          stored_customer_certificates:
+            grasspaper: Mit Grasspapier Urkunde
+            digital: Mit digitaler Urkunde
+            none: Ohne Urkunde
+    slots: &SPENDE_BAEUME_SLOTS
+      slot_1:
+        - component: block
+          children:
+            - component: block_header
+              title: blocks.slot_1.title
+            - component: block_content
+              children:
+                - component: field
+                  type: radio-group
+                  inline: true
+                  name: stored_customer_certificate
+                  # label: payment_form.stored_customer_certificate
+                  formName: payment_form
+                  children:
+                    - component: field
+                      type: radio-in-group
+                      name: stored_customer_certificate
+                      text: payment_form.stored_customer_certificates.grasspaper
+                      value: grasspaper
+                    - component: field
+                      type: radio-in-group
+                      name: stored_customer_certificate
+                      text: payment_form.stored_customer_certificates.digital
+                      value: digital
+
 tamaro:
 
   # ------------------------------ Teil I - Spenden
@@ -27,9 +84,6 @@ tamaro:
     <<: *DEBUGGING
     language: de
     requireSwissQrBillReferenceNumber: true
-    # TODO: check if this is correct
-    purposeDetails:
-      campaign: Spende Allgemein
     paymentMethods:
       - twi  # twint
       - vis  # visa
@@ -51,6 +105,12 @@ tamaro:
       # by default the checkbox donation receipt is checked
       stored_customer_donation_receipt: true
       stored_customer_phone: null
+    purposeDetails:
+      # TODO: complete this
+      s1: { sf: sp_allgemein }
+      s2: { sf: sp_aufforstung }
+      s3: { sf: sp_rettungsstationen }
+      p3: { sf: rn_pa_bumi }
     translations:
       de:
         purposes:
@@ -60,10 +120,10 @@ tamaro:
           s4: Auswilderungen
           s5: Bären
           s6: Waldschutz
-          s7: Bäume spenden mit Grasspapier Urkunde
-          s8: Bäume spenden ohne Urkunde
-          s9: Bäume schenken mit Grasspapier Urkunde
-          s10: Bäume schenken mit digitaler Urkunde
+          s7: Bäume spenden
+          s8:
+          s9: Bäume schenken
+          s10:
           s11: BOS Schweiz Bildungsprogramm
           s12: Kondolenz-Spende
           s13: Fördermitgliedschaft
@@ -86,14 +146,17 @@ tamaro:
             <p>Der Versand einer Spendenbescheinigung erfordert die Eingabe der Postadresse.</p>
         info_toggle:
           stored_customer_birthdate:
-            #text_html: >-
-            #  Hallo, dies ist ein Test. Bitte ändere mich.
+            text_html: >-
+              BOS Schweiz bietet unter 18-Jährigen Patenschaften zum
+              ermässigten Preis. Aus diesem Grund bitten wir um eine
+              Altersangabe in Form des Geburtsdatums. Zudem ermöglicht
+              diese Angabe das Versenden eines Geburtstagsgrusses.
           # this is theoretically the right place if RaiseNow supports it
           stored_recipient_email:
             text_html: >-
               Für Updates und so. Bitte ändere mich.
         payment_form:
-          stored_customer_phone: Telefonnummer
+          stored_customer_phone: Telefonnummer (optional)
           stored_customer_info_text_long: >-
             <p style="padding: 1rem; font-size: 80%; border: thin
             solid lightgray">Die Übermittlung der Daten erfolgt
@@ -141,7 +204,7 @@ tamaro:
           formName: payment_form
           text_html: payment_form.stored_customer_info_text_long
     # in order of appearance
-    paymentValidations: # &SPENDE_PAYMENTVALIDATIONS
+    paymentValidations:
       amount:
         minimum_custom_amount: true
         maximum_custom_amount: true
@@ -156,42 +219,7 @@ tamaro:
       stored_customer_zip_code:      { required: true }
       stored_customer_city:          { required: true }
       stored_customer_country:       { required: true }
-
-  rnwSpendeBaeume:
-    <<<: *SPENDE_ALLGEMEIN
-    purposes: [ s7, s8 ]
-    amounts: &SPENDE_BAEUME_AMOUNTS
-      - if: purpose() == s7 || purpose() == s9
-        then:
-          - 9.65
-          - 40.25
-          - 78.50
-          - 193.25
-      - if: purpose() == s8 || purpose() == s10
-        then:
-          - 7.65
-          - 38.25
-          - 76.50
-          - 191.25
-    minimumCustomAmount: &SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
-      - { if: 'purpose() == s7 || purpose() == s9', then: [9.65] }
-      - { if: 'purpose() == s8 || purpose() == s10', then: [7.65] }
-    translations:
-      de:
-        amount_descriptions: &SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
-          # s7: with paper
-          - { if: 'amount() == 9.65', then: [ 1 Baum inkl. 5 Jahre Pflege ] }
-          - { if: 'amount() == 40.25', then: [ 5 Bäume inkl. 5 Jahre Pflege ] }
-          - { if: 'amount() == 78.50', then: [ 10 Bäume inkl. 5 Jahre Pflege ] }
-          - { if: 'amount() == 193.25', then: [ 25 Bäume inkl. 5 Jahre Pflege ] }
-          # s8: without paper
-          - { if: 'amount() == 7.65', then: [ 1 Baum inkl. 5 Jahre Pflege ] }
-          - { if: 'amount() == 38.25', then: [ 5 Bäume inkl. 5 Jahre Pflege ] }
-          - { if: 'amount() == 76.5', then: [ 10 Bäume inkl. 5 Jahre Pflege ] }
-          - { if: 'amount() == 191.25', then: [ 25 Bäume inkl. 5 Jahre Pflege ] }
-        blocks:
-         payment_address:
-           title: Adresse angeben (für Zahlung und ggf. Versand der Urkunde)
+  # /rnwSpendeAllgemein: &SPENDE_ALLGEMEIN
 
   rnwSpendeRettungsstationen:
     <<<: *SPENDE_ALLGEMEIN
@@ -244,7 +272,30 @@ tamaro:
           formName: payment_form
           text_html: payment_form.stored_customer_info_text_long
 
-  rnwSpendeHilfspakete:
+  rnwSpendeFoerdermitglied:
+    <<<: *SPENDE_ALLGEMEIN
+    purposes: [ s13 ]
+    amounts: [ 60, 120, 300 ]
+    paymentTypes: [ recurring ]
+    recurringIntervals: [ yearly ]
+    allowCustomAmount: false
+    translations:
+      de:
+        amount_descriptions:
+          - { if: 'amount() == 60', then:  [ Einzelperson ] }
+          - { if: 'amount() == 120', then:  [ Familie ] }
+          - { if: 'amount() == 300', then:  [ Juristische Person ] }
+        payment_form:
+          supscription_cancelation_policy: >-
+            Ihr Mitgliedsbeitrag wird jährlich fällig. Sie können Ihre
+            Mitgliedschaft jederzeit beenden.
+    slots:
+      payment_types_end:
+        - component: content
+          formName: payment_form
+          text_html: payment_form.supscription_cancelation_policy
+
+  rnwSpendeBaeume: &SPENDE_BAEUME
     <<<: *SPENDE_ALLGEMEIN
     paymentWidgetBlocks:
       - payment_purposes
@@ -253,29 +304,41 @@ tamaro:
       - payment_payment_methods
       - payment_profile
       - payment_address
-    purposes: [ s16, s17, s18, s19, s20, s21 ]
+    purposes: [ s7 ]
     paymentFormPrefill:
       stored_customer_certificate: grasspaper
-    amounts:
-      - if: paymentForm(stored_customer_certificate) == none
-        then: [ 20, 50, 100, 200 ]
+    amounts: &SPENDE_BAEUME_AMOUNTS
       - if: paymentForm(stored_customer_certificate) == grasspaper
-        then: [ 22, 52, 102, 202 ]
-    minimumCustomAmount:
-      - { if: 'paymentForm(stored_customer_certificate) == none', then: [20] }
-      - { if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [22] }
+        then: [ 9.65, 40.25, 78.50, 193.25 ]
+      - if: paymentForm(stored_customer_certificate) != grasspaper
+        then: [ 7.65, 38.25, 76.50, 191.25 ]
+    minimumCustomAmount: &SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
+      - { if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [9.65] }
+      - { if: 'paymentForm(stored_customer_certificate) != grasspaper', then: [7.65] }
     translations:
       de:
+        amount_descriptions: &SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
+          # s7: with paper
+          - { if: 'amount() == 9.65', then: [ 1 Baum inkl. 5 Jahre Pflege ] }
+          - { if: 'amount() == 40.25', then: [ 5 Bäume inkl. 5 Jahre Pflege ] }
+          - { if: 'amount() == 78.50', then: [ 10 Bäume inkl. 5 Jahre Pflege ] }
+          - { if: 'amount() == 193.25', then: [ 25 Bäume inkl. 5 Jahre Pflege ] }
+          # s8: without paper
+          - { if: 'amount() == 7.65', then: [ 1 Baum inkl. 5 Jahre Pflege ] }
+          - { if: 'amount() == 38.25', then: [ 5 Bäume inkl. 5 Jahre Pflege ] }
+          - { if: 'amount() == 76.5', then: [ 10 Bäume inkl. 5 Jahre Pflege ] }
+          - { if: 'amount() == 191.25', then: [ 25 Bäume inkl. 5 Jahre Pflege ] }
         blocks:
-          payment_purposes:
-            title: Hilfspakete wählen
+          payment_address:
+            title: Adresse angeben (für Zahlung und ggf. Versand der Urkunde)
           slot_1:
             title: Urkunde wählen
         payment_form:
           stored_customer_certificates:
             grasspaper: Mit Grasspapier Urkunde
+            digital: Mit digitaler Urkunde
             none: Ohne Urkunde
-    slots:
+    slots: &SPENDE_BAEUME_SLOTS
       slot_1:
         - component: block
           children:
@@ -298,34 +361,39 @@ tamaro:
                     - component: field
                       type: radio-in-group
                       name: stored_customer_certificate
+                      text: payment_form.stored_customer_certificates.digital
+                      value: digital
+                    - component: field
+                      type: radio-in-group
+                      name: stored_customer_certificate
                       text: payment_form.stored_customer_certificates.none
                       value: none
 
-  rnwSpendeFoerdermitglied:
-    <<<: *SPENDE_ALLGEMEIN
-    purposes: [ s13 ]
+  rnwSpendeHilfspakete:
+    <<<: *SPENDE_BAEUME
+    paymentWidgetBlocks:
+      - payment_purposes
+      - slot_1
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile
+      - payment_address
+    purposes: [ s16, s17, s18, s19, s20, s21 ]
+    paymentFormPrefill:
+      stored_customer_certificate: grasspaper
     amounts:
-      - 60
-      - 120
-      - 300
-    paymentTypes: [ recurring ]
-    recurringIntervals: [ yearly ]
-    allowCustomAmount: false
+      - if: paymentForm(stored_customer_certificate) == grasspaper
+        then: [ 22, 52, 102, 202 ]
+      - if: paymentForm(stored_customer_certificate) != grasspaper
+        then: [ 20, 50, 100, 200 ]
+    minimumCustomAmount:
+      - { if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [22] }
+      - { if: 'paymentForm(stored_customer_certificate) != grasspaper', then: [20] }
     translations:
       de:
-        amount_descriptions:
-          - { if: 'amount() == 60', then:  [ Einzelperson ] }
-          - { if: 'amount() == 120', then:  [ Familie ] }
-          - { if: 'amount() == 300', then:  [ Juristische Person ] }
-        payment_form:
-          supscription_cancelation_policy: >-
-            Ihr Mitgliedsbeitrag wird jährlich fällig. Sie können Ihre
-            Mitgliedschaft jederzeit beenden.
-    slots:
-      payment_types_end:
-        - component: content
-          formName: payment_form
-          text_html: payment_form.supscription_cancelation_policy
+        blocks:
+          payment_purposes:
+            title: Hilfspakete wählen
 
   rnwSpendeKondolenz: &SPENDE_KONDOLENZ
     <<<: *SPENDE_ALLGEMEIN
@@ -443,9 +511,9 @@ tamaro:
       - payment_payment_methods
       - payment_profile
       - payment_address
-      - slot_1
+      - slot_2
       - if: paymentForm(stored_customer_delivery) == recipient
-        then: slot_2
+        then: slot_3
     # gifts cannot be recurring
     paymentTypes: [ onetime ]
     paymentFormPrefill:
@@ -453,17 +521,25 @@ tamaro:
       stored_recipient_firstname: null
       stored_recipient_lastname: null
       stored_recipient_email: null
+      stored_recipient_birthdate: null
       stored_recipient_street: null
       stored_recipient_street_number: null
+      stored_recipient_street2: null
       stored_recipient_zip_code: null
       stored_recipient_city: null
       stored_recipient_country: null
       stored_customer_delivery: null
-      stored_customer_delivery_to_customer: null
-      stored_recipient_salutation_text: null
-      stored_sxt_communication_keywords: 1888278
+      # stored_sxt_communication_keywords: 1888278
     translations:
       de:
+        payment_form:
+           stored_recipient_email: E-Mail (optional)
+           stored_recipient_birthdate: Geburtsdatum (optional)
+           stored_recipient_birthdate_info_bubble_html: >-
+             BOS Schweiz bietet unter 18-Jährigen Patenschaften zum
+             ermässigten Preis. Aus diesem Grund bitten wir um eine
+             Altersangabe in Form des Geburtsdatums. Zudem ermöglicht
+             diese Angabe das Versenden eines Geburtstagsgrusses.
         blocks:
           payment_amounts_and_intervals:
             title: Betrag der Spende wählen
@@ -471,9 +547,9 @@ tamaro:
             title: Personalien der schenkenden Person (für Zahlung, Rückfragen und Updates)
           payment_address:
             title: Adresse der schenkenden Person (für Zahlung)
-          slot_1:
-            title: Versand der Urkunde
           slot_2:
+            title: Versand der Urkunde
+          slot_3:
             title: Adresse der beschenkten Person
         validation_errors:
           stored_customer_delivery:       { field_is_missing: Bitte eine Option wählen }
@@ -487,11 +563,11 @@ tamaro:
           stored_recipient_city:          { field_is_missing: Bitte Ort angeben }
           stored_recipient_country:       { field_is_missing: Bitte Land auswählen }
     slots:
-      slot_1:
+      slot_2:
         - component: block
           children:
             - component: block_header
-              title: blocks.slot_1.title
+              title: blocks.slot_2.title
             - component: block_content
               children:
                 - component: field
@@ -511,11 +587,11 @@ tamaro:
                       name: stored_customer_delivery
                       text: payment_form.stored_customer_deliveries.recipient
                       value: recipient
-      slot_2:
+      slot_3:
         - component: block
           children:
             - component: block_header
-              title: blocks.slot_2.title
+              title: blocks.slot_3.title
             - component: block_content
               children:
                 - component: field
@@ -537,10 +613,6 @@ tamaro:
                   name: stored_recipient_firstname
                   label: payment_form.stored_customer_firstname
                   placeholder: payment_form.stored_customer_firstname
-                  # TODO: use this for
-                  infoToggleTitle: "asdf"
-                  infoToggleTextHTML: >-
-                    ajshdkasjhd
                 - component: field
                   type: text
                   formName: payment_form
@@ -551,8 +623,15 @@ tamaro:
                   type: text
                   formName: payment_form
                   name: stored_recipient_email
-                  label: payment_form.stored_customer_email
+                  label: payment_form.stored_recipient_email
                   placeholder: payment_form.stored_customer_email
+                - component: field
+                  type: date
+                  formName: payment_form
+                  name: stored_recipient_birthdate
+                  label: payment_form.stored_recipient_birthdate
+                  placeholder: payment_form.stored_customer_birthdate
+                  infoToggleTextHTML: payment_form.stored_recipient_birthdate_info_bubble_html
                 - component: field
                   type: text
                   formName: payment_form
@@ -615,6 +694,8 @@ tamaro:
 
   rnwSchenkenPatenschaftBumi:
     <<<: *PATENSCHAFT_SCHENKEN
+    purposeDetails:
+      p3: { stored_campaign_id: rn_pa_bumi_schenken }
     purposes: [ p3 ]
 
   rnwSchenkenPatenschaftDavi:
@@ -630,10 +711,21 @@ tamaro:
     purposes: [ p6 ]
 
   rnwSchenkenHilfspakete:
-    <<<: *PATENSCHAFT_SCHENKEN
+    <<<1: *PATENSCHAFT_SCHENKEN
+    <<<2: *TWO-OPTIONS-CERTIFICATE
     purposes: [ s16, s17, s18, s19, s20, s21 ]
     amounts: [ 22, 52, 102, 202 ]
     minimumCustomAmount: 22
+    paymentWidgetBlocks:
+      - payment_purposes
+      - slot_1
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile
+      - payment_address
+      - slot_2
+      - if: paymentForm(stored_customer_delivery) == recipient
+        then: slot_3
     translations:
       de:
         amount_descriptions: []
@@ -644,12 +736,23 @@ tamaro:
   # ------------------------------ Teil IV - Bäume schenken
 
   rnwSchenkenBaeume:
-    <<<: *PATENSCHAFT_SCHENKEN
-    purposes: [ s9, s10 ]
-    amounts: *SPENDE_BAEUME_AMOUNTS
-    minimumCustomAmount: *SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
-    translations:
-      de:
-        amount_descriptions: *SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
+    <<<1: *PATENSCHAFT_SCHENKEN
+    <<<2: *TWO-OPTIONS-CERTIFICATE
+    purposes: [ s9 ]
+    paymentWidgetBlocks:
+      - payment_purposes
+      - slot_1
+      - payment_amounts_and_intervals
+      - payment_payment_methods
+      - payment_profile
+      - payment_address
+      - slot_2
+      - if: paymentForm(stored_customer_delivery) == recipient
+        then: slot_3
+    #amounts: *SPENDE_BAEUME_AMOUNTS
+    #minimumCustomAmount: *SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
+    #translations:
+    #  de:
+    #    amount_descriptions: *SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
 
 # Goodbye and good night. EOF
