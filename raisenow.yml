@@ -114,7 +114,7 @@ tamaro:
     translations:
       de:
         purposes:
-          s1: Allgemein
+          s1: Freie Spende
           s2: Aufforstung
           s3: Rettungsstationen
           s4: Auswilderungen
@@ -221,6 +221,10 @@ tamaro:
       stored_customer_country:       { required: true }
   # /rnwSpendeAllgemein: &SPENDE_ALLGEMEIN
 
+  rnwSpendeUngebunden:
+    <<<: *SPENDE_ALLGEMEIN
+    purposes: [ s1 ]
+
   rnwSpendeRettungsstationen:
     <<<: *SPENDE_ALLGEMEIN
     purposes: [ s3 ]
@@ -241,12 +245,13 @@ tamaro:
     <<<: *SPENDE_ALLGEMEIN
     purposes: [ s11 ]
 
-  rnwSpendeNurEmail:
+  rnwSpendeAllgemeinNurEmail: &SPENDE_ALLGEMEIN_NUR_EMAIL
     # NOTE: intentionally not a deep merge, because of validations
     <<: *SPENDE_ALLGEMEIN
     showStoredCustomerDonationReceipt: true
     paymentFormPrefill:
       stored_customer_donation_receipt: false
+      stored_customer_phone: null
     paymentValidations:
       stored_customer_salutation: { required: true }
       stored_customer_firstname:  { required: true }
@@ -271,6 +276,10 @@ tamaro:
         - component: content
           formName: payment_form
           text_html: payment_form.stored_customer_info_text_long
+
+  rnwSpendeUngebundenNurEmail:
+    <<<: *SPENDE_ALLGEMEIN_NUR_EMAIL
+    purposes: [ s1 ]
 
   rnwSpendeFoerdermitglied:
     <<<: *SPENDE_ALLGEMEIN
@@ -369,7 +378,7 @@ tamaro:
                       text: payment_form.stored_customer_certificates.none
                       value: none
 
-  rnwSpendeHilfspakete:
+  rnwSpendeHilfspaketeAllgemein:
     <<<: *SPENDE_BAEUME
     paymentWidgetBlocks:
       - payment_purposes
@@ -668,6 +677,7 @@ tamaro:
                   name: stored_recipient_country
                   label: payment_form.stored_customer_country
                   placeholder: payment_form.stored_customer_country
+                  # TODO: find out how to populate this with countries
                   options: null
     paymentValidations:
       # TODO: why does this not work
@@ -710,12 +720,18 @@ tamaro:
     <<<: *PATENSCHAFT_SCHENKEN
     purposes: [ p6 ]
 
-  rnwSchenkenHilfspakete:
+  rnwSchenkenHilfspaketeAllgemein:
     <<<1: *PATENSCHAFT_SCHENKEN
     <<<2: *TWO-OPTIONS-CERTIFICATE
     purposes: [ s16, s17, s18, s19, s20, s21 ]
-    amounts: [ 22, 52, 102, 202 ]
-    minimumCustomAmount: 22
+    amounts:
+      - if: paymentForm(stored_customer_certificate) == grasspaper
+        then: [ 22, 52, 102, 202 ]
+      - if: paymentForm(stored_customer_certificate) != grasspaper
+        then: [ 20, 50, 100, 200 ]
+    minimumCustomAmount:
+      - { if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [22] }
+      - { if: 'paymentForm(stored_customer_certificate) != grasspaper', then: [20] }
     paymentWidgetBlocks:
       - payment_purposes
       - slot_1
