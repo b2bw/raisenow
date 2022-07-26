@@ -27,4 +27,5 @@ automatically. Deployment takes approx. 20 seconds.
 - [[https://manage.raisenow.com][RaiseNow Management Interface]]
 - [[https://support.raisenow.com/hc/en-us/articles/360001586658-Integrate-the-Widget-into-your-Page][Integrate the Widget into your Page]]
 - [[https://support.raisenow.com/hc/de/articles/360011968358-Anpassen-der-Konfiguration-Sprache-und-Bedingungen][Anpassen der Konfiguration Sprache und Bedingungen]]
+- [[https://support.raisenow.com/hc/en-us/articles/360011964278-Implement-Custom-Event-Handlers][Implement Custom Event Handlers]]
 - [[https://github.com/DimitarChristoff/epik][epik]]
