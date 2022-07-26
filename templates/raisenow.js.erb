@@ -3,20 +3,71 @@
 // define tamaro widgets
 const RNW = <%= forms %>;
 
-// initialize all tamaro widgets defined in RNW
+const MAPPING = {
+  stored_sf_Opportunity_DonationSubject__c: 'stored_customer_subject',
+  stored_sf_Opportunity_Cert__C: 'stored_customer_certificate',
+  stored_sf_npe03__Recurring_Donation__c_Cert__C: 'stored_customer_certificate',
+  stored_sf_Opportunity_RecipientSalutation__C: 'stored_recipient_salutation',
+  stored_sf_Opportunity_RecipientFirstname__C: 'stored_recipient_firstname',
+  stored_sf_Opportunity_RecipientLastname__C:	'stored_recipient_lastname',
+  stored_sf_Opportunity_RecipientEmail__C: 'stored_recipient_email',
+  stored_sf_Opportunity_RecipientStreet__C: (form) => {
+    const result = [form.stored_recipient_street,
+                    form.stored_recipient_street_number].filter(x => x).join(' ');
+    result.length > 0 ? result : null;
+  },
+  stored_sf_Opportunity_RecipientStreet2__C: 'stored_recipient_street2',
+  stored_sf_Opportunity_RecipientZipCode__C: 'stored_recipient_zip_code',
+  stored_sf_Opportunity_RecipientCity__C: 'stored_recipient_city',
+  stored_sf_Opportunity_RecipientCountry__C: 'stored_recipient_country',
+  stored_sf_Opportunity_PresentDelivery__C: 'stored_customer_delivery',
+  stored_sf_Opportunity_RecipientBirthdate__C: 'stored_recipient_birthdate'
+};
+
+const beforePaymentValidateAndSendHandler = (event) => {
+  const api = event.data.api;
+  const form = api.paymentForm.data;
+  Object.keys(MAPPING).forEach(key => {
+    const type = typeof MAPPING[key];
+    var value = null;
+    switch (type) {
+    case 'string':
+      value = form[MAPPING[key]];
+      break;
+    case 'function':
+      value = MAPPING[key].call(null, form);
+      break;
+    default:
+      console.error(`Unhandled type '${type}' for key '${key}'`);
+    }
+    if (value) form[key] = value;
+  });
+}
+
+const beforePaymentSendHandler = (event) => {
+  const api = event.data.api;
+  window.api = api;
+  console.log("Amount is", api.paymentForm.data.amount);
+  console.log("Campaign id is", api.paymentForm.data.stored_campaign_id);
+  console.log("Campaign subid is", api.paymentForm.data.stored_campaign_subid);
+}
+
+// on dom ready
 $(() => {
+
+  // subscribe events before initializing widgets
+  window.rnw.tamaro.events.beforePaymentValidateAndSend.subscribe(beforePaymentValidateAndSendHandler);
+
+  // debugging
+  // window.rnw.tamaro.events.beforePaymentSend.subscribe(beforePaymentSendHandler);
+
+  // initialize the widgets
   Object.keys(RNW).forEach(key => {
     const selector = '#'+key;
-    const options = RNW[key];
-    // console.log('initialize', selector, 'with', options);
-    // check if it exists
-    if ($(selector).length) {
-      window.rnw.tamaro.runWidget(selector, options);
-    } else {
-      // console.log(selector, "not found.");
-    }
+    if ($(selector).length) window.rnw.tamaro.runWidget(selector, RNW[key]);
   });
 
+  // TODO: RaiseNow has an api to set options via query paramater, no need to reinvent the wheel
   // const json = window.location.hash.match(/#rn(.+)/)[1];
   // if (json) {
   //   const details = JSON.parse(json);
@@ -24,13 +75,4 @@ $(() => {
   //   // rnw.tamaro.instance.paymentForm.
   // }
 
-  const beforePaymentSendHandler = (event) => {
-    const api = event.data.api;
-    window.api = api;
-    console.log("Amount is", api.paymentForm.data.amount);
-    console.log("Campaign id is", api.paymentForm.data.stored_campaign_id);
-    console.log("Campaign subid is", api.paymentForm.data.stored_campaign_subid);
-  }
-
-  window.rnw.tamaro.events.beforePaymentSend.subscribe(beforePaymentSendHandler);
 });
