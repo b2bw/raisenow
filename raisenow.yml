@@ -80,7 +80,7 @@ tamaro:
 
   # ------------------------------ Teil I - Spenden
 
-  rnwSpendeAllgemein: &SPENDE_ALLGEMEIN
+  rnwSpendeAuswahl: &SPENDE_AUSWAHL
     <<: *DEBUGGING
     language: de
     requireSwissQrBillReferenceNumber: true
@@ -219,35 +219,35 @@ tamaro:
       stored_customer_zip_code:      { required: true }
       stored_customer_city:          { required: true }
       stored_customer_country:       { required: true }
-  # /rnwSpendeAllgemein: &SPENDE_ALLGEMEIN
+  # /rnwSpendeAuswahl: &SPENDE_AUSWAHL
 
   rnwSpendeUngebunden:
-    <<<: *SPENDE_ALLGEMEIN
+    <<<: *SPENDE_AUSWAHL
     purposes: [ s1 ]
 
   rnwSpendeRettungsstationen:
-    <<<: *SPENDE_ALLGEMEIN
+    <<<: *SPENDE_AUSWAHL
     purposes: [ s3 ]
 
   rnwSpendeAuswilderungen:
-    <<<: *SPENDE_ALLGEMEIN
+    <<<: *SPENDE_AUSWAHL
     purposes: [ s4 ]
 
   rnwSpendeBaeren:
-    <<<: *SPENDE_ALLGEMEIN
+    <<<: *SPENDE_AUSWAHL
     purposes: [ s5 ]
 
   rnwSpendeWaldschutz:
-    <<<: *SPENDE_ALLGEMEIN
+    <<<: *SPENDE_AUSWAHL
     purposes: [ s6 ]
 
   rnwSpendeBildungsprogramm:
-    <<<: *SPENDE_ALLGEMEIN
+    <<<: *SPENDE_AUSWAHL
     purposes: [ s11 ]
 
-  rnwSpendeAllgemeinNurEmail: &SPENDE_ALLGEMEIN_NUR_EMAIL
+  rnwSpendeAuswahlNurEmail: &SPENDE_AUSWAHL_NUR_EMAIL
     # NOTE: intentionally not a deep merge, because of validations
-    <<: *SPENDE_ALLGEMEIN
+    <<: *SPENDE_AUSWAHL
     showStoredCustomerDonationReceipt: true
     paymentFormPrefill:
       stored_customer_donation_receipt: false
@@ -278,11 +278,11 @@ tamaro:
           text_html: payment_form.stored_customer_info_text_long
 
   rnwSpendeUngebundenNurEmail:
-    <<<: *SPENDE_ALLGEMEIN_NUR_EMAIL
+    <<<: *SPENDE_AUSWAHL_NUR_EMAIL
     purposes: [ s1 ]
 
   rnwSpendeFoerdermitglied:
-    <<<: *SPENDE_ALLGEMEIN
+    <<<: *SPENDE_AUSWAHL
     purposes: [ s13 ]
     amounts: [ 60, 120, 300 ]
     paymentTypes: [ recurring ]
@@ -305,7 +305,7 @@ tamaro:
           text_html: payment_form.supscription_cancelation_policy
 
   rnwSpendeBaeume: &SPENDE_BAEUME
-    <<<: *SPENDE_ALLGEMEIN
+    <<<: *SPENDE_AUSWAHL
     paymentWidgetBlocks:
       - payment_purposes
       - slot_1
@@ -378,7 +378,7 @@ tamaro:
                       text: payment_form.stored_customer_certificates.none
                       value: none
 
-  rnwSpendeHilfspaketeAllgemein:
+  rnwSpendeHilfspaketeAuswahl:
     <<<: *SPENDE_BAEUME
     paymentWidgetBlocks:
       - payment_purposes
@@ -405,7 +405,7 @@ tamaro:
             title: Hilfspakete wählen
 
   rnwSpendeKondolenz: &SPENDE_KONDOLENZ
-    <<<: *SPENDE_ALLGEMEIN
+    <<<: *SPENDE_AUSWAHL
     purposes: [ s12 ]
     paymentTypes: [ onetime ]
     slots:
@@ -442,8 +442,8 @@ tamaro:
 
   # ------------------------------ Teil II - Patenschaften
 
-  rnwPatenschaftAllgemein: &PATENSCHAFT
-    <<<: *SPENDE_ALLGEMEIN
+  rnwPatenschaftAuswahl: &PATENSCHAFT
+    <<<: *SPENDE_AUSWAHL
     paymentWidgetBlocks:
       - payment_purposes
       - payment_amounts_and_intervals
@@ -512,7 +512,7 @@ tamaro:
 
   # ------------------------------ Teil III - Schenken
 
-  rnwSchenkenPatenschaftAllgemein: &PATENSCHAFT_SCHENKEN
+  rnwSchenkenPatenschaftAuswahl: &PATENSCHAFT_SCHENKEN
     <<<: *PATENSCHAFT
     paymentWidgetBlocks:
       - payment_purposes
@@ -720,7 +720,7 @@ tamaro:
     <<<: *PATENSCHAFT_SCHENKEN
     purposes: [ p6 ]
 
-  rnwSchenkenHilfspaketeAllgemein:
+  rnwSchenkenHilfspaketeAuswahl:
     <<<1: *PATENSCHAFT_SCHENKEN
     <<<2: *TWO-OPTIONS-CERTIFICATE
     purposes: [ s16, s17, s18, s19, s20, s21 ]
