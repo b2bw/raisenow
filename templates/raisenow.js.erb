@@ -46,10 +46,11 @@ const beforePaymentValidateAndSendHandler = (event) => {
 
 const beforePaymentSendHandler = (event) => {
   const api = event.data.api;
-  window.api = api;
-  console.log("Amount is", api.paymentForm.data.amount);
-  console.log("Campaign id is", api.paymentForm.data.stored_campaign_id);
-  console.log("Campaign subid is", api.paymentForm.data.stored_campaign_subid);
+  const form = api.paymentForm.data;
+  if (form.purpose == 's11') {
+    if (form.amount_position == 1) form.stored_campaign_id = '70109000000199VAAQ';
+    if (form.amount_position == 2) form.stored_campaign_id = '70109000000199aAAA';
+  }
 }
 
 // on dom ready
@@ -57,9 +58,7 @@ $(() => {
 
   // subscribe events before initializing widgets
   window.rnw.tamaro.events.beforePaymentValidateAndSend.subscribe(beforePaymentValidateAndSendHandler);
-
-  // debugging
-  // window.rnw.tamaro.events.beforePaymentSend.subscribe(beforePaymentSendHandler);
+  window.rnw.tamaro.events.beforePaymentSend.subscribe(beforePaymentSendHandler);
 
   // initialize the widgets
   Object.keys(RNW).forEach(key => {

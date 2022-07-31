@@ -106,31 +106,30 @@ tamaro:
       stored_customer_donation_receipt: true
       stored_customer_phone: null
     purposeDetails:
-      # TODO: complete this
-      s1:  { stored_campaign_id: '' }
-      s2:  { stored_campaign_id: '' }
-      s3:  { stored_campaign_id: '' }
-      s4:  { stored_campaign_id: '' }
-      s5:  { stored_campaign_id: '' }
-      s6:  { stored_campaign_id: '' }
-      s7:  { stored_campaign_id: '' }
-      s8:  { stored_campaign_id: '' }
-      s9:  { stored_campaign_id: '' }
-      s10: { stored_campaign_id: '' }
-      s11: { stored_campaign_id: '' }
-      s12: { stored_campaign_id: '' }
-      s13: { stored_campaign_id: '' }
-      s14: { stored_campaign_id: '' }
-      s15: { stored_campaign_id: '' }
-      s16: { stored_campaign_id: '' }
-      s17: { stored_campaign_id: '' }
-      s18: { stored_campaign_id: '' }
-      p1:  { stored_campaign_id: '' }
-      p2:  { stored_campaign_id: '' }
-      p3:  { stored_campaign_id: '' }
-      p4:  { stored_campaign_id: '' }
-      p5:  { stored_campaign_id: '' }
-      p6:  { stored_campaign_id: '' }
+      s1:  { stored_campaign_id: '7010900000019JLAAY' }
+      s2:  { stored_campaign_id: '70109000000198NAAQ' }
+      s3:  { stored_campaign_id: '70109000000198SAAQ' }
+      s4:  { stored_campaign_id: '70109000000198TAAQ' }
+      s5:  { stored_campaign_id: '70109000000198UAAQ' }
+      s6:  { stored_campaign_id: '70109000000198XAAQ' }
+      s7:  { stored_campaign_id: '70109000000198cAAA' }
+      s8:  { stored_campaign_id: '7010900000019AdAAI' }
+      s9:  { stored_campaign_id: '70109000000198hAAA' }
+      s10: { stored_campaign_id: '70109000000198YAAQ' }
+      s11: { stored_campaign_id: '70109000000199QAAQ' } # Einzelperson, andere werden im JS gesetzt
+      s12: { stored_campaign_id: '70109000000198rAAA' }
+      s13: { stored_campaign_id: '70109000000198tAAA' }
+      s14: { stored_campaign_id: '701090000001991AAA' }
+      s15: { stored_campaign_id: '701090000001996AAA' }
+      s16: { stored_campaign_id: '70109000000199BAAQ' }
+      s17: { stored_campaign_id: '70109000000199GAAQ' }
+      s18: { stored_campaign_id: '701090000001992AAA' }
+      p1:  { stored_campaign_id: '70109000000199fAAA' } # Eigenpatenschaften
+      p2:  { stored_campaign_id: '70109000000199gAAA' }
+      p3:  { stored_campaign_id: '70109000000199kAAA' }
+      p4:  { stored_campaign_id: '70109000000199pAAA' }
+      p5:  { stored_campaign_id: '70109000000199bAAA' }
+      p6:  { stored_campaign_id: '70109000000199qAAA' }
     translations:
       de:
         purposes:
@@ -531,6 +530,21 @@ tamaro:
 
   rnwSchenkenPatenschaftAuswahl: &PATENSCHAFT_SCHENKEN
     <<<: *PATENSCHAFT
+    purposeDetails:
+      # Hilfspakete
+      s13: { stored_campaign_id: '7010900000019AAAAY' }
+      s14: { stored_campaign_id: '7010900000019ATAAY' }
+      s15: { stored_campaign_id: '7010900000019A6AAI' }
+      s16: { stored_campaign_id: '7010900000019APAAY' }
+      s17: { stored_campaign_id: '7010900000019A0AAI' }
+      s18: { stored_campaign_id: '7010900000019ABAAY' }
+      # Patenschaften
+      p1:  { stored_campaign_id: '7010900000019AOAAY' }
+      p2:  { stored_campaign_id: '7010900000019A4AAI' }
+      p3:  { stored_campaign_id: '7010900000019A5AAI' }
+      p4:  { stored_campaign_id: '7010900000019A9AAI' }
+      p5:  { stored_campaign_id: '7010900000019AEAAY' }
+      p6:  { stored_campaign_id: '7010900000019AJAAY' }
     paymentWidgetBlocks:
       - payment_purposes
       - payment_amounts_and_intervals
