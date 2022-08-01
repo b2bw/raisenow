@@ -53,12 +53,31 @@ const beforePaymentSendHandler = (event) => {
   }
 }
 
+const beforeRenderHandler = (event) => {
+  const api = event.data.api;
+  window.api = api;
+  const form = api.paymentForm.data;
+  window.form = form;
+
+  const countries = window.rnw.tamaro.toJS(api.computedConfig.countries);
+  const countriesOptions = countries.map(function (countryCode) {
+    return {
+      value: countryCode,
+      label: 'countries.' + countryCode,
+    };
+  });
+
+  // HACK: if the structure changes this will break
+  api.config.slots.slot_3[0].children[1].children[10].options = countriesOptions;
+}
+
 // on dom ready
 $(() => {
 
   // subscribe events before initializing widgets
   window.rnw.tamaro.events.beforePaymentValidateAndSend.subscribe(beforePaymentValidateAndSendHandler);
   window.rnw.tamaro.events.beforePaymentSend.subscribe(beforePaymentSendHandler);
+  window.rnw.tamaro.events.beforeRender.subscribe(beforeRenderHandler);
 
   // initialize the widgets
   Object.keys(RNW).forEach(key => {

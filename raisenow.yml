@@ -81,7 +81,7 @@ tamaro:
   # ------------------------------ Teil I - Spenden
 
   rnwSpendeAuswahl: &SPENDE_AUSWAHL
-    <<: *DEBUGGING
+    # <<: *DEBUGGING
     language: de
     requireSwissQrBillReferenceNumber: true
     paymentMethods:
@@ -796,6 +796,9 @@ tamaro:
       - slot_2
       - if: paymentForm(stored_customer_delivery) == recipient
         then: slot_3
+    translations:
+      de:
+        amount_descriptions: []
     #amounts: *SPENDE_BAEUME_AMOUNTS
     #minimumCustomAmount: *SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
     #translations:
