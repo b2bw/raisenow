@@ -69,7 +69,7 @@ const beforeRenderHandler = (event) => {
 
   // HACK: if the structure changes this will break
   api.config.slots.slot_3 &&
-    api.config.slots.slot_3[0].children[1].children[10].options = countriesOptions;
+    (api.config.slots.slot_3[0].children[1].children[10].options = countriesOptions);
 }
 
 // on dom ready
