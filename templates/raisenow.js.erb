@@ -5,23 +5,23 @@ const RNW = <%= forms %>;
 
 const MAPPING = {
   stored_sf_Opportunity_DonationSubject__c: 'stored_customer_subject',
-  stored_sf_Opportunity_Cert__C: 'stored_customer_certificate',
-  stored_sf_npe03__Recurring_Donation__c_Cert__C: 'stored_customer_certificate',
-  stored_sf_Opportunity_RecipientSalutation__C: 'stored_recipient_salutation',
-  stored_sf_Opportunity_RecipientFirstname__C: 'stored_recipient_firstname',
-  stored_sf_Opportunity_RecipientLastname__C:	'stored_recipient_lastname',
-  stored_sf_Opportunity_RecipientEmail__C: 'stored_recipient_email',
-  stored_sf_Opportunity_RecipientStreet__C: (form) => {
+  stored_sf_Opportunity_Cert__c: 'stored_customer_certificate',
+  stored_sf_npe03__Recurring_Donation__c_Cert__c: 'stored_customer_certificate',
+  stored_sf_Opportunity_RecipientSalutation__c: 'stored_recipient_salutation',
+  stored_sf_Opportunity_RecipientFirstname__c: 'stored_recipient_firstname',
+  stored_sf_Opportunity_RecipientLastname__c:	'stored_recipient_lastname',
+  stored_sf_Opportunity_RecipientEmail__c: 'stored_recipient_email',
+  stored_sf_Opportunity_RecipientStreet__c: (form) => {
     const result = [form.stored_recipient_street,
                     form.stored_recipient_street_number].filter(x => x).join(' ');
     result.length > 0 ? result : null;
   },
-  stored_sf_Opportunity_RecipientStreet2__C: 'stored_recipient_street2',
-  stored_sf_Opportunity_RecipientZipCode__C: 'stored_recipient_zip_code',
-  stored_sf_Opportunity_RecipientCity__C: 'stored_recipient_city',
-  stored_sf_Opportunity_RecipientCountry__C: 'stored_recipient_country',
-  stored_sf_Opportunity_PresentDelivery__C: 'stored_customer_delivery',
-  stored_sf_Opportunity_RecipientBirthdate__C: 'stored_recipient_birthdate'
+  stored_sf_Opportunity_RecipientStreet2__c: 'stored_recipient_street2',
+  stored_sf_Opportunity_RecipientZipCode__c: 'stored_recipient_zip_code',
+  stored_sf_Opportunity_RecipientCity__c: 'stored_recipient_city',
+  stored_sf_Opportunity_RecipientCountry__c: 'stored_recipient_country',
+  stored_sf_Opportunity_PresentDelivery__c: 'stored_customer_delivery',
+  stored_sf_Opportunity_RecipientBirthdate__c: 'stored_recipient_birthdate'
 };
 
 const beforePaymentValidateAndSendHandler = (event) => {
