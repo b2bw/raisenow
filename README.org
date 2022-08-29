@@ -2,7 +2,7 @@
 
 To adjust the config please edit =raisenow.yml=.
 
-:warning: Changes will affect the live forms immediately.
+ :warning: Changes will affect the live forms immediately.
 
 Results will be available here:
 
