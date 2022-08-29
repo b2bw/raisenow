@@ -735,8 +735,6 @@ tamaro:
 
   rnwSchenkenPatenschaftBumi:
     <<<: *PATENSCHAFT_SCHENKEN
-    purposeDetails:
-      p3: { stored_campaign_id: rn_pa_bumi_schenken }
     purposes: [ p3 ]
 
   rnwSchenkenPatenschaftDavi:
