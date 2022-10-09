@@ -47,7 +47,7 @@ features:
             title: Urkunde wählen
         payment_form:
           stored_customer_certificates:
-            grasspaper: Mit Grasspapier Urkunde
+            grasspaper: Mit Graspapier Urkunde
             digital: Mit digitaler Urkunde
             none: Ohne Urkunde
     slots: &SPENDE_BAEUME_SLOTS
@@ -360,7 +360,7 @@ tamaro:
             title: Urkunde wählen
         payment_form:
           stored_customer_certificates:
-            grasspaper: Mit Grasspapier Urkunde
+            grasspaper: Mit Graspapier Urkunde
             digital: Mit digitaler Urkunde
             none: Ohne Urkunde
     slots: &SPENDE_BAEUME_SLOTS
