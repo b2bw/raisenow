@@ -466,7 +466,7 @@ tamaro:
       - payment_payment_methods
       - payment_profile
       - payment_address
-    purposes: [ p1, p2, p3, p4, p5, p6 ]
+    purposes: [ p1, p2, p3, p4, p5 ]
     recurringIntervals:
       - monthly
       - yearly
