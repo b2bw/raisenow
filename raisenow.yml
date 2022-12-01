@@ -778,6 +778,7 @@ tamaro:
       - payment_payment_methods
       - payment_profile
       - payment_address
+      - slot_4
       - slot_2
       - if: paymentForm(stored_customer_delivery) == recipient
         then: slot_3
@@ -801,6 +802,7 @@ tamaro:
       - payment_payment_methods
       - payment_profile
       - payment_address
+      - slot_4
       - slot_2
       - if: paymentForm(stored_customer_delivery) == recipient
         then: slot_3
