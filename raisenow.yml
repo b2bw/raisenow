@@ -551,6 +551,7 @@ tamaro:
       - payment_payment_methods
       - payment_profile
       - payment_address
+      - slot_4
       - slot_2
       - if: paymentForm(stored_customer_delivery) == recipient
         then: slot_3
@@ -591,6 +592,8 @@ tamaro:
             title: Versand der Urkunde
           slot_3:
             title: Adresse der beschenkten Person
+          slot_3:
+            title: Name der beschenkten Person auf der Urkunde
         validation_errors:
           stored_customer_delivery:       { field_is_missing: Bitte eine Option wählen }
           stored_recipient_salutation:    { field_is_missing: Bitte Anrede auswählen }
@@ -627,7 +630,7 @@ tamaro:
                       name: stored_customer_delivery
                       text: payment_form.stored_customer_deliveries.recipient
                       value: recipient
-      slot_3:
+      slot_4:
         - component: block
           children:
             - component: block_header
@@ -659,6 +662,13 @@ tamaro:
                   name: stored_recipient_lastname
                   label: payment_form.stored_customer_lastname
                   placeholder: payment_form.stored_customer_lastname
+      slot_3:
+        - component: block
+          children:
+            - component: block_header
+              title: blocks.slot_3.title
+            - component: block_content
+              children:
                 - component: field
                   type: text
                   formName: payment_form
