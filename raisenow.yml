@@ -552,9 +552,9 @@ tamaro:
       - payment_profile
       - payment_address
       - slot_4
-      - slot_2
-      - if: paymentForm(stored_customer_delivery) == recipient
-        then: slot_3
+      # - slot_2
+      # - if: paymentForm(stored_customer_delivery) == recipient
+      #   then: slot_3
     # gifts cannot be recurring
     paymentTypes: [ onetime ]
     paymentFormPrefill:
@@ -662,6 +662,13 @@ tamaro:
                   name: stored_recipient_lastname
                   label: payment_form.stored_customer_lastname
                   placeholder: payment_form.stored_customer_lastname
+                - component: field
+                  type: date
+                  formName: payment_form
+                  name: stored_recipient_birthdate
+                  label: payment_form.stored_recipient_birthdate
+                  placeholder: payment_form.stored_customer_birthdate
+                  infoToggleTextHTML: payment_form.stored_recipient_birthdate_info_bubble_html
       slot_3:
         - component: block
           children:
@@ -675,13 +682,6 @@ tamaro:
                   name: stored_recipient_email
                   label: payment_form.stored_recipient_email
                   placeholder: payment_form.stored_customer_email
-                - component: field
-                  type: date
-                  formName: payment_form
-                  name: stored_recipient_birthdate
-                  label: payment_form.stored_recipient_birthdate
-                  placeholder: payment_form.stored_customer_birthdate
-                  infoToggleTextHTML: payment_form.stored_recipient_birthdate_info_bubble_html
                 - component: field
                   type: text
                   formName: payment_form
@@ -779,9 +779,9 @@ tamaro:
       - payment_profile
       - payment_address
       - slot_4
-      - slot_2
-      - if: paymentForm(stored_customer_delivery) == recipient
-        then: slot_3
+      # - slot_2
+      # - if: paymentForm(stored_customer_delivery) == recipient
+      #   then: slot_3
     translations:
       de:
         amount_descriptions: []
@@ -803,9 +803,9 @@ tamaro:
       - payment_profile
       - payment_address
       - slot_4
-      - slot_2
-      - if: paymentForm(stored_customer_delivery) == recipient
-        then: slot_3
+      # - slot_2
+      # - if: paymentForm(stored_customer_delivery) == recipient
+      #   then: slot_3
     translations:
       de:
         amount_descriptions: []
