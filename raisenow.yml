@@ -723,7 +723,7 @@ tamaro:
     paymentValidations:
       # TODO: why does this not work
       stored_customer_email: { required: true }
-      stored_customer_delivery: { required: true }
+      # stored_customer_delivery: { required: true }
       stored_recipient_salutation:    &REQUIRED_IF_DELIVERY_TO_RECIPIENT
         if: paymentForm(stored_customer_delivery) == recipient
         required: true

@@ -25,6 +25,7 @@ const MAPPING = {
 };
 
 const beforePaymentValidateAndSendHandler = (event) => {
+  // console.log("beforePaymentValidateAndSendHandler");
   const api = event.data.api;
   const form = api.paymentForm.data;
   Object.keys(MAPPING).forEach(key => {
@@ -42,9 +43,11 @@ const beforePaymentValidateAndSendHandler = (event) => {
     }
     if (value) form[key] = value;
   });
+  // console.log("beforePaymentValidateAndSendHandler done");
 }
 
 const beforePaymentSendHandler = (event) => {
+  // console.log("beforePaymentSendHandler");
   const api = event.data.api;
   const form = api.paymentForm.data;
   if (form.purpose == 's11') {
@@ -54,6 +57,7 @@ const beforePaymentSendHandler = (event) => {
 }
 
 const beforeRenderHandler = (event) => {
+  // console.log("beforeRenderHandler");
   const api = event.data.api;
   window.api = api;
   const form = api.paymentForm.data;
@@ -74,6 +78,7 @@ const beforeRenderHandler = (event) => {
 
 // on dom ready
 $(() => {
+  //console.log("onDocumentReady");
 
   // subscribe events before initializing widgets
   window.rnw.tamaro.events.beforePaymentValidateAndSend.subscribe(beforePaymentValidateAndSendHandler);
