@@ -228,7 +228,7 @@ tamaro:
       stored_customer_firstname:  { required: true }
       stored_customer_lastname:   { required: true }
       stored_customer_email:
-        if: paymentForm(stored_customer_email_permission)
+        # if: paymentForm(stored_customer_email_permission)
         required: true
       stored_customer_street:        { required: true }
       stored_customer_street_number: { required: true }
