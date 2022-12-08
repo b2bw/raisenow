@@ -727,8 +727,10 @@ tamaro:
       stored_recipient_salutation:    &REQUIRED_IF_DELIVERY_TO_RECIPIENT
         if: paymentForm(stored_customer_delivery) == recipient
         required: true
-      stored_recipient_firstname:     *REQUIRED_IF_DELIVERY_TO_RECIPIENT
-      stored_recipient_lastname:      *REQUIRED_IF_DELIVERY_TO_RECIPIENT
+      stored_recipient_firstname:
+        required: true
+      stored_recipient_lastname:
+        required: true
       stored_recipient_street:        *REQUIRED_IF_DELIVERY_TO_RECIPIENT
       stored_recipient_street_number: *REQUIRED_IF_DELIVERY_TO_RECIPIENT
       stored_recipient_zip_code:      *REQUIRED_IF_DELIVERY_TO_RECIPIENT
