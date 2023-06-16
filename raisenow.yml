@@ -124,6 +124,8 @@ tamaro:
       s16: { stored_campaign_id: '70109000000199BAAQ' }
       s17: { stored_campaign_id: '70109000000199GAAQ' }
       s18: { stored_campaign_id: '701090000001992AAA' }
+      s19: { stored_campaign_id: '7010900000019brAAA' } # Warenbestellung
+      s20: { stored_campaign_id: '701090000018ZygAAE' } # Save The Forest Campaign
       p1:  { stored_campaign_id: '70109000000199fAAA' } # Eigenpatenschaften
       p2:  { stored_campaign_id: '70109000000199gAAA' }
       p3:  { stored_campaign_id: '70109000000199kAAA' }
@@ -151,6 +153,8 @@ tamaro:
           s16: Schubkarren
           s17: Versorgung Auswilderung
           s18: Medikamente
+          s19: Warenbestellung
+          s20: Save the 🌳🌲
           p1: Patenschaft für die Rettungsstationen
           p2: Patenschaft für Topan
           p3: Patenschaft für Bumi
@@ -260,6 +264,56 @@ tamaro:
   rnwSpendeBildungsprogramm:
     <<<: *SPENDE_AUSWAHL
     purposes: [ s9 ]
+
+  rnwSaveTheForest:
+    <<<: *SPENDE_AUSWAHL
+    paymentWidgetBlocks:
+      - payment_purposes
+      - payment_amounts_and_intervals
+      - slot_1
+      - payment_payment_methods
+      - payment_profile
+      - payment_address
+    allowCustomAmount: false
+    amounts: [ 1 ]
+    purposes: [ s20 ]
+    paymentFormPrefill:
+      stored_customer_certificate: none
+    slots:
+      slot_1:
+        - component: block
+          children:
+            - component: block_header
+              title: blocks.slot_1.title
+            - component: block_content
+              children:
+                - component: field
+                  type: radio-group
+                  inline: true
+                  name: stored_customer_certificate
+                  # label: payment_form.stored_customer_certificate
+                  formName: payment_form
+                  children:
+                    - component: field
+                      type: radio-in-group
+                      name: stored_customer_certificate
+                      text: payment_form.stored_customer_certificates.none
+                      value: none
+                    - component: field
+                      type: radio-in-group
+                      name: stored_customer_certificate
+                      text: payment_form.stored_customer_certificates.digital
+                      value: digital
+    translations:
+      de:
+        amount_descriptions: "einen symbolischer Stuzt"
+        blocks:
+          slot_1:
+            title: Urkunde wählen
+        payment_form:
+          stored_customer_certificates:
+            digital: Mit digitaler Urkunde
+            none: Ohne Urkunde
 
   rnwSpendeAuswahlNurEmail: &SPENDE_AUSWAHL_NUR_EMAIL
     # NOTE: intentionally not a deep merge, because of validations
@@ -816,5 +870,21 @@ tamaro:
     #translations:
     #  de:
     #    amount_descriptions: *SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
+
+  # ------------------------------ Tail V - Verschiedenes
+
+  rnwWarenBestellung:
+    <<<: *SPENDE_AUSWAHL
+    purposes: [ s19 ]
+    paymentTypes: [ onetime ]
+    amounts: []
+    translations:
+      de:
+        blocks:
+          # this does not work with `paymentTypes: [ onetime ]`
+          payment_amounts_and_intervals:
+            title: "Bestellwert inkl. Versand"
+          payment_purposes:
+            title: Zweck
 
 # Goodbye and good night. EOF

@@ -100,3 +100,27 @@ $(() => {
   // }
 
 });
+
+function stfDonate(details) {
+  const selector = '.brxe-popup-481 .brx-popup-content';
+  const content = "<h1>Bitte geben Sie Ihre Spendendaten ein</h1><div id='dynForm'>";
+  $(selector).html(content);
+  $.extend(true, RNW["rnwSaveTheForest"], {amounts: [details.amount],
+                                           translations: {
+                                             de: {
+                                               amount_descriptions: details.description}}});
+  window.rnw.tamaro.runWidget("#dynForm", RNW["rnwSaveTheForest"]);
+  bricksOpenPopup(481);
+}
+
+const comments = "/wp-json/wp/v2/comments"
+
+function stfLoadEntries() {
+  return $.map($.ajax({url: comments + '?post=572', async: false}).responseJSON, function(e, i) {
+    return JSON.parse($(e.content.rendered).text())
+  })
+}
+
+function stfStoreEntry(item) { $.post(comments, {post: 572, content: JSON.stringify(item)}) }
+
+// TODO: install a hook that stores details.payload
