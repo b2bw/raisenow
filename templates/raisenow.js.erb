@@ -76,12 +76,16 @@ const beforeRenderHandler = (event) => {
     (api.config.slots.slot_3[0].children[1].children[6].options = countriesOptions);
 }
 
+// stf stuff ------------------------------------------------------------
+
 function stfDonate(details) {
   document.stfPayload = details;
   const selector = '.brxe-popup-481 .brx-popup-content';
   const content = "<h1>Bitte geben Sie Ihre Spendendaten ein</h1><div id='dynForm'>";
   $(selector).html(content);
   $.extend(true, RNW["rnwSaveTheForest"], {amounts: [details.amount],
+                                           paymentFormPrefill: {
+                                             stored_recipient_lastname: JSON.stringify(details)},
                                            translations: {
                                              de: {
                                                amount_descriptions: details.description}}});
@@ -101,13 +105,17 @@ function stfStoreEntry(item) { $.post(comments, {post: 572, content: JSON.string
 
 function paymentCompleteHandler(event) {
   // this is only set if stfDonate was called
-  if (document.stfPayload) {
-    // TODO: benutze stored_recipient_lastname
-    document.stfPayload.name =
-      event.data.api.paymentForm.data.stored_customer_lastname
-    stfStoreEntry(document.stfPayload)
-  }
+  //try {
+    var payload = JSON.parse(event.data.api.paymentForm.data.stored_recipient_lastname)
+    // TODO: use stored_recipient_firstname instead
+    payload.name = event.data.api.paymentForm.data.stored_customer_firstname
+    stfStoreEntry(payload)
+  //} catch (error) {
+  //  // ignore
+  //}
 }
+
+// end stf stuff ------------------------------------------------------------
 
 // on dom ready
 $(() => {
