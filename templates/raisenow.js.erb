@@ -76,32 +76,8 @@ const beforeRenderHandler = (event) => {
     (api.config.slots.slot_3[0].children[1].children[6].options = countriesOptions);
 }
 
-// on dom ready
-$(() => {
-  //console.log("onDocumentReady");
-
-  // subscribe events before initializing widgets
-  window.rnw.tamaro.events.beforePaymentValidateAndSend.subscribe(beforePaymentValidateAndSendHandler);
-  window.rnw.tamaro.events.beforePaymentSend.subscribe(beforePaymentSendHandler);
-  window.rnw.tamaro.events.beforeRender.subscribe(beforeRenderHandler);
-
-  // initialize the widgets
-  Object.keys(RNW).forEach(key => {
-    const selector = '#'+key;
-    if ($(selector).length) window.rnw.tamaro.runWidget(selector, RNW[key]);
-  });
-
-  // TODO: RaiseNow has an api to set options via query paramater, no need to reinvent the wheel
-  // const json = window.location.hash.match(/#rn(.+)/)[1];
-  // if (json) {
-  //   const details = JSON.parse(json);
-  //   console.log(details);
-  //   // rnw.tamaro.instance.paymentForm.
-  // }
-
-});
-
 function stfDonate(details) {
+  document.stfPayload = details;
   const selector = '.brxe-popup-481 .brx-popup-content';
   const content = "<h1>Bitte geben Sie Ihre Spendendaten ein</h1><div id='dynForm'>";
   $(selector).html(content);
@@ -123,4 +99,37 @@ function stfLoadEntries() {
 
 function stfStoreEntry(item) { $.post(comments, {post: 572, content: JSON.stringify(item)}) }
 
-// TODO: install a hook that stores details.payload
+function paymentCompleteHandler(event) {
+  // this is only set if stfDonate was called
+  if (document.stfPayload) {
+    document.stfPayload.name =
+      event.data.api.paymentForm.data.stored_recipient_lastname
+    stfStoreEntry(document.stfPayload)
+  }
+}
+
+// on dom ready
+$(() => {
+  //console.log("onDocumentReady");
+
+  // subscribe events before initializing widgets
+  window.rnw.tamaro.events.beforePaymentValidateAndSend.subscribe(beforePaymentValidateAndSendHandler);
+  window.rnw.tamaro.events.beforePaymentSend.subscribe(beforePaymentSendHandler);
+  window.rnw.tamaro.events.beforeRender.subscribe(beforeRenderHandler);
+  window.rnw.tamaro.events.paymentComplete.subscribe(paymentCompleteHandler)
+
+  // initialize the widgets
+  Object.keys(RNW).forEach(key => {
+    const selector = '#'+key;
+    if ($(selector).length) window.rnw.tamaro.runWidget(selector, RNW[key]);
+  });
+
+  // TODO: RaiseNow has an api to set options via query paramater, no need to reinvent the wheel
+  // const json = window.location.hash.match(/#rn(.+)/)[1];
+  // if (json) {
+  //   const details = JSON.parse(json);
+  //   console.log(details);
+  //   // rnw.tamaro.instance.paymentForm.
+  // }
+
+});
