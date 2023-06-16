@@ -102,8 +102,9 @@ function stfStoreEntry(item) { $.post(comments, {post: 572, content: JSON.string
 function paymentCompleteHandler(event) {
   // this is only set if stfDonate was called
   if (document.stfPayload) {
+    // TODO: benutze stored_recipient_lastname
     document.stfPayload.name =
-      event.data.api.paymentForm.data.stored_recipient_lastname
+      event.data.api.paymentForm.data.stored_customer_lastname
     stfStoreEntry(document.stfPayload)
   }
 }
