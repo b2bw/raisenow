@@ -104,15 +104,13 @@ function stfLoadEntries() {
 function stfStoreEntry(item) { $.post(comments, {post: 572, content: JSON.stringify(item)}) }
 
 function paymentCompleteHandler(event) {
-  // this is only set if stfDonate was called
-  //try {
+  try {
     var payload = JSON.parse(event.data.api.paymentForm.data.stored_recipient_lastname)
-    // TODO: use stored_recipient_firstname instead
-    payload.name = event.data.api.paymentForm.data.stored_customer_firstname
+    payload.label = event.data.api.paymentForm.data.stored_customer_map_label
     stfStoreEntry(payload)
-  //} catch (error) {
-  //  // ignore
-  //}
+  } catch (error) {
+    // ignore
+  }
 }
 
 // end stf stuff ------------------------------------------------------------

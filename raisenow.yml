@@ -154,7 +154,7 @@ tamaro:
           s17: Versorgung Auswilderung
           s18: Medikamente
           s19: Warenbestellung
-          s20: Save the 🌳🌲
+          s20: Waldschutz
           p1: Patenschaft für die Rettungsstationen
           p2: Patenschaft für Topan
           p3: Patenschaft für Bumi
@@ -279,6 +279,8 @@ tamaro:
     purposes: [ s20 ]
     paymentFormPrefill:
       stored_customer_certificate: none
+      stored_recipient_firstname: ""
+      stored_customer_map_label: ""
     slots:
       slot_1:
         - component: block
@@ -304,9 +306,24 @@ tamaro:
                       name: stored_customer_certificate
                       text: payment_form.stored_customer_certificates.digital
                       value: digital
+                - component: field
+                  type: text
+                  formName: payment_form
+                  name: stored_recipient_firstname
+                  label: payment_form.stored_recipient_firstname
+                  placeholder: payment_form.stored_recipient_firstname
+                - component: field
+                  type: text
+                  formName: payment_form
+                  name: stored_customer_map_label
+                  label: payment_form.stored_customer_map_label
+                  placeholder: payment_form.stored_customer_map_label
+                - component: content
+                  formName: payment_form
+                  text_html: payment_form.stored_customer_map_label_info_text_long
     translations:
       de:
-        amount_descriptions: "einen symbolischer Stuzt"
+        amount_descriptions: "einen symbolischen Stutz, mehr nicht"
         blocks:
           slot_1:
             title: Urkunde wählen
@@ -314,6 +331,12 @@ tamaro:
           stored_customer_certificates:
             digital: Mit digitaler Urkunde
             none: Ohne Urkunde
+          stored_recipient_firstname: Name auf der Urkunde
+          stored_customer_map_label: Name Ihres Waldes auf der Karte (optional)
+          stored_customer_map_label_info_text_long: >-
+            <p style="padding: 1rem; font-size: 80%; border: thin
+            solid lightgray">Max. 10 Zeichen können angezeigt werden. Die Sichtbarkeit
+            Ihrer Benennung auf der Karte ist zeitlich begrenzt.</p>
 
   rnwSpendeAuswahlNurEmail: &SPENDE_AUSWAHL_NUR_EMAIL
     # NOTE: intentionally not a deep merge, because of validations
