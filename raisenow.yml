@@ -47,7 +47,7 @@ features:
             title: Urkunde wählen
         payment_form:
           stored_customer_certificates:
-            grasspaper: Mit Graspapier Urkunde
+            grasspaper: Mit Graspapier Urkunde (2 CHF)
             digital: Mit digitaler Urkunde
             none: Ohne Urkunde
     slots: &SPENDE_BAEUME_SLOTS
@@ -82,6 +82,8 @@ tamaro:
 
   rnwSpendeAuswahl: &SPENDE_AUSWAHL
     # <<: *DEBUGGING
+    coverFeeFixed: 0.25
+    coverFeePercentage: 2
     language: de
     requireSwissQrBillReferenceNumber: true
     paymentMethods:
@@ -96,6 +98,7 @@ tamaro:
     paymentWidgetBlocks:
       - payment_purposes
       - payment_amounts_and_intervals
+      - payment_cover_fee
       - payment_payment_methods
       - payment_profile
       - payment_address
@@ -270,6 +273,7 @@ tamaro:
     paymentWidgetBlocks:
       - payment_purposes
       - payment_amounts_and_intervals
+      - payment_cover_fee
       - slot_1
       - payment_payment_methods
       - payment_profile
@@ -403,6 +407,7 @@ tamaro:
       - payment_purposes
       - slot_1
       - payment_amounts_and_intervals
+      - payment_cover_fee
       - payment_payment_methods
       - payment_profile
       - payment_address
@@ -437,7 +442,7 @@ tamaro:
             title: Urkunde wählen
         payment_form:
           stored_customer_certificates:
-            grasspaper: Mit Graspapier Urkunde
+            grasspaper: Mit Graspapier Urkunde (2 CHF)
             digital: Mit digitaler Urkunde
             none: Ohne Urkunde
     slots: &SPENDE_BAEUME_SLOTS
@@ -477,6 +482,7 @@ tamaro:
       - payment_purposes
       - slot_1
       - payment_amounts_and_intervals
+      - payment_cover_fee
       - payment_payment_methods
       - payment_profile
       - payment_address
@@ -540,6 +546,7 @@ tamaro:
     paymentWidgetBlocks:
       - payment_purposes
       - payment_amounts_and_intervals
+      - payment_cover_fee
       - payment_payment_methods
       - payment_profile
       - payment_address
@@ -625,6 +632,7 @@ tamaro:
     paymentWidgetBlocks:
       - payment_purposes
       - payment_amounts_and_intervals
+      - payment_cover_fee
       - payment_payment_methods
       - payment_profile
       - payment_address
@@ -854,6 +862,7 @@ tamaro:
       - payment_purposes
       - slot_1
       - payment_amounts_and_intervals
+      - payment_cover_fee
       - payment_payment_methods
       - payment_profile
       - payment_address
@@ -878,6 +887,7 @@ tamaro:
       - payment_purposes
       - slot_1
       - payment_amounts_and_intervals
+      - payment_cover_fee
       - payment_payment_methods
       - payment_profile
       - payment_address
