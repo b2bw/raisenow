@@ -78,8 +78,6 @@ const beforeRenderHandler = (event) => {
 
 // stf stuff ------------------------------------------------------------
 
-console.log("VERSION:", 21)
-
 function stfDonate(details) {
   const selector = '.brxe-popup-481 .brx-popup-content'
   const content = "<h1>Bitte geben Sie Ihre Spendendaten ein</h1><div id='dynForm'>"
@@ -112,14 +110,12 @@ function stfStoreEntry(item, f) {
                  content: JSON.stringify(item)},
           success: f,
           error: function(xhr, status, error) {
-            console.log(xhr)
             console.log(status)
             console.log(error)
           }})
 }
 
 function paymentCompleteHandler(event) {
-  console.log("EVENT:", event)
   var widget = event.data.api
   if (widget.transactionInfo.epayment_status === 'success') {
     try {
