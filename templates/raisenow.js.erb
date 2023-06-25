@@ -78,7 +78,7 @@ const beforeRenderHandler = (event) => {
 
 // stf stuff ------------------------------------------------------------
 
-console.log("VERSION:", 19)
+console.log("VERSION:", 20)
 
 function stfDonate(details) {
   const selector = '.brxe-popup-481 .brx-popup-content'
@@ -103,10 +103,13 @@ function stfLoadEntries() {
   })
 }
 
+function stfStoreEntry(item) { $.post(comments, {post: 572, content: JSON.stringify(item)}) }
+
 function stfStoreEntry(item, f) {
   $.post({url: comments,
-          data: JSON.stringify({post: 572,
-                                content: JSON.stringify(item)}),
+          dataType: "json",
+          data: {post: 572,
+                 content: JSON.stringify(item)},
           success: f,
           error: function(xhr, status, error) {
             console.log(xhr)
