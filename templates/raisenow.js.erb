@@ -78,7 +78,7 @@ const beforeRenderHandler = (event) => {
 
 // stf stuff ------------------------------------------------------------
 
-console.log("VERSION:", 18)
+console.log("VERSION:", 19)
 
 function stfDonate(details) {
   const selector = '.brxe-popup-481 .brx-popup-content'
@@ -109,9 +109,9 @@ function stfStoreEntry(item, f) {
                                 content: JSON.stringify(item)}),
           success: f,
           error: function(xhr, status, error) {
-            console.error(xhr)
-            console.error(status)
-            console.error(error)
+            console.log(xhr)
+            console.log(status)
+            console.log(error)
           }})
 }
 
