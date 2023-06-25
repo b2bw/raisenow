@@ -104,12 +104,16 @@ function stfLoadEntries() {
 function stfStoreEntry(item) { $.post(comments, {post: 572, content: JSON.stringify(item)}) }
 
 function paymentCompleteHandler(event) {
-  try {
-    var payload = JSON.parse(event.data.api.paymentForm.data.stored_recipient_lastname)
-    payload.label = event.data.api.paymentForm.data.stored_customer_map_label
-    stfStoreEntry(payload)
-  } catch (error) {
-    // ignore
+  var widget = event.data.api
+  if (widget.transactionInfo.epayment_status === 'success') {
+    try {
+      var payload = JSON.parse(event.data.api.paymentForm.data.stored_recipient_lastname)
+      payload.label = event.data.api.paymentForm.data.stored_customer_map_label
+      stfStoreEntry(payload)
+      window.location = 'https://save-the-forest.ch/danke/'
+    } catch (error) {
+      // silently fail for all forms but rnwSaveTheForest
+    }
   }
 }
 
