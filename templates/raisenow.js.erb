@@ -104,13 +104,20 @@ function stfLoadEntries() {
 function stfStoreEntry(item) { $.post(comments, {post: 572, content: JSON.stringify(item)}) }
 
 function paymentCompleteHandler(event) {
+  console.log(event)
   var widget = event.data.api
+  console.log(widget)
+  console.log(widget.transactionInfo)
+  console.log(widget.transactionInfo.epayment_status)
   if (widget.transactionInfo.epayment_status === 'success') {
     try {
-      var payload = JSON.parse(event.data.api.paymentForm.data.stored_recipient_lastname)
-      payload.label = event.data.api.paymentForm.data.stored_customer_map_label
+      console.log(widget.paymentForm.data)
+      console.log(widget.paymentForm.data.stored_recipient_lastname)
+      var payload = JSON.parse(widget.paymentForm.data.stored_recipient_lastname)
+      payload.label = widget.paymentForm.data.stored_customer_map_label
+      console.log(payload)
       stfStoreEntry(payload)
-      window.location = 'https://save-the-forest.ch/danke/'
+      // window.location = 'https://save-the-forest.ch/danke/'
     } catch (error) {
       // silently fail for all forms but rnwSaveTheForest
     }
