@@ -78,7 +78,7 @@ const beforeRenderHandler = (event) => {
 
 // stf stuff ------------------------------------------------------------
 
-console.log("VERSION:", 15)
+console.log("VERSION:", 16)
 
 function stfDonate(details) {
   document.stfPayload = details;
@@ -107,7 +107,7 @@ function stfStoreEntry(item, f) {
   $.ajax({url: comments,
           data: {post: 572,
                  content: JSON.stringify(item)},
-          //success: f
+          success: f
          })
 }
 
@@ -125,9 +125,9 @@ function paymentCompleteHandler(event) {
       var payload = JSON.parse(widget.paymentForm.data.stored_recipient_lastname)
       payload.label = widget.paymentForm.data.stored_customer_map_label
       console.log(payload)
-      stfStoreEntry(payload)//, function(e) {
-      //window.location = 'https://save-the-forest.ch/danke/'
-      //})
+      stfStoreEntry(payload, function(e) {
+        window.location = 'https://save-the-forest.ch/danke/'
+      })
     } catch (error) {
       // silently fail for all forms but rnwSaveTheForest
     }
