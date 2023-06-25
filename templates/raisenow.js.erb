@@ -78,21 +78,21 @@ const beforeRenderHandler = (event) => {
 
 // stf stuff ------------------------------------------------------------
 
-console.log("VERSION:", 16)
+console.log("VERSION:", 17)
 
 function stfDonate(details) {
-  document.stfPayload = details;
-  const selector = '.brxe-popup-481 .brx-popup-content';
-  const content = "<h1>Bitte geben Sie Ihre Spendendaten ein</h1><div id='dynForm'>";
-  $(selector).html(content);
+  const selector = '.brxe-popup-481 .brx-popup-content'
+  const content = "<h1>Bitte geben Sie Ihre Spendendaten ein</h1><div id='dynForm'>"
+  $(selector).html(content)
   $.extend(true, RNW["rnwSaveTheForest"], {amounts: [details.amount],
                                            paymentFormPrefill: {
                                              stored_recipient_lastname: JSON.stringify(details)},
                                            translations: {
                                              de: {
-                                               amount_descriptions: details.description}}});
-  window.rnw.tamaro.runWidget("#dynForm", RNW["rnwSaveTheForest"]);
-  bricksOpenPopup(481);
+                                               amount_descriptions: details.description}}})
+  window.rnw.tamaro.runWidget("#dynForm", RNW["rnwSaveTheForest"])
+  location.hash = 'popup'
+  bricksOpenPopup(481)
 }
 
 const comments = "/wp-json/wp/v2/comments"
@@ -112,19 +112,11 @@ function stfStoreEntry(item, f) {
 }
 
 function paymentCompleteHandler(event) {
-  //console.log(event)
   var widget = event.data.api
-  //console.log(widget)
-  //console.log(widget.transactionInfo)
-  //console.log(widget.transactionInfo.epayment_status)
   if (widget.transactionInfo.epayment_status === 'success') {
     try {
-      //console.log(widget.paymentForm.data)
-      console.log(widget.paymentForm.data.stored_recipient_lastname)
-      console.log(widget.paymentForm.data.stored_customer_map_label)
       var payload = JSON.parse(widget.paymentForm.data.stored_recipient_lastname)
-      payload.label = widget.paymentForm.data.stored_customer_map_label
-      console.log(payload)
+      payload.name = widget.paymentForm.data.stored_customer_map_label
       stfStoreEntry(payload, function(e) {
         window.location = 'https://save-the-forest.ch/danke/'
       })
@@ -133,6 +125,13 @@ function paymentCompleteHandler(event) {
     }
   }
 }
+
+// reopen popup after post payment redirect
+$(() => {
+  if (location.hash === "#popup") {
+    stfDonate()
+  }
+})
 
 // end stf stuff ------------------------------------------------------------
 
