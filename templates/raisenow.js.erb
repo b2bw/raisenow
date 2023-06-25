@@ -78,7 +78,7 @@ const beforeRenderHandler = (event) => {
 
 // stf stuff ------------------------------------------------------------
 
-console.log("VERSION:", 20)
+console.log("VERSION:", 21)
 
 function stfDonate(details) {
   const selector = '.brxe-popup-481 .brx-popup-content'
@@ -119,6 +119,7 @@ function stfStoreEntry(item, f) {
 }
 
 function paymentCompleteHandler(event) {
+  console.log("EVENT:", event)
   var widget = event.data.api
   if (widget.transactionInfo.epayment_status === 'success') {
     try {
