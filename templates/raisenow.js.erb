@@ -101,23 +101,28 @@ function stfLoadEntries() {
   })
 }
 
-function stfStoreEntry(item) { $.post(comments, {post: 572, content: JSON.stringify(item)}) }
+function stfStoreEntry(item) {
+  $.ajax(url: comments,
+         data: {post: 572, content: JSON.stringify(item)},
+         async: false)
+}
 
 function paymentCompleteHandler(event) {
-  console.log(event)
+  //console.log(event)
   var widget = event.data.api
-  console.log(widget)
-  console.log(widget.transactionInfo)
-  console.log(widget.transactionInfo.epayment_status)
+  //console.log(widget)
+  //console.log(widget.transactionInfo)
+  //console.log(widget.transactionInfo.epayment_status)
   if (widget.transactionInfo.epayment_status === 'success') {
     try {
-      console.log(widget.paymentForm.data)
+      //console.log(widget.paymentForm.data)
       console.log(widget.paymentForm.data.stored_recipient_lastname)
+      console.log(widget.paymentForm.data.stored_customer_map_label)
       var payload = JSON.parse(widget.paymentForm.data.stored_recipient_lastname)
       payload.label = widget.paymentForm.data.stored_customer_map_label
       console.log(payload)
       stfStoreEntry(payload)
-      // window.location = 'https://save-the-forest.ch/danke/'
+      window.location = 'https://save-the-forest.ch/danke/'
     } catch (error) {
       // silently fail for all forms but rnwSaveTheForest
     }
