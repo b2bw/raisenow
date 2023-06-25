@@ -104,11 +104,11 @@ function stfLoadEntries() {
 }
 
 function stfStoreEntry(item, f) {
-  $.ajax({url: comments,
+  $.post({url: comments,
           data: {post: 572,
                  content: JSON.stringify(item)},
-          success: f
-         })
+          success: f,
+          error: console.error})
 }
 
 function paymentCompleteHandler(event) {
