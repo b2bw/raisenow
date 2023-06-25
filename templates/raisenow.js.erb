@@ -123,8 +123,10 @@ function paymentCompleteHandler(event) {
   var widget = event.data.api
   if (widget.transactionInfo.epayment_status === 'success') {
     try {
-      var payload = JSON.parse(widget.paymentForm.data.stored_recipient_lastname)
-      payload.name = widget.paymentForm.data.stored_customer_map_label
+      // after payment we have to retrieve info from transactionInfo
+      // instead of paymentForm
+      var payload = JSON.parse(widget.transactionInfo.stored_recipient_lastname)
+      payload.name = widget.transactionInfo.stored_customer_map_label
       stfStoreEntry(payload, function(data, status, xhr) {
         window.location = 'https://save-the-forest.ch/danke/'
       })
