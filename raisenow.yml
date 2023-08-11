@@ -132,7 +132,8 @@ tamaro:
       p1:  { stored_campaign_id: '70109000000199fAAA' } # Eigenpatenschaften
       p2:  { stored_campaign_id: '70109000000199gAAA' }
       p3:  { stored_campaign_id: '70109000000199kAAA' }
-      p4:  { stored_campaign_id: '70109000000199pAAA' }
+      # p4:  { stored_campaign_id: '70109000000199pAAA' } # Davi
+      p4:  { stored_campaign_id: '70109000001JHtbAAG' } # Baimah
       p5:  { stored_campaign_id: '70109000000199bAAA' }
       p6:  { stored_campaign_id: '70109000000199qAAA' }
     translations:
@@ -161,7 +162,8 @@ tamaro:
           p1: Patenschaft für die Rettungsstationen
           p2: Patenschaft für Topan
           p3: Patenschaft für Bumi
-          p4: Patenschaft für Davi
+          # p4: Patenschaft für Davi
+          p4: Patenschaft für Baimah
           p5: Patenschaft für Kopral
           p6: Patenschaft für Shelton
         payment_profile:
@@ -626,7 +628,8 @@ tamaro:
       p1:  { stored_campaign_id: '7010900000019AOAAY' }
       p2:  { stored_campaign_id: '7010900000019A4AAI' }
       p3:  { stored_campaign_id: '7010900000019A5AAI' }
-      p4:  { stored_campaign_id: '7010900000019A9AAI' }
+      # p4:  { stored_campaign_id: '7010900000019A9AAI' } # Davi
+      p4:  { stored_campaign_id: '70109000001JHtgAAG' } # Baimah
       p5:  { stored_campaign_id: '7010900000019AEAAY' }
       p6:  { stored_campaign_id: '7010900000019AJAAY' }
     paymentWidgetBlocks:
