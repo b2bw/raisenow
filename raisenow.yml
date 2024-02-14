@@ -12,6 +12,7 @@
 #
 #   https://support.raisenow.com/hc/de/articles/360011968358-Anpassen-der-Konfiguration-Sprache-und-Bedingungen
 #
+---
 debugging: &DEBUGGING
   debug: true
   # debugErrorMessages: true
@@ -32,12 +33,15 @@ features:
       stored_customer_certificate: grasspaper
     amounts: &SPENDE_BAEUME_AMOUNTS
       - if: paymentForm(stored_customer_certificate) == grasspaper
-        then: [ 9.65, 40.25, 78.50, 193.25 ]
-      - if: paymentForm(stored_customer_certificate) != grasspaper
-        then: [ 7.65, 38.25, 76.50, 191.25 ]
+        then: [14.65, 45.25, 83.50, 198.25]
+      - if: paymentForm(stored_customer_certificate) == digital
+        then: [9.65, 40.25, 78.50, 193.25]
+      - if: paymentForm(stored_customer_certificate) == none
+        then: [7.65, 38.25, 76.50, 191.25]
     minimumCustomAmount: &SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
-      - { if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [9.65] }
-      - { if: 'paymentForm(stored_customer_certificate) != grasspaper', then: [7.65] }
+      - {if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [14.65]}
+      - {if: 'paymentForm(stored_customer_certificate) == digital', then: [9.65]}
+      - {if: 'paymentForm(stored_customer_certificate) == none', then: [7.65]}
     translations:
       de:
         blocks:
@@ -47,8 +51,8 @@ features:
             title: Urkunde wählen
         payment_form:
           stored_customer_certificates:
-            grasspaper: Mit Graspapier Urkunde (2 CHF)
-            digital: Mit digitaler Urkunde
+            grasspaper: Mit Graspapier Urkunde (7 CHF)
+            digital: Mit digitaler Urkunde (2 CHF)
             none: Ohne Urkunde
     slots: &SPENDE_BAEUME_SLOTS
       slot_1:
@@ -94,7 +98,7 @@ tamaro:
       - pef  # postfinance e-finance
       - pp   # paypal
       - if: amount() >= 25
-        then: [chqr] # qrcode
+        then: [chqr]  # qrcode
     paymentWidgetBlocks:
       - payment_purposes
       - payment_amounts_and_intervals
@@ -102,40 +106,40 @@ tamaro:
       - payment_payment_methods
       - payment_profile
       - payment_address
-    purposes: [ s1, s2, s3, s4, s5, s6 ]
-    paymentTypes: [ onetime, recurring ]
+    purposes: [s1, s2, s3, s4, s5, s6]
+    paymentTypes: [onetime, recurring]
     paymentFormPrefill:
       # by default the checkbox donation receipt is checked
       stored_customer_donation_receipt: true
       stored_customer_phone: null
     purposeDetails:
-      s1:  { stored_campaign_id: '7010900000019JLAAY' }
-      s2:  { stored_campaign_id: '70109000000198NAAQ' }
-      s3:  { stored_campaign_id: '70109000000198SAAQ' }
-      s4:  { stored_campaign_id: '70109000000198TAAQ' }
-      s5:  { stored_campaign_id: '70109000000198UAAQ' }
-      s6:  { stored_campaign_id: '70109000000198XAAQ' }
-      s7:  { stored_campaign_id: '70109000000198cAAA' }
-      s8:  { stored_campaign_id: '7010900000019AdAAI' }
-      s9:  { stored_campaign_id: '70109000000198hAAA' }
-      s10: { stored_campaign_id: '70109000000198YAAQ' }
-      s11: { stored_campaign_id: '70109000000199QAAQ' } # Einzelperson, andere werden im JS gesetzt
-      s12: { stored_campaign_id: '70109000000198rAAA' }
-      s13: { stored_campaign_id: '70109000000198tAAA' }
-      s14: { stored_campaign_id: '701090000001991AAA' }
-      s15: { stored_campaign_id: '701090000001996AAA' }
-      s16: { stored_campaign_id: '70109000000199BAAQ' }
-      s17: { stored_campaign_id: '70109000000199GAAQ' }
-      s18: { stored_campaign_id: '701090000001992AAA' }
-      s19: { stored_campaign_id: '7010900000019brAAA' } # Warenbestellung
-      s20: { stored_campaign_id: '701090000018ZygAAE' } # Save The Forest Campaign
-      p1:  { stored_campaign_id: '70109000000199fAAA' } # Eigenpatenschaften
-      p2:  { stored_campaign_id: '70109000000199gAAA' }
-      p3:  { stored_campaign_id: '70109000000199kAAA' }
-      # p4:  { stored_campaign_id: '70109000000199pAAA' } # Davi
-      p4:  { stored_campaign_id: '70109000001JHtbAAG' } # Baimah
-      p5:  { stored_campaign_id: '70109000000199bAAA' }
-      p6:  { stored_campaign_id: '70109000000199qAAA' }
+      s1:  {stored_campaign_id: '7010900000019JLAAY'}
+      s2:  {stored_campaign_id: '70109000000198NAAQ'}
+      s3:  {stored_campaign_id: '70109000000198SAAQ'}
+      s4:  {stored_campaign_id: '70109000000198TAAQ'}
+      s5:  {stored_campaign_id: '70109000000198UAAQ'}
+      s6:  {stored_campaign_id: '70109000000198XAAQ'}
+      s7:  {stored_campaign_id: '70109000000198cAAA'}
+      s8:  {stored_campaign_id: '7010900000019AdAAI'}
+      s9:  {stored_campaign_id: '70109000000198hAAA'}
+      s10: {stored_campaign_id: '70109000000198YAAQ'}
+      s11: {stored_campaign_id: '70109000000199QAAQ'}  # Einzelperson, andere werden im JS gesetzt
+      s12: {stored_campaign_id: '70109000000198rAAA'}
+      s13: {stored_campaign_id: '70109000000198tAAA'}
+      s14: {stored_campaign_id: '701090000001991AAA'}
+      s15: {stored_campaign_id: '701090000001996AAA'}
+      s16: {stored_campaign_id: '70109000000199BAAQ'}
+      s17: {stored_campaign_id: '70109000000199GAAQ'}
+      s18: {stored_campaign_id: '701090000001992AAA'}
+      s19: {stored_campaign_id: '7010900000019brAAA'}  # Warenbestellung
+      s20: {stored_campaign_id: '701090000018ZygAAE'}  # Save The Forest Campaign
+      p1:  {stored_campaign_id: '70109000000199fAAA'}  # Eigenpatenschaften
+      p2:  {stored_campaign_id: '70109000000199gAAA'}
+      p3:  {stored_campaign_id: '70109000000199kAAA'}
+      # p4: {stored_campaign_id: '70109000000199pAAA'} # Davi
+      p4:  {stored_campaign_id: '70109000001JHtbAAG'}  # Baimah
+      p5:  {stored_campaign_id: '70109000000199bAAA'}
+      p6:  {stored_campaign_id: '70109000000199qAAA'}
     translations:
       de:
         purposes:
@@ -233,42 +237,42 @@ tamaro:
       amount:
         minimum_custom_amount: true
         maximum_custom_amount: true
-      stored_customer_salutation: { required: true }
-      stored_customer_firstname:  { required: true }
-      stored_customer_lastname:   { required: true }
+      stored_customer_salutation: {required: true}
+      stored_customer_firstname:  {required: true}
+      stored_customer_lastname:   {required: true}
       stored_customer_email:
         # if: paymentForm(stored_customer_email_permission)
         required: true
-      stored_customer_street:        { required: true }
-      stored_customer_street_number: { required: true }
-      stored_customer_zip_code:      { required: true }
-      stored_customer_city:          { required: true }
-      stored_customer_country:       { required: true }
+      stored_customer_street:        {required: true}
+      stored_customer_street_number: {required: true}
+      stored_customer_zip_code:      {required: true}
+      stored_customer_city:          {required: true}
+      stored_customer_country:       {required: true}
   # /rnwSpendeAuswahl: &SPENDE_AUSWAHL
 
   rnwSpendeUngebunden:
     <<<: *SPENDE_AUSWAHL
-    purposes: [ s1 ]
+    purposes: [s1]
 
   rnwSpendeRettungsstationen:
     <<<: *SPENDE_AUSWAHL
-    purposes: [ s3 ]
+    purposes: [s3]
 
   rnwSpendeAuswilderungen:
     <<<: *SPENDE_AUSWAHL
-    purposes: [ s4 ]
+    purposes: [s4]
 
   rnwSpendeBaeren:
     <<<: *SPENDE_AUSWAHL
-    purposes: [ s5 ]
+    purposes: [s5]
 
   rnwSpendeWaldschutz:
     <<<: *SPENDE_AUSWAHL
-    purposes: [ s6 ]
+    purposes: [s6]
 
   rnwSpendeBildungsprogramm:
     <<<: *SPENDE_AUSWAHL
-    purposes: [ s9 ]
+    purposes: [s9]
 
   rnwSaveTheForest:
     <<<: *SPENDE_AUSWAHL
@@ -281,8 +285,8 @@ tamaro:
       - payment_profile
       - payment_address
     allowCustomAmount: false
-    amounts: [ 1 ]
-    purposes: [ s20 ]
+    amounts: [1]
+    purposes: [s20]
     paymentFormPrefill:
       stored_customer_certificate: none
       stored_recipient_firstname: ""
@@ -413,30 +417,37 @@ tamaro:
       - payment_payment_methods
       - payment_profile
       - payment_address
-    purposes: [ s7 ]
+    purposes: [s7]
     paymentFormPrefill:
       stored_customer_certificate: grasspaper
     amounts: &SPENDE_BAEUME_AMOUNTS
       - if: paymentForm(stored_customer_certificate) == grasspaper
-        then: [ 9.65, 40.25, 78.50, 193.25 ]
-      - if: paymentForm(stored_customer_certificate) != grasspaper
-        then: [ 7.65, 38.25, 76.50, 191.25 ]
+        then: [14.65, 45.25, 83.50, 198.25]
+      - if: paymentForm(stored_customer_certificate) == digital
+        then: [9.65, 40.25, 78.50, 193.25]
+      - if: paymentForm(stored_customer_certificate) == none
+        then: [7.65, 38.25, 76.50, 191.25]
     minimumCustomAmount: &SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
-      - { if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [9.65] }
-      - { if: 'paymentForm(stored_customer_certificate) != grasspaper', then: [7.65] }
+      - {if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [14.65]}
+      - {if: 'paymentForm(stored_customer_certificate) == digital', then: [9.65]}
+      - {if: 'paymentForm(stored_customer_certificate) == none', then: [7.65]}
     translations:
       de:
         amount_descriptions: &SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
-          # s7: with paper
-          - { if: 'amount() == 9.65', then: [ 1 Baum inkl. 5 Jahre Pflege ] }
-          - { if: 'amount() == 40.25', then: [ 5 Bäume inkl. 5 Jahre Pflege ] }
-          - { if: 'amount() == 78.50', then: [ 10 Bäume inkl. 5 Jahre Pflege ] }
-          - { if: 'amount() == 193.25', then: [ 25 Bäume inkl. 5 Jahre Pflege ] }
-          # s8: without paper
-          - { if: 'amount() == 7.65', then: [ 1 Baum inkl. 5 Jahre Pflege ] }
-          - { if: 'amount() == 38.25', then: [ 5 Bäume inkl. 5 Jahre Pflege ] }
-          - { if: 'amount() == 76.5', then: [ 10 Bäume inkl. 5 Jahre Pflege ] }
-          - { if: 'amount() == 191.25', then: [ 25 Bäume inkl. 5 Jahre Pflege ] }
+          - {if: 'amount() == 7.65', then: [1 Baum inkl. 5 Jahre Pflege]}
+          - {if: 'amount() == 38.25', then: [5 Bäume inkl. 5 Jahre Pflege]}
+          - {if: 'amount() == 76.5', then: [10 Bäume inkl. 5 Jahre Pflege]}
+          - {if: 'amount() == 191.25', then: [25 Bäume inkl. 5 Jahre Pflege]}
+          # s8: digital
+          - {if: 'amount() == 9.65', then: [1 Baum inkl. 5 Jahre Pflege]}
+          - {if: 'amount() == 40.25', then: [5 Bäume inkl. 5 Jahre Pflege]}
+          - {if: 'amount() == 78.5', then: [10 Bäume inkl. 5 Jahre Pflege]}
+          - {if: 'amount() == 193.25', then: [25 Bäume inkl. 5 Jahre Pflege]}
+          # s7: grasspaper
+          - {if: 'amount() == 14.65', then: [1 Baum inkl. 5 Jahre Pflege]}
+          - {if: 'amount() == 45.25', then: [5 Bäume inkl. 5 Jahre Pflege]}
+          - {if: 'amount() == 83.5', then: [10 Bäume inkl. 5 Jahre Pflege]}
+          - {if: 'amount() == 198.25', then: [25 Bäume inkl. 5 Jahre Pflege]}
         blocks:
           payment_address:
             title: Adresse angeben (für Zahlung und ggf. Versand der Urkunde)
@@ -444,8 +455,8 @@ tamaro:
             title: Urkunde wählen
         payment_form:
           stored_customer_certificates:
-            grasspaper: Mit Graspapier Urkunde (2 CHF)
-            digital: Mit digitaler Urkunde
+            grasspaper: Mit Graspapier Urkunde (7 CHF)
+            digital: Mit digitaler Urkunde (2 CHF)
             none: Ohne Urkunde
     slots: &SPENDE_BAEUME_SLOTS
       slot_1:
@@ -488,17 +499,20 @@ tamaro:
       - payment_payment_methods
       - payment_profile
       - payment_address
-    purposes: [ s13, s14, s15, s16, s17, s18 ]
+    purposes: [s13, s14, s15, s16, s17, s18]
     paymentFormPrefill:
       stored_customer_certificate: grasspaper
     amounts:
       - if: paymentForm(stored_customer_certificate) == grasspaper
-        then: [ 22, 52, 102, 202 ]
-      - if: paymentForm(stored_customer_certificate) != grasspaper
-        then: [ 20, 50, 100, 200 ]
+        then: [27, 57, 107, 207]
+      - if: paymentForm(stored_customer_certificate) == digital
+        then: [22, 52, 102, 202]
+      - if: paymentForm(stored_customer_certificate) == none
+        then: [20, 50, 100, 200]
     minimumCustomAmount:
-      - { if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [22] }
-      - { if: 'paymentForm(stored_customer_certificate) != grasspaper', then: [20] }
+      - {if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [27]}
+      - {if: 'paymentForm(stored_customer_certificate) == digital', then: [22]}
+      - {if: 'paymentForm(stored_customer_certificate) == none', then: [20]}
     translations:
       de:
         blocks:
@@ -507,8 +521,8 @@ tamaro:
 
   rnwSpendeKondolenz: &SPENDE_KONDOLENZ
     <<<: *SPENDE_AUSWAHL
-    purposes: [ s10 ]
-    paymentTypes: [ onetime ]
+    purposes: [s10]
+    paymentTypes: [onetime]
     slots:
       purposes_end:
         - component: field
@@ -531,7 +545,7 @@ tamaro:
 
   rnwSpendeBesondereAktionen:
     <<<: *SPENDE_KONDOLENZ
-    purposes: [ s12 ]
+    purposes: [s12]
     translations:
       de:
         payment_form:
@@ -552,27 +566,27 @@ tamaro:
       - payment_payment_methods
       - payment_profile
       - payment_address
-    purposes: [ p1, p2, p3, p4, p5 ]
+    purposes: [p1, p2, p3, p4, p5]
     recurringIntervals:
       - monthly
       - yearly
     amounts:
-      - { if: 'paymentType() == onetime', then: [300, 180] }
-      - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25, 15] }
-      - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300, 180] }
+      - {if: 'paymentType() == onetime', then: [300, 180]}
+      - {if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25, 15]}
+      - {if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300, 180]}
     minimumCustomAmount:
-      - { if: 'paymentType() == onetime', then: [300] }
-      - { if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25] }
-      - { if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300] }
+      - {if: 'paymentType() == onetime', then: [300]}
+      - {if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25]}
+      - {if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300]}
     translations:
       de:
         amount_descriptions:
           - if: 'paymentType() == recurring and recurringInterval() == monthly and amount() == 25'
-            then: [ Normalpreis ]
+            then: [Normalpreis]
           - if: 'amount() == 300'
-            then: [ Normalpreis ]
+            then: [Normalpreis]
           - if: 'amount() == custom_amount'
-            then: [ '' ]
+            then: ['']
           - Ermässigt für Kinder
         payment_form:
           stored_customer_delivery: Versand
@@ -590,27 +604,27 @@ tamaro:
 
   rnwPatenschaftRettungsstationen:
     <<<: *PATENSCHAFT
-    purposes: [ p1 ]
+    purposes: [p1]
 
   rnwPatenschaftTopan:
     <<<: *PATENSCHAFT
-    purposes: [ p2 ]
+    purposes: [p2]
 
   rnwPatenschaftBumi:
     <<<: *PATENSCHAFT
-    purposes: [ p3 ]
+    purposes: [p3]
 
   rnwPatenschaftDavi:
     <<<: *PATENSCHAFT
-    purposes: [ p4 ]
+    purposes: [p4]
 
   rnwPatenschaftKopral:
     <<<: *PATENSCHAFT
-    purposes: [ p5 ]
+    purposes: [p5]
 
   rnwPatenschaftShelton:
     <<<: *PATENSCHAFT
-    purposes: [ p6 ]
+    purposes: [p6]
 
   # ------------------------------ Teil III - Schenken
 
@@ -618,20 +632,20 @@ tamaro:
     <<<: *PATENSCHAFT
     purposeDetails:
       # Hilfspakete
-      s13: { stored_campaign_id: '7010900000019AAAAY' }
-      s14: { stored_campaign_id: '7010900000019ATAAY' }
-      s15: { stored_campaign_id: '7010900000019A6AAI' }
-      s16: { stored_campaign_id: '7010900000019APAAY' }
-      s17: { stored_campaign_id: '7010900000019A0AAI' }
-      s18: { stored_campaign_id: '7010900000019ABAAY' }
+      s13: {stored_campaign_id: '7010900000019AAAAY'}
+      s14: {stored_campaign_id: '7010900000019ATAAY'}
+      s15: {stored_campaign_id: '7010900000019A6AAI'}
+      s16: {stored_campaign_id: '7010900000019APAAY'}
+      s17: {stored_campaign_id: '7010900000019A0AAI'}
+      s18: {stored_campaign_id: '7010900000019ABAAY'}
       # Patenschaften
-      p1:  { stored_campaign_id: '7010900000019AOAAY' }
-      p2:  { stored_campaign_id: '7010900000019A4AAI' }
-      p3:  { stored_campaign_id: '7010900000019A5AAI' }
-      # p4:  { stored_campaign_id: '7010900000019A9AAI' } # Davi
-      p4:  { stored_campaign_id: '70109000001JHtgAAG' } # Baimah
-      p5:  { stored_campaign_id: '7010900000019AEAAY' }
-      p6:  { stored_campaign_id: '7010900000019AJAAY' }
+      p1:  {stored_campaign_id: '7010900000019AOAAY'}
+      p2:  {stored_campaign_id: '7010900000019A4AAI'}
+      p3:  {stored_campaign_id: '7010900000019A5AAI'}
+      # p4:  {stored_campaign_id: '7010900000019A9AAI'}  # Davi
+      p4:  {stored_campaign_id: '70109000001JHtgAAG'}  # Baimah
+      p5:  {stored_campaign_id: '7010900000019AEAAY'}
+      p6:  {stored_campaign_id: '7010900000019AJAAY'}
     paymentWidgetBlocks:
       - payment_purposes
       - payment_amounts_and_intervals
@@ -662,9 +676,9 @@ tamaro:
     translations:
       de:
         payment_form:
-           stored_recipient_email: E-Mail (optional)
-           stored_recipient_birthdate: Geburtsdatum (optional)
-           stored_recipient_birthdate_info_bubble_html: >-
+          stored_recipient_email: E-Mail (optional)
+          stored_recipient_birthdate: Geburtsdatum (optional)
+          stored_recipient_birthdate_info_bubble_html: >-
              BOS Schweiz bietet unter 18-Jährigen Patenschaften zum
              ermässigten Preis. Aus diesem Grund bitten wir um eine
              Altersangabe in Form des Geburtsdatums. Zudem ermöglicht
@@ -679,20 +693,20 @@ tamaro:
           slot_2:
             title: Versand der Urkunde
           slot_3:
-            title: Adresse der beschenkten Person
-          slot_3:
             title: Name der beschenkten Person auf der Urkunde
+          slot_4:
+            title: Adresse der beschenkten Person
         validation_errors:
-          stored_customer_delivery:       { field_is_missing: Bitte eine Option wählen }
-          stored_recipient_salutation:    { field_is_missing: Bitte Anrede auswählen }
-          stored_recipient_firstname:     { field_is_missing: Bitte Vorname angeben }
-          stored_recipient_lastname:      { field_is_missing: Bitte Nachname angeben }
-          stored_recipient_email:         { field_is_missing: Bitte Emailadresse angeben }
-          stored_recipient_street:        { field_is_missing: Bitte Strasse angeben }
-          stored_recipient_street_number: { field_is_missing: Bitte Hausnummer angeben }
-          stored_recipient_zip_code:      { field_is_missing: Bitte Postleitzahl angeben }
-          stored_recipient_city:          { field_is_missing: Bitte Ort angeben }
-          stored_recipient_country:       { field_is_missing: Bitte Land auswählen }
+          stored_customer_delivery:       {field_is_missing: Bitte eine Option wählen}
+          stored_recipient_salutation:    {field_is_missing: Bitte Anrede auswählen}
+          stored_recipient_firstname:     {field_is_missing: Bitte Vorname angeben}
+          stored_recipient_lastname:      {field_is_missing: Bitte Nachname angeben}
+          stored_recipient_email:         {field_is_missing: Bitte Emailadresse angeben}
+          stored_recipient_street:        {field_is_missing: Bitte Strasse angeben}
+          stored_recipient_street_number: {field_is_missing: Bitte Hausnummer angeben}
+          stored_recipient_zip_code:      {field_is_missing: Bitte Postleitzahl angeben}
+          stored_recipient_city:          {field_is_missing: Bitte Ort angeben}
+          stored_recipient_country:       {field_is_missing: Bitte Land auswählen}
     slots:
       slot_2:
         - component: block
@@ -810,57 +824,60 @@ tamaro:
                   options: null
     paymentValidations:
       # TODO: why does this not work
-      stored_customer_email: { required: true }
+      stored_customer_email: {required: true}
       # stored_customer_delivery: { required: true }
-      stored_recipient_salutation:    &REQUIRED_IF_DELIVERY_TO_RECIPIENT
+      stored_recipient_salutation: &REQUIRED_IF_DELIVERY_TO_RECIPIENT
         if: paymentForm(stored_customer_delivery) == recipient
         required: true
       stored_recipient_firstname:
         required: true
       stored_recipient_lastname:
         required: true
-      stored_recipient_street:        *REQUIRED_IF_DELIVERY_TO_RECIPIENT
+      stored_recipient_street: *REQUIRED_IF_DELIVERY_TO_RECIPIENT
       stored_recipient_street_number: *REQUIRED_IF_DELIVERY_TO_RECIPIENT
-      stored_recipient_zip_code:      *REQUIRED_IF_DELIVERY_TO_RECIPIENT
-      stored_recipient_city:          *REQUIRED_IF_DELIVERY_TO_RECIPIENT
-      stored_recipient_country:       *REQUIRED_IF_DELIVERY_TO_RECIPIENT
+      stored_recipient_zip_code: *REQUIRED_IF_DELIVERY_TO_RECIPIENT
+      stored_recipient_city: *REQUIRED_IF_DELIVERY_TO_RECIPIENT
+      stored_recipient_country: *REQUIRED_IF_DELIVERY_TO_RECIPIENT
 
   rnwSchenkenPatenschaftRettungsstationen:
     <<<: *PATENSCHAFT_SCHENKEN
-    purposes: [ p1 ]
+    purposes: [p1]
 
   rnwSchenkenPatenschaftTopan:
     <<<: *PATENSCHAFT_SCHENKEN
-    purposes: [ p2 ]
+    purposes: [p2]
 
   rnwSchenkenPatenschaftBumi:
     <<<: *PATENSCHAFT_SCHENKEN
-    purposes: [ p3 ]
+    purposes: [p3]
 
   rnwSchenkenPatenschaftDavi:
     <<<: *PATENSCHAFT_SCHENKEN
-    purposes: [ p4 ]
+    purposes: [p4]
 
   rnwSchenkenPatenschaftKopral:
     <<<: *PATENSCHAFT_SCHENKEN
-    purposes: [ p5 ]
+    purposes: [p5]
 
   rnwSchenkenPatenschaftShelton:
     <<<: *PATENSCHAFT_SCHENKEN
-    purposes: [ p6 ]
+    purposes: [p6]
 
   rnwSchenkenHilfspaketeAuswahl:
     <<<1: *PATENSCHAFT_SCHENKEN
     <<<2: *TWO-OPTIONS-CERTIFICATE
-    purposes: [ s13, s14, s15, s16, s17, s18 ]
+    purposes: [s13, s14, s15, s16, s17, s18]
     amounts:
       - if: paymentForm(stored_customer_certificate) == grasspaper
-        then: [ 22, 52, 102, 202 ]
-      - if: paymentForm(stored_customer_certificate) != grasspaper
-        then: [ 20, 50, 100, 200 ]
+        then: [27, 57, 107, 207]
+      - if: paymentForm(stored_customer_certificate) == digital
+        then: [22, 52, 102, 202]
+      - if: paymentForm(stored_customer_certificate) == none
+        then: [20, 50, 100, 200]
     minimumCustomAmount:
-      - { if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [22] }
-      - { if: 'paymentForm(stored_customer_certificate) != grasspaper', then: [20] }
+      - {if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [27]}
+      - {if: 'paymentForm(stored_customer_certificate) == digital', then: [22]}
+      - {if: 'paymentForm(stored_customer_certificate) == none', then: [20]}
     paymentWidgetBlocks:
       - payment_purposes
       - slot_1
@@ -885,7 +902,7 @@ tamaro:
   rnwSchenkenBaeume:
     <<<1: *PATENSCHAFT_SCHENKEN
     <<<2: *TWO-OPTIONS-CERTIFICATE
-    purposes: [ s8 ]
+    purposes: [s8]
     paymentWidgetBlocks:
       - payment_purposes
       - slot_1
@@ -901,13 +918,13 @@ tamaro:
     translations:
       de:
         amount_descriptions: []
-    #amounts: *SPENDE_BAEUME_AMOUNTS
-    #minimumCustomAmount: *SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
-    #translations:
-    #  de:
-    #    amount_descriptions: *SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
+    # amounts: *SPENDE_BAEUME_AMOUNTS
+    # minimumCustomAmount: *SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
+    # translations:
+    #   de:
+    #     amount_descriptions: *SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
 
-  # ------------------------------ Tail V - Verschiedenes
+  # ------------------------------ Teil V - Verschiedenes
 
   rnwWarenBestellung:
     <<<: *SPENDE_AUSWAHL
