@@ -10,6 +10,9 @@ base = File.dirname(__FILE__)
 require File.expand_path('yaml_deep_merge', base)
 
 config = File.expand_path('raisenow.yml', base)
+# WARN: this is needed by ruby 3 but it will break the language
+# setting of the tamaro widget, wtf?
+# data = YAML.unsafe_load(File.read(config))
 data = YAML.load(File.read(config))
 
 class ErbBinding < OpenStruct

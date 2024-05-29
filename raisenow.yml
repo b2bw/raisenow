@@ -269,6 +269,7 @@ tamaro:
   rnwSpendeWaldschutz:
     <<<: *SPENDE_AUSWAHL
     purposes: [s6]
+    amounts: [40, 80, 120]
 
   rnwSpendeBildungsprogramm:
     <<<: *SPENDE_AUSWAHL
@@ -397,10 +398,21 @@ tamaro:
           - { if: 'amount() == 60', then:  [ Einzelperson ] }
           - { if: 'amount() == 120', then:  [ Familie ] }
           - { if: 'amount() == 300', then:  [ Juristische Person ] }
-        payment_form:
-          supscription_cancelation_policy: >-
-            Ihr Mitgliedsbeitrag wird jährlich fällig. Sie können Ihre
-            Mitgliedschaft jederzeit beenden.
+        # payment_form:
+        #   supscription_cancelation_policy: >-
+        #     Ihr Mitgliedsbeitrag wird jährlich fällig. Sie können Ihre
+        #     Mitgliedschaft jederzeit beenden.
+        blocks:
+          payment_amounts_and_intervals:
+            title: Art der Mitgliedschaft wählen
+            payment_types:
+              selected_interval_label:
+                yearly: >-
+                  Hinweis: Ihr Mitgliedsbeitrag wird jährlich fällig.
+                  Sie können Ihre Mitgliedschaft jederzeit beenden.
+        # payment_form:
+        #   supscription_cancelation_policy: >-
+        #     hello world 2
     slots:
       payment_types_end:
         - component: content

@@ -30,8 +30,8 @@
         <% keys.each do |key| %>
         <tr>
           <td class='left'><a href="<%= key %>.html"><%= key %></a></td>
-          <td><%= data.dig(key, 'purposes').join(', ')  %></td>
-          <td><%= data.dig(key, 'paymentWidgetBlocks').size  %></td>
+          <td><%= data.dig(key, 'purposes')&.join(', ')  %></td>
+          <td><%= data.dig(key, 'paymentWidgetBlocks')&.size  %></td>
           <td><%= (!!data.dig(key, *%w(translations de info_toggle stored_customer_birthdate text_html))).to_i %></td>
           <td><%= (!!data.dig(key, *%w(paymentFormPrefill stored_customer_donation_receipt))).to_i %></td>
           <td><%= payment_types[data.dig(key, 'paymentTypes')]  %></td>
