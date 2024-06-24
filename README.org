@@ -33,3 +33,12 @@ automatically. Deployment takes approx. 20 seconds.
 - [[https://support.raisenow.com/hc/de/articles/360011968358-Anpassen-der-Konfiguration-Sprache-und-Bedingungen][Anpassen der Konfiguration Sprache und Bedingungen]]
 - [[https://support.raisenow.com/hc/en-us/articles/360011964278-Implement-Custom-Event-Handlers][Implement Custom Event Handlers]]
 - [[https://github.com/DimitarChristoff/epik][epik]]
+
+* Checkliste für "Hacks"
+
+- rnwSpendeFoerdermitglied: Die CampaignID wird für Amount Position 1
+  und 2 im beforePaymentSendHandler gesetzt.
+
+- countriesOptions werden für das 2. Land-Dropdown im
+  beforeRenderHandler gesetzt. Da betrifft alle Formulare die 2
+  Dropdowns für Länder haben (Schenker und Beschenkter).
