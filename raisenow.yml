@@ -15,9 +15,9 @@
 ---
 debugging: &DEBUGGING
   debug: true
-  # debugErrorMessages: true
-  # debugSlots: true
-  # debugStyles: true
+  debugErrorMessages: true
+  debugSlots: true
+  debugStyles: true
   testMode: true
 
 features:
@@ -198,7 +198,7 @@ tamaro:
             einzuhalten. Sie können Ihre Spende von Ihrem steuerbaren
             Einkommen abziehen. Spender*innen erhalten per Post oder
             per E-Mail eine Spendenbestätigung für die Steuerbehörden.
-            Die Spenden gehen an BOS Schweiz.</p>
+            Die Spenden gehen an BOS Schweiz. <a href='https://www.bos-schweiz.ch/de/ueber-bos/datenschutz-bei-bos.htm'>Datenschutzbestimmungen von BOS Schweiz</a></p>
           salutations:
             neutral: Neutrale Anrede
         validation_errors:
@@ -215,13 +215,13 @@ tamaro:
     showStoredCustomerDonationReceipt: false
     slots:
       # add the donation receipt field to the end of the address form
-      address_form_end:
-        - component: field
-          type: checkbox
-          name: stored_customer_donation_receipt
-          text: payment_form.stored_customer_donation_receipt
-          formName: paymentFrom
-          value: receipt
+      # address_form_end:
+      #   - component: field
+      #     type: checkbox
+      #     name: stored_customer_donation_receipt
+      #     text: payment_form.stored_customer_donation_receipt
+      #     formName: paymentFrom
+      #     value: receipt
       profile_form_4:
         # TODO: make "optional" show up
         - component: field
@@ -579,13 +579,15 @@ tamaro:
       - payment_profile
       - payment_address
     purposes: [p1, p2, p3, p4, p5]
+    paymentFormPrefill:
+       payment_type: recurring
     recurringIntervals:
-      - monthly
       - yearly
+      - monthly
     amounts:
-      - {if: 'paymentType() == onetime', then: [300, 180]}
-      - {if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25, 15]}
-      - {if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300, 180]}
+      - {if: 'paymentType() == onetime', then: [300]}
+      - {if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25]}
+      - {if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300]}
     minimumCustomAmount:
       - {if: 'paymentType() == onetime', then: [300]}
       - {if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25]}
@@ -685,11 +687,12 @@ tamaro:
       stored_recipient_country: null
       stored_customer_delivery: null
       # stored_sxt_communication_keywords: 1888278
+    amounts: [300, 180]
     translations:
       de:
         payment_form:
           stored_recipient_email: E-Mail (optional)
-          stored_recipient_birthdate: Geburtsdatum (optional)
+          stored_recipient_birthdate: Geburtsdatum
           stored_recipient_birthdate_info_bubble_html: >-
              BOS Schweiz bietet unter 18-Jährigen Patenschaften zum
              ermässigten Preis. Aus diesem Grund bitten wir um eine
