@@ -1,0 +1,279 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      .keyVisual__widget {
+	border: none;
+	padding: 20px;
+	margin: 50px 0 0;
+	position: relative;
+	background-color: transparent;
+      }
+
+      .keyVisual__widget {
+	margin-top: 25px;
+	background-color: #ea5a0d;
+	padding: 30px 35px;
+	margin-left: -18px;
+	margin-right: -18px;
+	position: relative;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: row;
+	flex-direction: row;
+	-webkit-box-align: start;
+	-ms-flex-align: start;
+	align-items: flex-start;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+      }
+
+      .donationForm__title {
+	font-style: normal;
+	font-weight: 400;
+	font-family: Roboto-Black,sans-serif;
+	font-size: 21px;
+	line-height: 1.14;
+	padding-bottom: 25px;
+	color: #fff;
+      }
+
+      .donationForm {
+	text-align: center;
+        width: 270px;
+      }
+
+      .donationForm__title {
+	font-size: 30px;
+	line-height: 1.2;
+      }
+
+      .donationForm__amounts {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: row;
+	flex-direction: row;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	margin: 0 -5px 20px;
+      }
+
+      .donationForm__amountWrapper {
+        box-sizing: border-box;
+	width: 50%;
+	position: relative;
+	padding: 5px;
+      }
+
+      .donationForm__amountCustom, .donationForm__amountRadioLabel {
+	font-style: normal;
+	font-weight: 400;
+	font-family: RobotoCondensed-Bold,sans-serif;
+	font-size: 48px;
+	color: #222;
+	display: block;
+	text-align: center;
+	padding-top: 25px;
+	height: 85px;
+	background-color: #fff;
+	border-radius: 3px;
+	width: 100%;
+      }
+
+      .donationForm__amountCurrency {
+	font-style: normal;
+	font-weight: 400;
+	font-family: Roboto-Medium,sans-serif;
+	color: #222;
+	font-size: 14px;
+	position: absolute;
+	top: 15px;
+	left: 15px;
+      }
+
+      .donationForm__amountRadio {
+	display: none;
+      }
+
+      .donationForm__amountCustom {
+	outline: none;
+	border: none;
+	margin: 0;
+	text-align: center;
+	-moz-appearance: textfield;
+	padding: 11px 15px 0;
+      }
+
+      .donationForm__amountCustom, .donationForm__amountRadioLabel {
+	font-style: normal;
+	font-weight: 400;
+	font-family: RobotoCondensed-Bold,sans-serif;
+	font-size: 48px;
+	color: #222;
+	display: block;
+	text-align: center;
+	padding-top: 25px;
+	height: 85px;
+	background-color: #fff;
+	border-radius: 3px;
+	width: 100%;
+      }
+
+      .donationForm__amountIcon {
+	position: absolute;
+	width: 15px;
+	height: 15px;
+	top: 15px;
+	right: 15px;
+      }
+
+      .sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0,0,0,0);
+	border: 0;
+      }
+
+      .button--light {
+	font-style: normal;
+	font-weight: 400;
+	font-family: Roboto-Bold,sans-serif;
+	-webkit-appearance: none;
+	appearance: none;
+	box-sizing: border-box;
+	font-size: 16px;
+	text-decoration: none;
+	line-height: 45px;
+	height: 45px;
+	padding: 0 15px;
+	background-color: #00a0e3;
+	text-align: center;
+	cursor: pointer;
+	display: inline-block;
+	text-transform: uppercase;
+	min-width: 270px;
+	-webkit-transition: all .3s;
+	-o-transition: all .3s;
+	transition: all .3s;
+	width: 100%;
+	min-height: 0;
+        color: #fff;
+        border: 1px solid #fff;
+        background-color: transparent;
+      }
+
+      .donationForm__amountRadio:checked + label, .donationForm__amountRadio:checked + label span {
+	color: #ea5a0d;
+      }
+
+      .donationForm__amountCustom:focus {
+      color: #ea5a0d;
+      }
+    </style>
+    <script>
+      // set the target of the form, i.e. the page with the form #rnwSpendeUngebunden
+      const formTargetUrl = '/rnwSpendeUngebunden.html'
+
+      // get the value of the selected radio input, if none is
+      // selected get the value of the text input instead.
+      function getDonationAmount() {
+        let selectedRadio = document.querySelector('.donationForm__amountRadio:checked');
+        if (selectedRadio) {
+          return selectedRadio.value;
+        } else {
+          return document.querySelector('.donationForm__amountCustom').value;
+        }
+      }
+
+      window.addEventListener('DOMContentLoaded', function() {
+        // on focus of the custom amount text input unselect all radio buttons
+        document.querySelector('.donationForm__amountCustom').addEventListener('focus', function() {
+          console.log('this works');
+          document.querySelectorAll('.donationForm__amountRadio').forEach(function(radio) {
+            radio.checked = false;
+          });
+        });
+
+        // on submit get the correct donation amaount an pass it as query param
+        document.querySelector('form').addEventListener('submit', function(e) {
+          e.preventDefault();
+          location.href = formTargetUrl + '?rnw-amount=' + getDonationAmount();
+        }, false);
+      });
+    </script>
+  </head>
+  <body>
+    <h1>The miniForm</h1>
+    <ul>
+      <li>The markup and css is shamelessly copied from <a href='https://helfen.vier-pfoten.ch/spenden/orangutan-spende/'>here</a>.</li>
+      <li>Markup as well as most of the CSS should be adapted to your needs.</li>
+      <li>Some basic Javascript is required to make the interaction work, please use it as-is.</li>
+      <li>The Javascript constant `formTargetUrl` should be changed to the URL of the page that renders the raisenow form `#rnwSpendeUngebunden`.</li>
+      <li>Amounts need to be adjusted in the markup and should (but don't need to) match the downstream raisenow form.</li>
+    </ul>
+    <div class="keyVisual__widget">
+      <form class="donationForm color-brand" method="get" action="/rnwSpendeUngebunden.html">
+        <h4 class="donationForm__title">Unterstützen Sie ihre Auswilderung</h4>
+        <div class="donationForm__amounts">
+          <div class="donationForm__amountWrapper">
+            <input class="donationForm__amountRadio"
+                   type="radio"
+                   id="donation-amount-40"
+                   name="rnwDefaultAmount"
+                   value="40">
+            <label class="donationForm__amountRadioLabel"
+                   for="donation-amount-40">40 <span class="donationForm__amountCurrency">CHF</span></label>
+          </div>
+          <div class="donationForm__amountWrapper">
+            <input class="donationForm__amountRadio"
+                   type="radio"
+                   id="donation-amount-70"
+                   name="rnwDefaultAmount"
+                   value="70"
+                   checked="">
+            <label class="donationForm__amountRadioLabel"
+                   for="donation-amount-70">70 <span class="donationForm__amountCurrency">CHF</span></label>
+          </div>
+          <div class="donationForm__amountWrapper">
+            <input class="donationForm__amountRadio"
+                   type="radio"
+                   id="donation-amount-140"
+                   name="rnwDefaultAmount"
+                   value="140">
+            <label class="donationForm__amountRadioLabel"
+                   for="donation-amount-140">140 <span class="donationForm__amountCurrency">CHF</span></label>
+          </div>
+          <div class="donationForm__amountWrapper">
+            <input class="donationForm__amountCustom"
+                   type="number"
+                   id="donation-amount-custom"
+                   name="rnw-amount"
+                   value=""
+                   min="0"
+                   step="1"
+                   pattern="\d+"
+                   placeholder="..........">
+            <label class="donationForm__amountLabel"
+                   for="donation-amount-custom">
+              <span class="sr-only">Custom amount in</span>
+              <span class="donationForm__amountCurrency">CHF</span>
+              <svg class="donationForm__amountIcon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><title>icon-pen</title><g fill="none"><g id="icon-pen" fill="#222"><path d="M7.1 22.6L0 24 1.4 16.9 7.1 22.6 7.1 22.6ZM2.9 15.5L8.5 21.1 24 5.7 18.3 0 2.9 15.5 2.9 15.5Z"></path></g></g></svg>
+            </label>
+          </div>
+        </div>
+        <button class="donationForm__button button--light" type="submit">Jetzt spenden</button>
+      </form>
+    </div>
+  </body>
+</html>
