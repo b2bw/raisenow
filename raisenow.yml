@@ -185,7 +185,7 @@ tamaro:
             text_html: >-
               Für Updates und so. Bitte ändere mich.
         payment_form:
-          stored_customer_phone: Telefonnummer (optional)
+          stored_customer_phone: Telefonnummer
           stored_customer_info_text_long: >-
             <p style="padding: 1rem; font-size: 80%; border: thin
             solid lightgray">Die Übermittlung der Daten erfolgt
@@ -351,7 +351,7 @@ tamaro:
             digital: Mit digitaler Urkunde
             none: Ohne Urkunde
           stored_recipient_firstname: Name auf der Urkunde
-          stored_customer_map_label: Name Ihres Waldes auf der Karte (optional)
+          stored_customer_map_label: Name Ihres Waldes auf der Karte
           stored_customer_map_label_info_text_long: >-
             <p style="padding: 1rem; font-size: 80%; border: thin
             solid lightgray">Max. 10 Zeichen können angezeigt werden. Die Sichtbarkeit
@@ -362,6 +362,40 @@ tamaro:
     amounts: [40, 80, 120, 200]
     allowCustomAmount: true
     minimumCustomAmount: 40
+    slots:
+      slot_1:
+        - component: block
+          children:
+            - component: block_header
+              title: blocks.slot_1.title
+            - component: block_content
+              children:
+                - component: field
+                  type: radio-group
+                  inline: true
+                  name: stored_customer_certificate
+                  # label: payment_form.stored_customer_certificate
+                  formName: payment_form
+                  children:
+                    - component: field
+                      type: radio-in-group
+                      name: stored_customer_certificate
+                      text: payment_form.stored_customer_certificates.none
+                      value: none
+                    - component: field
+                      type: radio-in-group
+                      name: stored_customer_certificate
+                      text: payment_form.stored_customer_certificates.digital
+                      value: digital
+                - component: field
+                  type: text
+                  formName: payment_form
+                  name: stored_recipient_firstname
+                  label: payment_form.stored_recipient_firstname
+                  placeholder: payment_form.stored_recipient_firstname
+                - component: content
+                  formName: payment_form
+                  text_html: payment_form.stored_customer_map_label_info_text_long
     translations:
       de:
         amount_descriptions:
@@ -369,6 +403,10 @@ tamaro:
           - {if: 'amount() == 80', then:  [2 ha Wald schützen]}
           - {if: 'amount() == 120', then: [3 ha Wald schützen]}
           - {if: 'amount() == 200', then: [5 ha Wald schützen]}
+        payment_form:
+          stored_customer_map_label_info_text_long: >-
+            <p style="padding: 1rem; font-size: 80%; border: thin
+            solid lightgray">Max. 10 Zeichen können angezeigt werden.</p>
 
   rnwSpendeAuswahlNurEmail: &SPENDE_AUSWAHL_NUR_EMAIL
     # NOTE: intentionally not a deep merge, because of validations
