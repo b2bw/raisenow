@@ -255,6 +255,13 @@ tamaro:
     purposes: [s1]
     amounts: [50, 80, 140]
 
+  rnwSpendeUngebundenJubilaeum:
+    <<<: *SPENDE_AUSWAHL
+    purposes: [s1]
+    amounts: [20, 80, 200]
+    purposeDetails:
+      s1: {stored_campaign_id: '701Vj00000Gi4A3IAJ'}
+
   rnwSpendeRettungsstationen:
     <<<: *SPENDE_AUSWAHL
     purposes: [s3]
@@ -276,7 +283,7 @@ tamaro:
     <<<: *SPENDE_AUSWAHL
     purposes: [s9]
 
-  rnwSaveTheForest:
+  rnwSaveTheForest: &SAVETHEFOREST
     <<<: *SPENDE_AUSWAHL
     paymentWidgetBlocks:
       - payment_purposes
@@ -349,6 +356,19 @@ tamaro:
             <p style="padding: 1rem; font-size: 80%; border: thin
             solid lightgray">Max. 10 Zeichen können angezeigt werden. Die Sichtbarkeit
             Ihrer Benennung auf der Karte ist zeitlich begrenzt.</p>
+
+  rnwWaldschutzMitOptionalerUrkunde:
+    <<<: *SAVETHEFOREST
+    amounts: [40, 80, 120, 200]
+    allowCustomAmount: true
+    minimumCustomAmount: 40
+    translations:
+      de:
+        amount_descriptions:
+          - {if: 'amount() == 40', then:  [1 ha Wald schützen]}
+          - {if: 'amount() == 80', then:  [2 ha Wald schützen]}
+          - {if: 'amount() == 120', then: [3 ha Wald schützen]}
+          - {if: 'amount() == 200', then: [5 ha Wald schützen]}
 
   rnwSpendeAuswahlNurEmail: &SPENDE_AUSWAHL_NUR_EMAIL
     # NOTE: intentionally not a deep merge, because of validations
@@ -931,14 +951,11 @@ tamaro:
       # - slot_2
       # - if: paymentForm(stored_customer_delivery) == recipient
       #   then: slot_3
-    translations:
-      de:
-        amount_descriptions: []
     # amounts: *SPENDE_BAEUME_AMOUNTS
     # minimumCustomAmount: *SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
-    # translations:
-    #   de:
-    #     amount_descriptions: *SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
+    translations:
+      de:
+        amount_descriptions: *SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
 
   # ------------------------------ Teil V - Verschiedenes
 
