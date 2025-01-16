@@ -14,7 +14,7 @@ public:
 
 .PHONY: deploy
 deploy:
-	aws s3 sync $(AWS_ARGS) --acl public-read public/ s3://www.bos-schweiz.ch/raisenow-forms/
+	rsync -avz public/ 2q8l5_phil@185.125.27.16:sites/static.bos-schweiz.ch/raisenow-forms/
 
 .PHONY: clean
 clean:

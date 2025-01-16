@@ -6,7 +6,7 @@ Warning: Changes will affect live forms immediately!
 
 Results will be available here:
 
-  https://www.bos-schweiz.ch/raisenow-forms/index.html
+  https://static.bos-schweiz.ch/raisenow-forms/
 
 - [[https://docs.google.com/spreadsheets/d/1RVfQuZ9nlwN20ZRR1_Ljg5AlZ5UqXJfkr2XcQcovAq4/edit#gid=0][Project management sheet]]
 - [[https://docs.google.com/spreadsheets/d/19wcZ4YVDDE_n4ruTJVbk1vI3ifyzM2Hl2cisSnTB-c0/edit#gid=0][Form overview]]
