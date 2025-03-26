@@ -78,16 +78,40 @@ const beforeRenderHandler = (event) => {
 
 // stf stuff ------------------------------------------------------------
 
+const deepMerge = (...objects) => {
+  const isObject = obj => obj && typeof obj === 'object';
+
+  return objects.reduce((prev, obj) => {
+    Object.keys(obj).forEach(key => {
+      const pVal = prev[key];
+      const oVal = obj[key];
+
+      if (isObject(pVal) && isObject(oVal)) {
+        prev[key] = deepMerge(pVal, oVal);
+      } else {
+        prev[key] = oVal;
+      }
+    });
+
+    return prev;
+  }, {});
+};
+
 function stfDonate(details) {
   const selector = '.brxe-popup-481 .brx-popup-content'
   const content = "<h1>Bitte geben Sie Ihre Spendendaten ein</h1><div id='dynForm'>"
-  $(selector).html(content)
-  $.extend(true, RNW["rnwSaveTheForest"], {amounts: [details.amount],
-                                           paymentFormPrefill: {
-                                             stored_recipient_lastname: JSON.stringify(details)},
-                                           translations: {
-                                             de: {
-                                               amount_descriptions: details.description}}})
+  // $(selector).html(content)
+  document.querySelector(selector).innerHTML = content;
+  const dynamic = {amounts: [details.amount],
+                   paymentFormPrefill: {
+                     stored_recipient_lastname: JSON.stringify(details)},
+                   translations: {
+                     de: {
+                       amount_descriptions: details.description}}};
+  // $.extend(true, RNW["rnwSaveTheForest"], dynamic);
+  const result = deepMerge({}, RNW["rnwSaveTheForest"], dynamic);
+
+
   window.rnw.tamaro.runWidget("#dynForm", RNW["rnwSaveTheForest"])
   location.hash = 'popup'
   bricksOpenPopup(481)
@@ -95,24 +119,74 @@ function stfDonate(details) {
 
 const comments = "/wp-json/wp/v2/comments"
 
+// function stfLoadEntries() {
+//   return $.map($.ajax({url: comments + '?post=572', async: false}).responseJSON, function(e, i) {
+//     return JSON.parse($(e.content.rendered).text())
+//   })
+// }
+
 function stfLoadEntries() {
-  return $.map($.ajax({url: comments + '?post=572', async: false}).responseJSON, function(e, i) {
-    return JSON.parse($(e.content.rendered).text())
-  })
+  // Create and send synchronous XHR request
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', comments + '?post=572', false); // false for synchronous
+  xhr.send();
+  // Parse the response
+  const responseJSON = JSON.parse(xhr.responseText);
+  // Map over the response
+  return responseJSON.map(entry => {
+    // Create temporary div to parse HTML content
+    const div = document.createElement('div');
+    div.innerHTML = entry.content.rendered;
+    // Get text content and parse as JSON
+    return JSON.parse(div.textContent);
+  });
 }
 
-function stfStoreEntry(item) { $.post(comments, {post: 572, content: JSON.stringify(item)}) }
+// async function stfLoadEntries() {
+//   // Fetch data
+//   const response = await fetch(comments + '?post=572');
+//   const responseJSON = await response.json();
+//   // Map over the response
+//   return responseJSON.map(entry => {
+//     // Create temporary div to parse HTML content
+//     const div = document.createElement('div');
+//     div.innerHTML = entry.content.rendered;
+//     // Get text content and parse as JSON
+//     return JSON.parse(div.textContent);
+//   });
+// }
+
+// function stfStoreEntry(item) { $.post(comments, {post: 572, content: JSON.stringify(item)}) }
+
+// function stfStoreEntry(item, f) {
+//   $.post({url: comments,
+//           dataType: "json",
+//           data: {post: 572,
+//                  content: JSON.stringify(item)},
+//           success: f,
+//           error: function(xhr, status, error) {
+//             console.log(status)
+//             console.log(error)
+//           }})
+// }
 
 function stfStoreEntry(item, f) {
-  $.post({url: comments,
-          dataType: "json",
-          data: {post: 572,
-                 content: JSON.stringify(item)},
-          success: f,
-          error: function(xhr, status, error) {
-            console.log(status)
-            console.log(error)
-          }})
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', comments);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onload = function() {
+    if (xhr.status >= 200 && xhr.status < 300) {
+      const response = JSON.parse(xhr.responseText);
+      if (f) f(response);
+    }
+  };
+  xhr.onerror = function() {
+    console.log('error');
+    console.log(xhr.statusText);
+  };
+  // Format data as URL-encoded string
+  const data = `post=572&content=${encodeURIComponent(JSON.stringify(item))}`;
+  xhr.send(data);
 }
 
 function paymentCompleteHandler(event) {
@@ -133,16 +207,23 @@ function paymentCompleteHandler(event) {
 }
 
 // reopen popup after post payment redirect
-$(() => {
-  if (location.hash === "#popup") {
-    stfDonate({})
+// $(() => {
+//   if (location.hash === "#popup") {
+//     stfDonate({})
+//   }
+// })
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.location.hash === '#popup') {
+    stfDonate({});
   }
-})
+});
 
 // end stf stuff ------------------------------------------------------------
 
 // on dom ready
-$(() => {
+// $(() => {
+document.addEventListener('DOMContentLoaded', () => {
   //console.log("onDocumentReady");
 
   // subscribe events before initializing widgets
