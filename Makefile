@@ -23,3 +23,12 @@ clean:
 .PHONY: watch
 watch:
 	ls -1 assets/* *.yml *.rb */*.erb | entr make
+
+IP:=$(shell ip route get 1 | awk '{print $$(NF-2);exit}')
+PORT:=4567
+URL:=http://$(IP):$(PORT)/
+
+serve:
+	@qrencode -t UTF8i $(URL)
+	@echo "$(URL)\n"
+	@webfsd -F -d -p $(PORT) -r public
