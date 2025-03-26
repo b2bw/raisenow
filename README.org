@@ -19,7 +19,9 @@ JSON, YAML is easier to read and edit, more powerful (e.g. merge
 keys), and can include comments, and thus can easily be documented
 inline.
 
-In addition to the standard feature set of YAML, the build script support deep merge via =<<<:= and multiple ordered deep merges via =<<<1:=, =<<<2:=, etc.
+In addition to the standard feature set of YAML, the build script
+support deep merge via =<<<:= and multiple ordered deep merges via
+=<<<1:=, =<<<2:=, etc.
 
 There is a Makefile to build the project to =public= and deploy the
 project to bos-schweiz.ch hosting on AWS (provided by seven49). CI is
