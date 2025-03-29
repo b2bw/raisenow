@@ -141,6 +141,8 @@ tamaro:
       p4:  {stored_campaign_id: '70109000001JHtbAAG'}  # Baimah
       p5:  {stored_campaign_id: '70109000000199bAAA'}
       p6:  {stored_campaign_id: '70109000000199qAAA'}
+      p7:  {stored_campaign_id: '701Vj00000L8cSHIAZ'} # Jeni
+      p8:  {stored_campaign_id: '701Vj00000L8d8AIAR'} # Iqo
     translations:
       de:
         purposes:
@@ -165,12 +167,14 @@ tamaro:
           s19: Warenbestellung
           s20: Waldschutz
           p1: Patenschaft für die Rettungsstationen
-          p2: Patenschaft für Topan
+          p2: Patenschaft für Topan  # nicht mehr in der Auswahl!
           p3: Patenschaft für Bumi
           # p4: Patenschaft für Davi
           p4: Patenschaft für Baimah
           p5: Patenschaft für Kopral
           p6: Patenschaft für Shelton
+          p7: Patenschaft für Jeni
+          p8: Patenschaft für Iqo
         payment_profile:
           donation_receipt_info_html: >-
             <p>Der Versand einer Spendenbescheinigung erfordert die Eingabe der Postadresse.</p>
@@ -643,7 +647,7 @@ tamaro:
       - payment_payment_methods
       - payment_profile
       - payment_address
-    purposes: [p1, p2, p3, p4, p5]
+    purposes: [p1, p3, p4, p5, p6, p7, p8]
     paymentFormPrefill:
        payment_type: recurring
     recurringIntervals:
@@ -705,6 +709,14 @@ tamaro:
     <<<: *PATENSCHAFT
     purposes: [p6]
 
+  rnwPatenschaftJeni:
+    <<<: *PATENSCHAFT
+    purposes: [p7]
+
+  rnwPatenschaftIqo:
+    <<<: *PATENSCHAFT
+    purposes: [p8]
+
   # ------------------------------ Teil III - Schenken
 
   rnwSchenkenPatenschaftAuswahl: &PATENSCHAFT_SCHENKEN
@@ -725,6 +737,8 @@ tamaro:
       p4:  {stored_campaign_id: '70109000001JHtgAAG'}  # Baimah
       p5:  {stored_campaign_id: '7010900000019AEAAY'}
       p6:  {stored_campaign_id: '7010900000019AJAAY'}
+      p7:  {stored_campaign_id: '701Vj00000L8d8AIAR'}  # Jeni
+      p8:  {stored_campaign_id: '701Vj00000L8XduIAF'}  # Iqo
     paymentWidgetBlocks:
       - payment_purposes
       - payment_amounts_and_intervals
@@ -942,6 +956,14 @@ tamaro:
   rnwSchenkenPatenschaftShelton:
     <<<: *PATENSCHAFT_SCHENKEN
     purposes: [p6]
+
+  rnwSchenkenPatenschaftJeni:
+    <<<: *PATENSCHAFT_SCHENKEN
+    purposes: [p7]
+
+  rnwSchenkenPatenschaftIqo:
+    <<<: *PATENSCHAFT_SCHENKEN
+    purposes: [p8]
 
   rnwSchenkenHilfspaketeAuswahl:
     <<<1: *PATENSCHAFT_SCHENKEN
