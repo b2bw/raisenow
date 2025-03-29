@@ -172,7 +172,7 @@ tamaro:
           # p4: Patenschaft für Davi
           p4: Patenschaft für Baimah
           p5: Patenschaft für Kopral
-          p6: Patenschaft für Shelton
+          p6: Patenschaft für Shelton # nicht mehr in der Auswahl!
           p7: Patenschaft für Jeni
           p8: Patenschaft für Iqo
         payment_profile:
@@ -647,7 +647,7 @@ tamaro:
       - payment_payment_methods
       - payment_profile
       - payment_address
-    purposes: [p1, p3, p4, p5, p6, p7, p8]
+    purposes: [p1, p3, p4, p5, p7, p8]
     paymentFormPrefill:
        payment_type: recurring
     recurringIntervals:
