@@ -4,6 +4,7 @@ require 'yaml'
 require 'erb'
 require 'ostruct'
 require 'json'
+require 'csv'
 
 base = File.dirname(__FILE__)
 
@@ -14,6 +15,74 @@ config = File.expand_path('raisenow.yml', base)
 # setting of the tamaro widget, wtf?
 # data = YAML.unsafe_load(File.read(config))
 data = YAML.load(File.read(config))
+
+# read the pricing sheet
+sheet = File.expand_path('pricing.csv', base)
+csv = CSV.read(sheet, headers: true)
+puts  "Processing pricing sheet: #{csv.count} lines"
+pricing = csv.reduce({}) do |aggr, row|
+  form = (row["Formular"] || "default").strip
+  variant = (row["Variante"] || ".").strip
+  caption = (row["Beschriftung"] || ".").strip
+  aggr[form] ||= {}
+  aggr[form][variant] ||= []
+  aggr[form][variant] << {
+    chf: row["CHF"],
+    eur: row["EUR"],
+    usd: row["USD"],
+    caption: caption
+  }
+  aggr
+end
+
+CURRENCIES = [:chf, :eur, :usd]
+
+def compile_amounts(variants)
+  return if variants.nil?
+  if variants.count == 1
+    variant = variants.values.first
+    CURRENCIES.map do |currency|
+      { "if" => "currency() == #{currency}",
+        "then" => variant.map { |v| v[currency].to_f }.sort }
+    end
+  else
+    variants.map do |kv|
+      variant_name, variant = kv
+      CURRENCIES.map do |currency|
+        { "if" => "currency() == #{currency} and paymentForm(stored_customer_certificate) == #{variant_name}",
+          "then" => variant.map { |v| v[currency].to_f }.sort }
+      end
+    end.flatten
+  end
+end
+
+def compile_minimumCustomAmount(amounts)
+  amounts.map do |amount|
+    amount["then"] = [amount["then"].first]
+    amount
+  end
+end
+
+# walk tamaro forms and update amounts and other properties
+# based on sheet
+form_names = data["tamaro"].keys
+form_names.each do |form_name|
+  form = data["tamaro"][form_name]
+  variants= pricing[form_name]
+  if variants.nil?
+    warn "Missing pricing for #{form_name}"
+  else
+    puts "Found #{variants.count} variants for #{form_name}"
+    amounts = compile_amounts(variants)
+    form["amounts"] = amounts
+    form["minimumCustomAmount"] = compile_minimumCustomAmount(amounts)
+    # TODO: form["translations"]["de"]["amount_descriptions"] = compile_descriptions(variants)
+    data["tamaro"][form_name] = form
+  end
+end
+
+# puts "=" * 80
+# exit
 
 class ErbBinding < OpenStruct
   def get_binding

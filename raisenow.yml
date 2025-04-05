@@ -81,11 +81,19 @@ features:
                       text: payment_form.stored_customer_certificates.digital
                       value: digital
 
+  # everything inherits from root
+  root: &ROOT
+    currencies:
+      - chf
+      - eur
+      - usd
+
 tamaro:
 
   # ------------------------------ Teil I - Spenden
 
   rnwSpendeAuswahl: &SPENDE_AUSWAHL
+    <<: *ROOT
     # <<: *DEBUGGING
     coverFeeFixed: 0.25
     coverFeePercentage: 2
@@ -259,11 +267,6 @@ tamaro:
     <<<: *SPENDE_AUSWAHL
     purposes: [s1]
     amounts: [50, 80, 140]
-    # temporary measure to allow for switching currency on this form
-    currencies:
-      - chf
-      - eur
-      - usd
 
   rnwSpendeUngebundenJubilaeum:
     <<<: *SPENDE_AUSWAHL

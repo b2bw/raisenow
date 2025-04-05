@@ -32,3 +32,11 @@ serve:
 	@qrencode -t UTF8i $(URL)
 	@echo "$(URL)\n"
 	@webfsd -F -d -p $(PORT) -r public
+
+.PHONY: pricing.csv
+pricing.csv:
+	curl -L 'https://docs.google.com/spreadsheets/d/16o9LxUvctPqDZcw3sb4pq0d67AcDdZiNZPYIyLVlc7I/export?format=csv&id=16o9LxUvctPqDZcw3sb4pq0d67AcDdZiNZPYIyLVlc7I&gid=0' > pricing.csv
+
+.PHONY: doit
+doit: pricing.csv
+	./build.rb
