@@ -13,15 +13,14 @@
 #   https://support.raisenow.com/hc/de/articles/360011968358-Anpassen-der-Konfiguration-Sprache-und-Bedingungen
 #
 ---
-debugging: &DEBUGGING
-  debug: true
-  debugErrorMessages: true
-  debugSlots: true
-  debugStyles: true
-  testMode: true
-
-
 features:
+  debugging: &DEBUGGING
+    debug: true
+    debugErrorMessages: true
+    debugSlots: true
+    debugStyles: true
+    testMode: true
+
   two-options-certificate: &TWO-OPTIONS-CERTIFICATE
     paymentWidgetBlocks:
       - payment_purposes
@@ -88,6 +87,10 @@ features:
       - eur
       - usd
 
+  chf-only: &CHF_ONLY
+    currencies:
+      - chf
+
 tamaro:
 
   # ------------------------------ Teil I - Spenden
@@ -106,6 +109,7 @@ tamaro:
       - pfc  # postfinance card
       - pef  # postfinance e-finance
       - pp   # paypal
+      # FIXME: this means 25 CHF and is not adjusted in other currencies!
       - if: amount() >= 25
         then: [chqr]  # qrcode
     paymentWidgetBlocks:
@@ -1029,7 +1033,8 @@ tamaro:
   # ------------------------------ Teil V - Verschiedenes
 
   rnwWarenBestellung:
-    <<<: *SPENDE_AUSWAHL
+    <<<1: *SPENDE_AUSWAHL
+    <<<2: *CHF_ONLY
     purposes: [ s19 ]
     paymentTypes: [ onetime ]
     amounts: []

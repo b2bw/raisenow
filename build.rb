@@ -35,7 +35,19 @@ pricing = csv.reduce({}) do |aggr, row|
   aggr
 end
 
+# predefined currencies to support
 CURRENCIES = [:chf, :eur, :usd]
+
+# predefined conditional clauses, which are referenced in column "Variante"
+CONDITIONALS = {
+  "grasspaper" => "paymentForm(stored_customer_certificate) == grasspaper",
+  "digital"    => "paymentForm(stored_customer_certificate) == digital",
+  "none"       => "paymentForm(stored_customer_certificate) == none",
+  # rnwPatenschaftenAuswahl
+  "einmalig"   => "paymentType() == onetime",
+  "monatlich"  => "paymentType() == recurring and recurringInterval() == monthly",
+  "jährlich"   => "paymentType() == recurring and recurringInterval() == yearly"
+}
 
 def compile_amounts(variants)
   return if variants.nil?
@@ -49,7 +61,7 @@ def compile_amounts(variants)
     variants.map do |kv|
       variant_name, variant = kv
       CURRENCIES.map do |currency|
-        { "if" => "currency() == #{currency} and paymentForm(stored_customer_certificate) == #{variant_name}",
+        { "if" => "currency() == #{currency} and #{CONDITIONALS[variant_name]}",
           "then" => variant.map { |v| v[currency].to_f }.sort }
       end
     end.flatten
@@ -60,6 +72,25 @@ def compile_minimumCustomAmount(amounts)
   amounts.map do |amount|
     amount["then"] = [amount["then"].first]
     amount
+  end
+end
+
+def compile_amountDescriptions(variants)
+  [].tap do |result|
+    variants.each do |kv|
+      variant_name, amounts = kv
+      CURRENCIES.each do |currency|
+        amounts.each do |amount|
+          next if amount[:caption] == '.'
+          result << {
+            "if" => ["currency() == #{currency}",
+                     "amount() == #{amount[currency]}",
+                     variant_name != '.' ? CONDITIONALS[variant_name] : nil].compact.join(" and "),
+            "then" => ["#{amount[:caption]}"]
+          }
+        end
+      end
+    end
   end
 end
 
@@ -76,7 +107,7 @@ form_names.each do |form_name|
     amounts = compile_amounts(variants)
     form["amounts"] = amounts
     form["minimumCustomAmount"] = compile_minimumCustomAmount(amounts)
-    # TODO: form["translations"]["de"]["amount_descriptions"] = compile_descriptions(variants)
+    form["translations"]["de"]["amount_descriptions"] = compile_amountDescriptions(variants)
     data["tamaro"][form_name] = form
   end
 end
