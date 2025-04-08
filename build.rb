@@ -70,8 +70,9 @@ end
 
 def compile_minimumCustomAmount(amounts)
   amounts.map do |amount|
-    amount["then"] = [amount["then"].first]
-    amount
+    amount.dup.tap do |x|
+      x["then"] = [x["then"].first]
+    end
   end
 end
 
@@ -112,8 +113,10 @@ form_names.each do |form_name|
   end
 end
 
-# puts "=" * 80
-# exit
+# dump data for inspection
+File.open('raisenow.expanded.yml', 'w') do |file|
+  file.write(data.to_yaml)
+end
 
 class ErbBinding < OpenStruct
   def get_binding
