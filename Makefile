@@ -1,11 +1,11 @@
 # Dependencies:
 #
-#   ruby aws-cli entr
+#   ruby aws-cli entr curl qrencode webfsd
 
 -include local.mk
 
 .PHONY: build
-build: clean public
+build: clean public pricing.csv
 	cp -v assets/* public/
 	./build.rb
 
@@ -28,6 +28,7 @@ IP:=$(shell ip route get 1 | awk '{print $$(NF-2);exit}')
 PORT:=4567
 URL:=http://$(IP):$(PORT)/
 
+.PHONY: serve
 serve:
 	@qrencode -t UTF8i $(URL)
 	@echo "$(URL)\n"
@@ -36,7 +37,3 @@ serve:
 .PHONY: pricing.csv
 pricing.csv:
 	curl -L 'https://docs.google.com/spreadsheets/d/16o9LxUvctPqDZcw3sb4pq0d67AcDdZiNZPYIyLVlc7I/export?format=csv&id=16o9LxUvctPqDZcw3sb4pq0d67AcDdZiNZPYIyLVlc7I&gid=0' > pricing.csv
-
-.PHONY: doit
-doit: pricing.csv
-	./build.rb
