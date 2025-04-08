@@ -13,14 +13,15 @@
 #   https://support.raisenow.com/hc/de/articles/360011968358-Anpassen-der-Konfiguration-Sprache-und-Bedingungen
 #
 ---
-features:
-  debugging: &DEBUGGING
-    debug: true
-    debugErrorMessages: true
-    debugSlots: true
-    debugStyles: true
-    testMode: true
+debugging: &DEBUGGING
+  debug: true
+  debugErrorMessages: true
+  debugSlots: true
+  debugStyles: true
+  testMode: true
 
+
+features:
   two-options-certificate: &TWO-OPTIONS-CERTIFICATE
     paymentWidgetBlocks:
       - payment_purposes
@@ -80,23 +81,11 @@ features:
                       text: payment_form.stored_customer_certificates.digital
                       value: digital
 
-  # everything inherits from root
-  root: &ROOT
-    currencies:
-      - chf
-      - eur
-      - usd
-
-  chf-only: &CHF_ONLY
-    currencies:
-      - chf
-
 tamaro:
 
   # ------------------------------ Teil I - Spenden
 
   rnwSpendeAuswahl: &SPENDE_AUSWAHL
-    <<: *ROOT
     # <<: *DEBUGGING
     coverFeeFixed: 0.25
     coverFeePercentage: 2
@@ -109,7 +98,6 @@ tamaro:
       - pfc  # postfinance card
       - pef  # postfinance e-finance
       - pp   # paypal
-      # FIXME: this means 25 CHF and is not adjusted in other currencies!
       - if: amount() >= 25
         then: [chqr]  # qrcode
     paymentWidgetBlocks:
@@ -271,6 +259,11 @@ tamaro:
     <<<: *SPENDE_AUSWAHL
     purposes: [s1]
     amounts: [50, 80, 140]
+    # temporary measure to allow for switching currency on this form
+    currencies:
+      - chf
+      - eur
+      - usd
 
   rnwSpendeUngebundenJubilaeum:
     <<<: *SPENDE_AUSWAHL
@@ -1033,8 +1026,7 @@ tamaro:
   # ------------------------------ Teil V - Verschiedenes
 
   rnwWarenBestellung:
-    <<<1: *SPENDE_AUSWAHL
-    <<<2: *CHF_ONLY
+    <<<: *SPENDE_AUSWAHL
     purposes: [ s19 ]
     paymentTypes: [ onetime ]
     amounts: []
