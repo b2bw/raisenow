@@ -38,10 +38,10 @@ features:
         then: [9.65, 40.25, 78.50, 193.25]
       - if: paymentForm(stored_customer_certificate) == none
         then: [7.65, 38.25, 76.50, 191.25]
-    minimumCustomAmount: &SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
-      - {if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [14.65]}
-      - {if: 'paymentForm(stored_customer_certificate) == digital', then: [9.65]}
-      - {if: 'paymentForm(stored_customer_certificate) == none', then: [7.65]}
+    # minimumCustomAmount: &SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
+    #   - {if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [14.65]}
+    #   - {if: 'paymentForm(stored_customer_certificate) == digital', then: [9.65]}
+    #   - {if: 'paymentForm(stored_customer_certificate) == none', then: [7.65]}
     translations:
       de:
         blocks:
@@ -386,7 +386,7 @@ tamaro:
     <<<: *SAVETHEFOREST
     amounts: [40, 80, 120, 200]
     allowCustomAmount: true
-    minimumCustomAmount: 40
+    # minimumCustomAmount: 40
     slots:
       slot_1:
         - component: block
@@ -523,10 +523,10 @@ tamaro:
         then: [9.65, 40.25, 78.50, 193.25]
       - if: paymentForm(stored_customer_certificate) == none
         then: [7.65, 38.25, 76.50, 191.25]
-    minimumCustomAmount: &SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
-      - {if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [14.65]}
-      - {if: 'paymentForm(stored_customer_certificate) == digital', then: [9.65]}
-      - {if: 'paymentForm(stored_customer_certificate) == none', then: [7.65]}
+    # minimumCustomAmount: &SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
+    #   - {if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [14.65]}
+    #   - {if: 'paymentForm(stored_customer_certificate) == digital', then: [9.65]}
+    #   - {if: 'paymentForm(stored_customer_certificate) == none', then: [7.65]}
     translations:
       de:
         amount_descriptions: &SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
@@ -605,10 +605,10 @@ tamaro:
         then: [22, 52, 102, 202]
       - if: paymentForm(stored_customer_certificate) == none
         then: [20, 50, 100, 200]
-    minimumCustomAmount:
-      - {if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [27]}
-      - {if: 'paymentForm(stored_customer_certificate) == digital', then: [22]}
-      - {if: 'paymentForm(stored_customer_certificate) == none', then: [20]}
+    # minimumCustomAmount:
+    #   - {if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [27]}
+    #   - {if: 'paymentForm(stored_customer_certificate) == digital', then: [22]}
+    #   - {if: 'paymentForm(stored_customer_certificate) == none', then: [20]}
     translations:
       de:
         blocks:
@@ -672,10 +672,10 @@ tamaro:
       - {if: 'paymentType() == onetime', then: [300]}
       - {if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25]}
       - {if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300]}
-    minimumCustomAmount:
-      - {if: 'paymentType() == onetime', then: [300]}
-      - {if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25]}
-      - {if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300]}
+    # minimumCustomAmount:
+    #   - {if: 'paymentType() == onetime', then: [300]}
+    #   - {if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25]}
+    #   - {if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300]}
     translations:
       de:
         amount_descriptions:
@@ -991,10 +991,10 @@ tamaro:
         then: [22, 52, 102, 202]
       - if: paymentForm(stored_customer_certificate) == none
         then: [20, 50, 100, 200]
-    minimumCustomAmount:
-      - {if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [27]}
-      - {if: 'paymentForm(stored_customer_certificate) == digital', then: [22]}
-      - {if: 'paymentForm(stored_customer_certificate) == none', then: [20]}
+    # minimumCustomAmount:
+    #   - {if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [27]}
+    #   - {if: 'paymentForm(stored_customer_certificate) == digital', then: [22]}
+    #   - {if: 'paymentForm(stored_customer_certificate) == none', then: [20]}
     paymentWidgetBlocks:
       - payment_purposes
       - slot_1

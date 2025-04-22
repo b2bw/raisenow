@@ -107,7 +107,7 @@ form_names.each do |form_name|
     puts "Found #{variants.count} variants for #{form_name}"
     amounts = compile_amounts(variants)
     form["amounts"] = amounts
-    form["minimumCustomAmount"] = compile_minimumCustomAmount(amounts)
+    # form["minimumCustomAmount"] = compile_minimumCustomAmount(amounts)
     form["translations"]["de"]["amount_descriptions"] = compile_amountDescriptions(variants)
     data["tamaro"][form_name] = form
   end
