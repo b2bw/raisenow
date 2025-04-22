@@ -96,8 +96,13 @@ tamaro:
   # ------------------------------ Teil I - Spenden
 
   rnwSpendeAuswahl: &SPENDE_AUSWAHL
-    <<: *ROOT
-    # <<: *DEBUGGING
+    <<<1: *ROOT
+    # <<<2: *DEBUGGING
+    recurringIntervals:
+      - monthly
+      # - quarterly
+      # - semestral
+      - yearly
     coverFeeFixed: 0.25
     coverFeePercentage: 2
     language: de
@@ -212,15 +217,18 @@ tamaro:
             zertifizierten Partner. Unsere Dienstleistenden dürfen die
             Informationen ausschliesslich zur Erfüllung ihrer Aufgaben
             nutzen und sind verpflichtet, die Datenschutzbestimmungen
-            einzuhalten. Sie können Ihre Spende von Ihrem steuerbaren
-            Einkommen abziehen. Spender*innen erhalten per Post oder
-            per E-Mail eine Spendenbestätigung für die Steuerbehörden.
-            Die Spenden gehen an BOS Schweiz. <a href='https://www.bos-schweiz.ch/de/ueber-bos/datenschutz-bei-bos.htm'>Datenschutzbestimmungen von BOS Schweiz</a></p>
+            einzuhalten. Sie können Ihre Spende in der Schweiz von
+            Ihrem steuerbaren Einkommen abziehen. Spender*innen in der
+            Schweiz erhalten per Post oder E-Mail eine
+            Spendenbestätigung für die Steuerbehörden. Die Spenden
+            gehen an BOS Schweiz. <a
+            href='https://www.bos-schweiz.ch/de/ueber-bos/datenschutz-bei-bos.htm'>Datenschutzbestimmungen
+            von BOS Schweiz</a></p>
           salutations:
             neutral: Neutrale Anrede
         validation_errors:
           amount:
-            minimum_custom_amount: Bitte einen Betrag über {{min}} Franken eingeben
+            minimum_custom_amount: Bitte einen Betrag über {{min}} eingeben
     showStoredCustomerBirthdate: true
     # minimumCustomAmount:
     #   - { if: 'paymentType() == onetime', then: [20] }
@@ -465,7 +473,7 @@ tamaro:
     <<<: *SPENDE_AUSWAHL
     purposes: [ s11 ]
     amounts: [ 60, 120, 300 ]
-    paymentTypes: [ recurring ]
+    paymentTypes: [ onetime, recurring ]
     recurringIntervals: [ yearly ]
     allowCustomAmount: false
     translations:
