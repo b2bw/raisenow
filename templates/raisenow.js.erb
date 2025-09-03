@@ -79,16 +79,21 @@ const beforeRenderHandler = (event) => {
 // stf stuff ------------------------------------------------------------
 
 const deepMerge = (...objects) => {
-  const isObject = obj => obj && typeof obj === 'object';
+  const isObject = obj => obj && typeof obj === 'object' && !Array.isArray(obj);
 
   return objects.reduce((prev, obj) => {
     Object.keys(obj).forEach(key => {
       const pVal = prev[key];
       const oVal = obj[key];
 
-      if (isObject(pVal) && isObject(oVal)) {
+      if (Array.isArray(oVal)) {
+        // Replace arrays entirely
+        prev[key] = oVal;
+      } else if (isObject(pVal) && isObject(oVal)) {
+        // Deep merge plain objects
         prev[key] = deepMerge(pVal, oVal);
       } else {
+        // Replace primitives, nulls, or mixed types
         prev[key] = oVal;
       }
     });
@@ -107,12 +112,11 @@ function stfDonate(details) {
                      stored_recipient_lastname: JSON.stringify(details)},
                    translations: {
                      de: {
-                       amount_descriptions: details.description}}};
-  // $.extend(true, RNW["rnwSaveTheForest"], dynamic);
-  const result = deepMerge({}, RNW["rnwSaveTheForest"], dynamic);
-
-
-  window.rnw.tamaro.runWidget("#dynForm", RNW["rnwSaveTheForest"])
+                       amount_descriptions: [details.description]}}};
+  const result = deepMerge({}, RNW["rnwSaveTheForest"], dynamic,
+                           {redirectToCustomResultPage: paymentCompleteHandler});
+  // console.log(result)
+  window.rnw.tamaro.runWidget("#dynForm", result)
   location.hash = 'popup'
   bricksOpenPopup(481)
 }
@@ -137,9 +141,15 @@ function stfLoadEntries() {
     // Create temporary div to parse HTML content
     const div = document.createElement('div');
     div.innerHTML = entry.content.rendered;
-    // Get text content and parse as JSON
-    return JSON.parse(div.textContent);
-  });
+    try {
+      // Get text content and parse as JSON
+      return JSON.parse(div.textContent);
+    } catch (e) {
+      // Return null or undefined for invalid JSON
+      return null;
+    }
+  })
+  .filter(entry => entry !== null); // Remove invalid entries
 }
 
 // async function stfLoadEntries() {
@@ -189,14 +199,18 @@ function stfStoreEntry(item, f) {
   xhr.send(data);
 }
 
-function paymentCompleteHandler(event) {
-  var widget = event.data.api
-  if (widget.transactionInfo.epayment_status === 'success') {
+
+// https://save-the-forest.ch/orang-utans/?rnw-view=payment_result&epms_payment_uuid=e5ba1338-1996-49ec-a658-2958cae1a6a1#popup
+function paymentCompleteHandler(widget) {
+  // see https://docs.raisenow.com/elements/tamaro/guides/redirect-to-custom-result-page/
+  var tx = widget.epmsPaymentInfo
+  if (tx.last_status === 'succeeded') {
     try {
       // after payment we have to retrieve info from transactionInfo
       // instead of paymentForm
-      var payload = JSON.parse(widget.transactionInfo.stored_recipient_lastname)
-      payload.name = widget.transactionInfo.stored_customer_map_label
+      var payload = JSON.parse(tx.custom_parameters.recipient_lastname)
+      // TODO: this doesn't work like this anymore it seems
+      payload.name = tx.stored_customer_map_label
       stfStoreEntry(payload, function(data, status, xhr) {
         window.location = 'https://save-the-forest.ch/danke/'
       })
@@ -230,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.rnw.tamaro.events.beforePaymentValidateAndSend.subscribe(beforePaymentValidateAndSendHandler);
   window.rnw.tamaro.events.beforePaymentSend.subscribe(beforePaymentSendHandler);
   window.rnw.tamaro.events.beforeRender.subscribe(beforeRenderHandler);
-  window.rnw.tamaro.events.paymentComplete.subscribe(paymentCompleteHandler)
+  // window.rnw.tamaro.events.paymentComplete.subscribe(paymentCompleteHandler)
 
   // initialize the widgets
   Object.keys(RNW).forEach(key => {

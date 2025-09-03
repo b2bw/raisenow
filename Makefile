@@ -38,6 +38,6 @@ serve:
 pricing.csv:
 	curl -L 'https://docs.google.com/spreadsheets/d/16o9LxUvctPqDZcw3sb4pq0d67AcDdZiNZPYIyLVlc7I/export?format=csv&id=16o9LxUvctPqDZcw3sb4pq0d67AcDdZiNZPYIyLVlc7I&gid=0' > pricing.csv
 
-.PHONY: deploy
+.PHONY: deploy-staging
 deploy-staging:
 	rsync -avz public/ 2q8l5_phil@185.125.27.16:sites/static.bos-schweiz.ch/raisenow-forms-staging/

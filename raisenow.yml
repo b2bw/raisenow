@@ -14,6 +14,9 @@
 #
 ---
 features:
+  production: &PRODUCTION
+    testMode: false
+
   debugging: &DEBUGGING
     debug: true
     debugErrorMessages: true
@@ -98,6 +101,7 @@ tamaro:
   rnwSpendeAuswahl: &SPENDE_AUSWAHL
     <<<1: *ROOT
     # <<<2: *DEBUGGING
+    <<<3: *PRODUCTION
     recurringIntervals:
       - monthly
       # - quarterly
@@ -107,16 +111,16 @@ tamaro:
     coverFeePercentage: 2
     language: de
     requireSwissQrBillReferenceNumber: true
+    allowedCardTypes:
+      - vis # visa
+      - eca # mastercard
     paymentMethods:
-      - twi  # twint
-      - vis  # visa
-      - eca  # mastercard
-      - pfc  # postfinance card
-      - pef  # postfinance e-finance
-      - pp   # paypal
+      - twint
+      - card # credit cards
+      - paypal
       # FIXME: this means 25 CHF and is not adjusted in other currencies!
       - if: amount() >= 25
-        then: [chqr]  # qrcode
+        then: [ch_qr_reference]
     paymentWidgetBlocks:
       - payment_purposes
       - payment_amounts_and_intervals
@@ -309,7 +313,8 @@ tamaro:
     purposes: [s9]
 
   rnwSaveTheForest: &SAVETHEFOREST
-    <<<: *SPENDE_AUSWAHL
+    <<<1: *SPENDE_AUSWAHL
+    <<<2: *CHF_ONLY
     paymentWidgetBlocks:
       - payment_purposes
       - payment_amounts_and_intervals
