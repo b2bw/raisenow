@@ -24,6 +24,274 @@ features:
     debugStyles: true
     testMode: true
 
+  # -- translations
+
+  translations-1: &TRANSLATIONS-1
+    de:
+      blocks:
+        payment_address:
+          title: Adresse angeben (für Zahlung und ggf. Versand der Urkunde)
+        slot_1:
+          title: Urkunde wählen
+      payment_form:
+        stored_customer_certificates:
+          grasspaper: Mit Graspapier Urkunde (7 CHF)
+          digital: Mit digitaler Urkunde (2 CHF)
+          none: Ohne Urkunde
+
+  translations-2: &TRANSLATIONS-2
+    de:
+      purposes:
+        s1: Freie Spende
+        s2: Aufforstung
+        s3: Rettungsstationen
+        s4: Auswilderungen
+        s5: Bären
+        s6: Waldschutz
+        s7: Bäume spenden
+        s8: Bäume schenken
+        s9: BOS Schweiz Bildungsprogramm
+        s10: Kondolenz-Spende
+        s11: Fördermitgliedschaft
+        s12: Besondere Spendenaktion
+        s13: Milchfläschchen
+        s14: Gemüse- und Früchtekorb
+        s15: Spielzeug
+        s16: Schubkarren
+        s17: Versorgung Auswilderung
+        s18: Medikamente
+        s19: Warenbestellung
+        s20: Waldschutz
+        p1: Patenschaft für die Rettungsstationen
+        p2: Patenschaft für Topan  # nicht mehr in der Auswahl!
+        p3: Patenschaft für Bumi
+        # p4: Patenschaft für Davi
+        p4: Patenschaft für Baimah
+        p5: Patenschaft für Kopral
+        p6: Patenschaft für Shelton # nicht mehr in der Auswahl!
+        p7: Patenschaft für Jeni
+        p8: Patenschaft für Iqo
+      payment_profile:
+        donation_receipt_info_html: >-
+          <p>Der Versand einer Spendenbescheinigung erfordert die Eingabe der Postadresse.</p>
+      info_toggle:
+        stored_customer_birthdate:
+          text_html: >-
+            BOS Schweiz bietet unter 18-Jährigen Patenschaften zum
+            ermässigten Preis. Aus diesem Grund bitten wir um eine
+            Altersangabe in Form des Geburtsdatums. Zudem ermöglicht
+            diese Angabe das Versenden eines Geburtstagsgrusses.
+        # this is theoretically the right place if RaiseNow supports it
+        stored_recipient_email:
+          text_html: >-
+            Für Updates und so. Bitte ändere mich.
+      payment_form:
+        stored_customer_phone: Telefonnummer
+        stored_customer_info_text_long: >-
+          <p style="padding: 1rem; font-size: 80%; border: thin
+          solid lightgray">Die Übermittlung der Daten erfolgt
+          verschlüsselt. BOS Schweiz speichert selbst keine
+          Kartendaten, Ihre Zahlungsdaten laufen direkt über
+          RaiseNow, einem von der Kreditkartenindustrie (PCI DSS)
+          zertifizierten Partner. Unsere Dienstleistenden dürfen die
+          Informationen ausschliesslich zur Erfüllung ihrer Aufgaben
+          nutzen und sind verpflichtet, die Datenschutzbestimmungen
+          einzuhalten. Sie können Ihre Spende in der Schweiz von
+          Ihrem steuerbaren Einkommen abziehen. Spender*innen in der
+          Schweiz erhalten per Post oder E-Mail eine
+          Spendenbestätigung für die Steuerbehörden. Die Spenden
+          gehen an BOS Schweiz. <a
+          href='https://www.bos-schweiz.ch/de/ueber-bos/datenschutz-bei-bos.htm'>Datenschutzbestimmungen
+          von BOS Schweiz</a></p>
+        salutations:
+          neutral: Neutrale Anrede
+      validation_errors:
+        amount:
+          minimum_custom_amount: Bitte einen Betrag über {{min}} eingeben
+
+  translations-3: &TRANSLATIONS-3
+    de:
+      amount_descriptions: "einen symbolischen Stutz, mehr nicht"
+      blocks:
+        slot_1:
+          title: Urkunde wählen
+      payment_form:
+        stored_customer_certificates:
+          digital: Mit digitaler Urkunde
+          none: Ohne Urkunde
+        stored_recipient_firstname: Name auf der Urkunde
+        stored_customer_map_label: Name Ihres Waldes auf der Karte
+        stored_customer_map_label_info_text_long: >-
+          <p style="padding: 1rem; font-size: 80%; border: thin
+          solid lightgray">Max. 10 Zeichen können angezeigt werden. Die Sichtbarkeit
+          Ihrer Benennung auf der Karte ist zeitlich begrenzt.</p>
+
+  translations-4: &TRANSLATIONS-4
+    de:
+      amount_descriptions:
+        - {if: 'amount() == 40', then:  [1 ha Wald schützen]}
+        - {if: 'amount() == 80', then:  [2 ha Wald schützen]}
+        - {if: 'amount() == 120', then: [3 ha Wald schützen]}
+        - {if: 'amount() == 200', then: [5 ha Wald schützen]}
+      payment_form:
+        stored_customer_map_label_info_text_long: >-
+          <p style="padding: 1rem; font-size: 80%; border: thin
+          solid lightgray">Max. 10 Zeichen können angezeigt werden.</p>
+
+  translations-5: &TRANSLATIONS-5
+    de:
+      amount_descriptions:
+        - { if: 'amount() == 60', then:  [ Einzelperson ] }
+        - { if: 'amount() == 120', then:  [ Familie ] }
+        - { if: 'amount() == 300', then:  [ Juristische Person ] }
+      # payment_form:
+      #   supscription_cancelation_policy: >-
+      #     Ihr Mitgliedsbeitrag wird jährlich fällig. Sie können Ihre
+      #     Mitgliedschaft jederzeit beenden.
+      blocks:
+        payment_amounts_and_intervals:
+          title: Art der Mitgliedschaft wählen
+          payment_types:
+            selected_interval_label:
+              yearly: >-
+                Hinweis: Ihr Mitgliedsbeitrag wird jährlich fällig.
+                Sie können Ihre Mitgliedschaft jederzeit beenden.
+      # payment_form:
+      #   supscription_cancelation_policy: >-
+      #     hello world 2
+
+  translations-6: &TRANSLATIONS-6
+    de:
+      amount_descriptions: &SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
+        - {if: 'amount() == 7.65', then: [1 Baum inkl. 5 Jahre Pflege]}
+        - {if: 'amount() == 38.25', then: [5 Bäume inkl. 5 Jahre Pflege]}
+        - {if: 'amount() == 76.5', then: [10 Bäume inkl. 5 Jahre Pflege]}
+        - {if: 'amount() == 191.25', then: [25 Bäume inkl. 5 Jahre Pflege]}
+        # s8: digital
+        - {if: 'amount() == 9.65', then: [1 Baum inkl. 5 Jahre Pflege]}
+        - {if: 'amount() == 40.25', then: [5 Bäume inkl. 5 Jahre Pflege]}
+        - {if: 'amount() == 78.5', then: [10 Bäume inkl. 5 Jahre Pflege]}
+        - {if: 'amount() == 193.25', then: [25 Bäume inkl. 5 Jahre Pflege]}
+        # s7: grasspaper
+        - {if: 'amount() == 14.65', then: [1 Baum inkl. 5 Jahre Pflege]}
+        - {if: 'amount() == 45.25', then: [5 Bäume inkl. 5 Jahre Pflege]}
+        - {if: 'amount() == 83.5', then: [10 Bäume inkl. 5 Jahre Pflege]}
+        - {if: 'amount() == 198.25', then: [25 Bäume inkl. 5 Jahre Pflege]}
+      blocks:
+        payment_address:
+          title: Adresse angeben (für Zahlung und ggf. Versand der Urkunde)
+        slot_1:
+          title: Urkunde wählen
+      payment_form:
+        stored_customer_certificates:
+          grasspaper: Mit Graspapier Urkunde (7 CHF)
+          digital: Mit digitaler Urkunde (2 CHF)
+          none: Ohne Urkunde
+
+  translations-7: &TRANSLATIONS-7
+    de:
+      blocks:
+        payment_purposes:
+          title: Hilfspakete wählen
+
+  translations-8: &TRANSLATIONS-8
+    de:
+      payment_form:
+        stored_customer_subject: Name der/des Verstorbenen
+      validation_errors:
+        stored_customer_subject:
+          field_is_missing: Für die Zuordnung Ihrer Spende benötigen wir einen Namen
+
+  translations-9: &TRANSLATIONS-9
+      de:
+        payment_form:
+          stored_customer_subject: Details zum Spendenaufruf
+          stored_customer_subject_placeholder: z.B. Geburtstag Hans Muster
+        validation_errors:
+          stored_customer_subject:
+            field_is_missing: Für die Zuordnung Ihrer Spende benötigen wir einen Namen
+
+  translations-10: &TRANSLATIONS-10
+    de:
+      amount_descriptions:
+        - if: 'paymentType() == recurring and recurringInterval() == monthly and amount() == 25'
+          then: [Normalpreis]
+        - if: 'amount() == 300'
+          then: [Normalpreis]
+        - if: 'amount() == custom_amount'
+          then: ['']
+        - Ermässigt für Kinder
+      payment_form:
+        stored_customer_delivery: Versand
+        stored_customer_deliveries:
+          customer: Versand an mich
+          recipient: Versand an beschenkte Person
+        stored_recipient_salutation_label: Anrede
+      blocks:
+        payment_profile:
+          title: Personalien angeben (für Patenurkunde und -update)
+        payment_address:
+          title: Adresse angeben (für den Versand der Patenurkunde)
+      payment_submit:
+        submit: Patenschaftsbeitrag sicher übermitteln
+
+  translations-11: &TRANSLATIONS-11
+    de:
+      payment_form:
+        stored_recipient_email: E-Mail (optional)
+        stored_recipient_birthdate: Geburtsdatum
+        stored_recipient_birthdate_info_bubble_html: >-
+           BOS Schweiz bietet unter 18-Jährigen Patenschaften zum
+           ermässigten Preis. Aus diesem Grund bitten wir um eine
+           Altersangabe in Form des Geburtsdatums. Zudem ermöglicht
+           diese Angabe das Versenden eines Geburtstagsgrusses.
+      blocks:
+        payment_amounts_and_intervals:
+          title: Betrag der Spende wählen
+        payment_profile:
+          title: Personalien der schenkenden Person (für Zahlung, Rückfragen und Updates)
+        payment_address:
+          title: Adresse der schenkenden Person (für Zahlung)
+        slot_2:
+          title: Versand der Urkunde
+        slot_3:
+          title: Name der beschenkten Person auf der Urkunde
+        slot_4:
+          title: Adresse der beschenkten Person
+      validation_errors:
+        stored_customer_delivery:       {field_is_missing: Bitte eine Option wählen}
+        stored_recipient_salutation:    {field_is_missing: Bitte Anrede auswählen}
+        stored_recipient_firstname:     {field_is_missing: Bitte Vorname angeben}
+        stored_recipient_lastname:      {field_is_missing: Bitte Nachname angeben}
+        stored_recipient_email:         {field_is_missing: Bitte Emailadresse angeben}
+        stored_recipient_street:        {field_is_missing: Bitte Strasse angeben}
+        stored_recipient_street_number: {field_is_missing: Bitte Hausnummer angeben}
+        stored_recipient_zip_code:      {field_is_missing: Bitte Postleitzahl angeben}
+        stored_recipient_city:          {field_is_missing: Bitte Ort angeben}
+        stored_recipient_country:       {field_is_missing: Bitte Land auswählen}
+
+  translations-12: &TRANSLATIONS-12
+    de:
+      amount_descriptions: []
+      blocks:
+        payment_purposes:
+          title: Hilfspakete wählen
+
+  translations-13: &TRANSLATIONS-13
+    de:
+      amount_descriptions: *SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
+
+  translations-14: &TRANSLATIONS-14
+    de:
+      blocks:
+        # this does not work with `paymentTypes: [ onetime ]`
+        payment_amounts_and_intervals:
+          title: "Bestellwert inkl. Versand"
+        payment_purposes:
+          title: Zweck
+
+  # --- end of translations
+
   two-options-certificate: &TWO-OPTIONS-CERTIFICATE
     # newschool
     showBlocks:
@@ -54,18 +322,7 @@ features:
     #   - {if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [14.65]}
     #   - {if: 'paymentForm(stored_customer_certificate) == digital', then: [9.65]}
     #   - {if: 'paymentForm(stored_customer_certificate) == none', then: [7.65]}
-    translations:
-      de:
-        blocks:
-          payment_address:
-            title: Adresse angeben (für Zahlung und ggf. Versand der Urkunde)
-          slot_1:
-            title: Urkunde wählen
-        payment_form:
-          stored_customer_certificates:
-            grasspaper: Mit Graspapier Urkunde (7 CHF)
-            digital: Mit digitaler Urkunde (2 CHF)
-            none: Ohne Urkunde
+    translations: *TRANSLATIONS-1
     slots: &SPENDE_BAEUME_SLOTS
       slot_1:
         - component: block
@@ -180,75 +437,7 @@ tamaro:
       p6:  {stored_campaign_id: '70109000000199qAAA'}
       p7:  {stored_campaign_id: '701Vj00000L8cSHIAZ'} # Jeni
       p8:  {stored_campaign_id: '701Vj00000L8d8AIAR'} # Iqo
-    translations:
-      de:
-        purposes:
-          s1: Freie Spende
-          s2: Aufforstung
-          s3: Rettungsstationen
-          s4: Auswilderungen
-          s5: Bären
-          s6: Waldschutz
-          s7: Bäume spenden
-          s8: Bäume schenken
-          s9: BOS Schweiz Bildungsprogramm
-          s10: Kondolenz-Spende
-          s11: Fördermitgliedschaft
-          s12: Besondere Spendenaktion
-          s13: Milchfläschchen
-          s14: Gemüse- und Früchtekorb
-          s15: Spielzeug
-          s16: Schubkarren
-          s17: Versorgung Auswilderung
-          s18: Medikamente
-          s19: Warenbestellung
-          s20: Waldschutz
-          p1: Patenschaft für die Rettungsstationen
-          p2: Patenschaft für Topan  # nicht mehr in der Auswahl!
-          p3: Patenschaft für Bumi
-          # p4: Patenschaft für Davi
-          p4: Patenschaft für Baimah
-          p5: Patenschaft für Kopral
-          p6: Patenschaft für Shelton # nicht mehr in der Auswahl!
-          p7: Patenschaft für Jeni
-          p8: Patenschaft für Iqo
-        payment_profile:
-          donation_receipt_info_html: >-
-            <p>Der Versand einer Spendenbescheinigung erfordert die Eingabe der Postadresse.</p>
-        info_toggle:
-          stored_customer_birthdate:
-            text_html: >-
-              BOS Schweiz bietet unter 18-Jährigen Patenschaften zum
-              ermässigten Preis. Aus diesem Grund bitten wir um eine
-              Altersangabe in Form des Geburtsdatums. Zudem ermöglicht
-              diese Angabe das Versenden eines Geburtstagsgrusses.
-          # this is theoretically the right place if RaiseNow supports it
-          stored_recipient_email:
-            text_html: >-
-              Für Updates und so. Bitte ändere mich.
-        payment_form:
-          stored_customer_phone: Telefonnummer
-          stored_customer_info_text_long: >-
-            <p style="padding: 1rem; font-size: 80%; border: thin
-            solid lightgray">Die Übermittlung der Daten erfolgt
-            verschlüsselt. BOS Schweiz speichert selbst keine
-            Kartendaten, Ihre Zahlungsdaten laufen direkt über
-            RaiseNow, einem von der Kreditkartenindustrie (PCI DSS)
-            zertifizierten Partner. Unsere Dienstleistenden dürfen die
-            Informationen ausschliesslich zur Erfüllung ihrer Aufgaben
-            nutzen und sind verpflichtet, die Datenschutzbestimmungen
-            einzuhalten. Sie können Ihre Spende in der Schweiz von
-            Ihrem steuerbaren Einkommen abziehen. Spender*innen in der
-            Schweiz erhalten per Post oder E-Mail eine
-            Spendenbestätigung für die Steuerbehörden. Die Spenden
-            gehen an BOS Schweiz. <a
-            href='https://www.bos-schweiz.ch/de/ueber-bos/datenschutz-bei-bos.htm'>Datenschutzbestimmungen
-            von BOS Schweiz</a></p>
-          salutations:
-            neutral: Neutrale Anrede
-        validation_errors:
-          amount:
-            minimum_custom_amount: Bitte einen Betrag über {{min}} eingeben
+    translations: *TRANSLATIONS-2
     showStoredCustomerBirthdate: true
     # minimumCustomAmount:
     #   - { if: 'paymentType() == onetime', then: [20] }
@@ -396,22 +585,7 @@ tamaro:
                 - component: content
                   formName: payment_form
                   text_html: payment_form.stored_customer_map_label_info_text_long
-    translations:
-      de:
-        amount_descriptions: "einen symbolischen Stutz, mehr nicht"
-        blocks:
-          slot_1:
-            title: Urkunde wählen
-        payment_form:
-          stored_customer_certificates:
-            digital: Mit digitaler Urkunde
-            none: Ohne Urkunde
-          stored_recipient_firstname: Name auf der Urkunde
-          stored_customer_map_label: Name Ihres Waldes auf der Karte
-          stored_customer_map_label_info_text_long: >-
-            <p style="padding: 1rem; font-size: 80%; border: thin
-            solid lightgray">Max. 10 Zeichen können angezeigt werden. Die Sichtbarkeit
-            Ihrer Benennung auf der Karte ist zeitlich begrenzt.</p>
+    translations: *TRANSLATIONS-3
 
   rnwWaldschutzMitOptionalerUrkunde:
     <<<: *SAVETHEFOREST
@@ -452,17 +626,7 @@ tamaro:
                 - component: content
                   formName: payment_form
                   text_html: payment_form.stored_customer_map_label_info_text_long
-    translations:
-      de:
-        amount_descriptions:
-          - {if: 'amount() == 40', then:  [1 ha Wald schützen]}
-          - {if: 'amount() == 80', then:  [2 ha Wald schützen]}
-          - {if: 'amount() == 120', then: [3 ha Wald schützen]}
-          - {if: 'amount() == 200', then: [5 ha Wald schützen]}
-        payment_form:
-          stored_customer_map_label_info_text_long: >-
-            <p style="padding: 1rem; font-size: 80%; border: thin
-            solid lightgray">Max. 10 Zeichen können angezeigt werden.</p>
+    translations: *TRANSLATIONS-4
 
   rnwSpendeAuswahlNurEmail: &SPENDE_AUSWAHL_NUR_EMAIL
     # NOTE: intentionally not a deep merge, because of validations
@@ -507,27 +671,7 @@ tamaro:
     paymentTypes: [ onetime, recurring ]
     recurringIntervals: [ yearly ]
     allowCustomAmount: false
-    translations:
-      de:
-        amount_descriptions:
-          - { if: 'amount() == 60', then:  [ Einzelperson ] }
-          - { if: 'amount() == 120', then:  [ Familie ] }
-          - { if: 'amount() == 300', then:  [ Juristische Person ] }
-        # payment_form:
-        #   supscription_cancelation_policy: >-
-        #     Ihr Mitgliedsbeitrag wird jährlich fällig. Sie können Ihre
-        #     Mitgliedschaft jederzeit beenden.
-        blocks:
-          payment_amounts_and_intervals:
-            title: Art der Mitgliedschaft wählen
-            payment_types:
-              selected_interval_label:
-                yearly: >-
-                  Hinweis: Ihr Mitgliedsbeitrag wird jährlich fällig.
-                  Sie können Ihre Mitgliedschaft jederzeit beenden.
-        # payment_form:
-        #   supscription_cancelation_policy: >-
-        #     hello world 2
+    translations: *TRANSLATIONS-5
     slots:
       payment_types_end:
         - component: content
@@ -566,33 +710,7 @@ tamaro:
     #   - {if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [14.65]}
     #   - {if: 'paymentForm(stored_customer_certificate) == digital', then: [9.65]}
     #   - {if: 'paymentForm(stored_customer_certificate) == none', then: [7.65]}
-    translations:
-      de:
-        amount_descriptions: &SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
-          - {if: 'amount() == 7.65', then: [1 Baum inkl. 5 Jahre Pflege]}
-          - {if: 'amount() == 38.25', then: [5 Bäume inkl. 5 Jahre Pflege]}
-          - {if: 'amount() == 76.5', then: [10 Bäume inkl. 5 Jahre Pflege]}
-          - {if: 'amount() == 191.25', then: [25 Bäume inkl. 5 Jahre Pflege]}
-          # s8: digital
-          - {if: 'amount() == 9.65', then: [1 Baum inkl. 5 Jahre Pflege]}
-          - {if: 'amount() == 40.25', then: [5 Bäume inkl. 5 Jahre Pflege]}
-          - {if: 'amount() == 78.5', then: [10 Bäume inkl. 5 Jahre Pflege]}
-          - {if: 'amount() == 193.25', then: [25 Bäume inkl. 5 Jahre Pflege]}
-          # s7: grasspaper
-          - {if: 'amount() == 14.65', then: [1 Baum inkl. 5 Jahre Pflege]}
-          - {if: 'amount() == 45.25', then: [5 Bäume inkl. 5 Jahre Pflege]}
-          - {if: 'amount() == 83.5', then: [10 Bäume inkl. 5 Jahre Pflege]}
-          - {if: 'amount() == 198.25', then: [25 Bäume inkl. 5 Jahre Pflege]}
-        blocks:
-          payment_address:
-            title: Adresse angeben (für Zahlung und ggf. Versand der Urkunde)
-          slot_1:
-            title: Urkunde wählen
-        payment_form:
-          stored_customer_certificates:
-            grasspaper: Mit Graspapier Urkunde (7 CHF)
-            digital: Mit digitaler Urkunde (2 CHF)
-            none: Ohne Urkunde
+    translations: *TRANSLATIONS-6
     slots: &SPENDE_BAEUME_SLOTS
       slot_1:
         - component: block
@@ -656,11 +774,7 @@ tamaro:
     #   - {if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [27]}
     #   - {if: 'paymentForm(stored_customer_certificate) == digital', then: [22]}
     #   - {if: 'paymentForm(stored_customer_certificate) == none', then: [20]}
-    translations:
-      de:
-        blocks:
-          payment_purposes:
-            title: Hilfspakete wählen
+    translations: *TRANSLATIONS-7
 
   rnwSpendeKondolenz: &SPENDE_KONDOLENZ
     <<<: *SPENDE_AUSWAHL
@@ -675,13 +789,7 @@ tamaro:
           label: payment_form.stored_customer_subject
     paymentFormPrefill:
       stored_customer_subject: null
-    translations:
-      de:
-        payment_form:
-          stored_customer_subject: Name der/des Verstorbenen
-        validation_errors:
-          stored_customer_subject:
-            field_is_missing: Für die Zuordnung Ihrer Spende benötigen wir einen Namen
+    translations: *TRANSLATIONS-8
     paymentValidations:
       stored_customer_subject:
         required: true
@@ -689,14 +797,7 @@ tamaro:
   rnwSpendeBesondereAktionen:
     <<<: *SPENDE_KONDOLENZ
     purposes: [s12]
-    translations:
-      de:
-        payment_form:
-          stored_customer_subject: Details zum Spendenaufruf
-          stored_customer_subject_placeholder: z.B. Geburtstag Hans Muster
-        validation_errors:
-          stored_customer_subject:
-            field_is_missing: Für die Zuordnung Ihrer Spende benötigen wir einen Namen
+    translations: *TRANSLATIONS-9
 
   # ------------------------------ Teil II - Patenschaften
 
@@ -730,29 +831,7 @@ tamaro:
     #   - {if: 'paymentType() == onetime', then: [300]}
     #   - {if: 'paymentType() == recurring and recurringInterval() == monthly', then: [25]}
     #   - {if: 'paymentType() == recurring and recurringInterval() == yearly', then: [300]}
-    translations:
-      de:
-        amount_descriptions:
-          - if: 'paymentType() == recurring and recurringInterval() == monthly and amount() == 25'
-            then: [Normalpreis]
-          - if: 'amount() == 300'
-            then: [Normalpreis]
-          - if: 'amount() == custom_amount'
-            then: ['']
-          - Ermässigt für Kinder
-        payment_form:
-          stored_customer_delivery: Versand
-          stored_customer_deliveries:
-            customer: Versand an mich
-            recipient: Versand an beschenkte Person
-          stored_recipient_salutation_label: Anrede
-        blocks:
-          payment_profile:
-            title: Personalien angeben (für Patenurkunde und -update)
-          payment_address:
-            title: Adresse angeben (für den Versand der Patenurkunde)
-        payment_submit:
-          submit: Patenschaftsbeitrag sicher übermitteln
+    translations: *TRANSLATIONS-10
 
   rnwPatenschaftRettungsstationen:
     <<<: *PATENSCHAFT
@@ -844,40 +923,7 @@ tamaro:
       stored_customer_delivery: null
       # stored_sxt_communication_keywords: 1888278
     amounts: [300, 180]
-    translations:
-      de:
-        payment_form:
-          stored_recipient_email: E-Mail (optional)
-          stored_recipient_birthdate: Geburtsdatum
-          stored_recipient_birthdate_info_bubble_html: >-
-             BOS Schweiz bietet unter 18-Jährigen Patenschaften zum
-             ermässigten Preis. Aus diesem Grund bitten wir um eine
-             Altersangabe in Form des Geburtsdatums. Zudem ermöglicht
-             diese Angabe das Versenden eines Geburtstagsgrusses.
-        blocks:
-          payment_amounts_and_intervals:
-            title: Betrag der Spende wählen
-          payment_profile:
-            title: Personalien der schenkenden Person (für Zahlung, Rückfragen und Updates)
-          payment_address:
-            title: Adresse der schenkenden Person (für Zahlung)
-          slot_2:
-            title: Versand der Urkunde
-          slot_3:
-            title: Name der beschenkten Person auf der Urkunde
-          slot_4:
-            title: Adresse der beschenkten Person
-        validation_errors:
-          stored_customer_delivery:       {field_is_missing: Bitte eine Option wählen}
-          stored_recipient_salutation:    {field_is_missing: Bitte Anrede auswählen}
-          stored_recipient_firstname:     {field_is_missing: Bitte Vorname angeben}
-          stored_recipient_lastname:      {field_is_missing: Bitte Nachname angeben}
-          stored_recipient_email:         {field_is_missing: Bitte Emailadresse angeben}
-          stored_recipient_street:        {field_is_missing: Bitte Strasse angeben}
-          stored_recipient_street_number: {field_is_missing: Bitte Hausnummer angeben}
-          stored_recipient_zip_code:      {field_is_missing: Bitte Postleitzahl angeben}
-          stored_recipient_city:          {field_is_missing: Bitte Ort angeben}
-          stored_recipient_country:       {field_is_missing: Bitte Land auswählen}
+    translations: *TRANSLATIONS-11
     slots:
       slot_2:
         - component: block
@@ -1078,12 +1124,7 @@ tamaro:
     #   # - slot_2
     #   # - if: paymentForm(stored_customer_delivery) == recipient
     #   #   then: slot_3
-    translations:
-      de:
-        amount_descriptions: []
-        blocks:
-          payment_purposes:
-            title: Hilfspakete wählen
+    translations: *TRANSLATIONS-12
 
   # ------------------------------ Teil IV - Bäume schenken
 
@@ -1115,9 +1156,7 @@ tamaro:
     #   #   then: slot_3
     # amounts: *SPENDE_BAEUME_AMOUNTS
     # minimumCustomAmount: *SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
-    translations:
-      de:
-        amount_descriptions: *SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
+    translations: *TRANSLATIONS-13
 
   # ------------------------------ Teil V - Verschiedenes
 
@@ -1127,13 +1166,6 @@ tamaro:
     purposes: [ s19 ]
     paymentTypes: [ onetime ]
     amounts: []
-    translations:
-      de:
-        blocks:
-          # this does not work with `paymentTypes: [ onetime ]`
-          payment_amounts_and_intervals:
-            title: "Bestellwert inkl. Versand"
-          payment_purposes:
-            title: Zweck
+    translations: *TRANSLATIONS-14
 
 # Goodbye and good night. EOF
