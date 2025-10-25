@@ -204,6 +204,7 @@ function stfStoreEntry(item, f) {
 function paymentCompleteHandler(widget) {
   // see https://docs.raisenow.com/elements/tamaro/guides/redirect-to-custom-result-page/
   var tx = widget.epmsPaymentInfo
+  window.epmsPaymentInfo = tx
   if (tx.last_status === 'succeeded') {
     try {
       // after payment we have to retrieve info from transactionInfo
