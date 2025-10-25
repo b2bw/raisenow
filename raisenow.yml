@@ -25,13 +25,22 @@ features:
     testMode: true
 
   two-options-certificate: &TWO-OPTIONS-CERTIFICATE
-    paymentWidgetBlocks:
-      - payment_purposes
-      - slot_1
-      - payment_amounts_and_intervals
-      - payment_payment_methods
-      - payment_profile
-      - payment_address
+    # newschool
+    showBlocks:
+      payment_purposes: true
+      slot_1: true
+      payment_amounts_and_intervals: true
+      payment_payment_methods: true
+      payment_profile: true
+      payment_address: true
+    # oldschool
+    # paymentWidgetBlocks:
+    #   - payment_purposes
+    #   - slot_1
+    #   - payment_amounts_and_intervals
+    #   - payment_payment_methods
+    #   - payment_profile
+    #   - payment_address
     paymentFormPrefill:
       stored_customer_certificate: grasspaper
     amounts: &SPENDE_BAEUME_AMOUNTS
@@ -121,13 +130,20 @@ tamaro:
       # FIXME: this means 25 CHF and is not adjusted in other currencies!
       - if: amount() >= 25
         then: [ch_qr_reference]
-    paymentWidgetBlocks:
-      - payment_purposes
-      - payment_amounts_and_intervals
-      - payment_cover_fee
-      - payment_payment_methods
-      - payment_profile
-      - payment_address
+    showBlocks:
+      payment_purposes: true
+      payment_amounts_and_intervals: true
+      payment_cover_fee: true
+      payment_payment_methods: true
+      payment_profile: true
+      payment_address: true
+    # paymentWidgetBlocks:
+    #   - payment_purposes
+    #   - payment_amounts_and_intervals
+    #   - payment_cover_fee
+    #   - payment_payment_methods
+    #   - payment_profile
+    #   - payment_address
     purposes: [s1, s2, s3, s4, s5, s6]
     paymentTypes: [onetime, recurring]
     paymentFormPrefill:
@@ -315,14 +331,24 @@ tamaro:
   rnwSaveTheForest: &SAVETHEFOREST
     <<<1: *SPENDE_AUSWAHL
     <<<2: *CHF_ONLY
-    paymentWidgetBlocks:
-      - payment_purposes
-      - payment_amounts_and_intervals
-      - payment_cover_fee
-      - slot_1
-      - payment_payment_methods
-      - payment_profile
-      - payment_address
+    # newschool
+    showBlocks:
+      payment_purposes: true
+      payment_amounts_and_intervals: true
+      payment_cover_fee: true
+      slot_1: true
+      payment_payment_methods: true
+      payment_profile: true
+      payment_address: true
+    # oldschool
+    # paymentWidgetBlocks:
+    #   - payment_purposes
+    #   - payment_amounts_and_intervals
+    #   - payment_cover_fee
+    #   - slot_1
+    #   - payment_payment_methods
+    #   - payment_profile
+    #   - payment_address
     allowCustomAmount: false
     amounts: [1]
     purposes: [s20]
@@ -510,14 +536,22 @@ tamaro:
 
   rnwSpendeBaeume: &SPENDE_BAEUME
     <<<: *SPENDE_AUSWAHL
-    paymentWidgetBlocks:
-      - payment_purposes
-      - slot_1
-      - payment_amounts_and_intervals
-      - payment_cover_fee
-      - payment_payment_methods
-      - payment_profile
-      - payment_address
+    showBlocks:
+      payment_purposes: true
+      slot_1: true
+      payment_amounts_and_intervals: true
+      payment_cover_fee: true
+      payment_payment_methods: true
+      payment_profile: true
+      payment_address: true
+    # paymentWidgetBlocks:
+    #   - payment_purposes
+    #   - slot_1
+    #   - payment_amounts_and_intervals
+    #   - payment_cover_fee
+    #   - payment_payment_methods
+    #   - payment_profile
+    #   - payment_address
     purposes: [s7]
     paymentFormPrefill:
       stored_customer_certificate: grasspaper
@@ -592,14 +626,22 @@ tamaro:
 
   rnwSpendeHilfspaketeAuswahl:
     <<<: *SPENDE_BAEUME
-    paymentWidgetBlocks:
-      - payment_purposes
-      - slot_1
-      - payment_amounts_and_intervals
-      - payment_cover_fee
-      - payment_payment_methods
-      - payment_profile
-      - payment_address
+    showBlocks:
+      payment_purposes: true
+      slot_1: true
+      payment_amounts_and_intervals: true
+      payment_cover_fee: true
+      payment_payment_methods: true
+      payment_profile: true
+      payment_address: true
+    # paymentWidgetBlocks:
+    #   - payment_purposes
+    #   - slot_1
+    #   - payment_amounts_and_intervals
+    #   - payment_cover_fee
+    #   - payment_payment_methods
+    #   - payment_profile
+    #   - payment_address
     purposes: [s13, s14, s15, s16, s17, s18]
     paymentFormPrefill:
       stored_customer_certificate: grasspaper
@@ -660,13 +702,20 @@ tamaro:
 
   rnwPatenschaftAuswahl: &PATENSCHAFT
     <<<: *SPENDE_AUSWAHL
-    paymentWidgetBlocks:
-      - payment_purposes
-      - payment_amounts_and_intervals
-      - payment_cover_fee
-      - payment_payment_methods
-      - payment_profile
-      - payment_address
+    showBlocks:
+      payment_purposes: true
+      payment_amounts_and_intervals: true
+      payment_cover_fee: true
+      payment_payment_methods: true
+      payment_profile: true
+      payment_address: true
+    # paymentWidgetBlocks:
+    #   - payment_purposes
+    #   - payment_amounts_and_intervals
+    #   - payment_cover_fee
+    #   - payment_payment_methods
+    #   - payment_profile
+    #   - payment_address
     purposes: [p1, p3, p4, p5, p7, p8]
     paymentFormPrefill:
        payment_type: recurring
@@ -759,17 +808,25 @@ tamaro:
       p6:  {stored_campaign_id: '7010900000019AJAAY'}
       p7:  {stored_campaign_id: '701Vj00000L8d8AIAR'}  # Jeni
       p8:  {stored_campaign_id: '701Vj00000L8XduIAF'}  # Iqo
-    paymentWidgetBlocks:
-      - payment_purposes
-      - payment_amounts_and_intervals
-      - payment_cover_fee
-      - payment_payment_methods
-      - payment_profile
-      - payment_address
-      - slot_4
-      # - slot_2
-      # - if: paymentForm(stored_customer_delivery) == recipient
-      #   then: slot_3
+    showBlocks:
+      payment_purposes: true
+      payment_amounts_and_intervals: true
+      payment_cover_fee: true
+      payment_payment_methods: true
+      payment_profile: true
+      payment_address: true
+      slot_4: true
+    # paymentWidgetBlocks:
+    #   - payment_purposes
+    #   - payment_amounts_and_intervals
+    #   - payment_cover_fee
+    #   - payment_payment_methods
+    #   - payment_profile
+    #   - payment_address
+    #   - slot_4
+    #   # - slot_2
+    #   # - if: paymentForm(stored_customer_delivery) == recipient
+    #   #   then: slot_3
     # gifts cannot be recurring
     paymentTypes: [ onetime ]
     paymentFormPrefill:
@@ -1000,18 +1057,27 @@ tamaro:
     #   - {if: 'paymentForm(stored_customer_certificate) == grasspaper', then: [27]}
     #   - {if: 'paymentForm(stored_customer_certificate) == digital', then: [22]}
     #   - {if: 'paymentForm(stored_customer_certificate) == none', then: [20]}
-    paymentWidgetBlocks:
-      - payment_purposes
-      - slot_1
-      - payment_amounts_and_intervals
-      - payment_cover_fee
-      - payment_payment_methods
-      - payment_profile
-      - payment_address
-      - slot_4
-      # - slot_2
-      # - if: paymentForm(stored_customer_delivery) == recipient
-      #   then: slot_3
+    showBlocks:
+      payment_purposes: true
+      slot_1: true
+      payment_amounts_and_intervals: true
+      payment_cover_fee: true
+      payment_payment_methods: true
+      payment_profile: true
+      payment_address: true
+      slot_4: true
+    # paymentWidgetBlocks:
+    #   - payment_purposes
+    #   - slot_1
+    #   - payment_amounts_and_intervals
+    #   - payment_cover_fee
+    #   - payment_payment_methods
+    #   - payment_profile
+    #   - payment_address
+    #   - slot_4
+    #   # - slot_2
+    #   # - if: paymentForm(stored_customer_delivery) == recipient
+    #   #   then: slot_3
     translations:
       de:
         amount_descriptions: []
@@ -1025,18 +1091,28 @@ tamaro:
     <<<1: *PATENSCHAFT_SCHENKEN
     <<<2: *TWO-OPTIONS-CERTIFICATE
     purposes: [s8]
-    paymentWidgetBlocks:
-      - payment_purposes
-      - slot_1
-      - payment_amounts_and_intervals
-      - payment_cover_fee
-      - payment_payment_methods
-      - payment_profile
-      - payment_address
-      - slot_4
-      # - slot_2
-      # - if: paymentForm(stored_customer_delivery) == recipient
-      #   then: slot_3
+
+    showBlocks:
+      payment_purposes: true
+      slot_1: true
+      payment_amounts_and_intervals: true
+      payment_cover_fee: true
+      payment_payment_methods: true
+      payment_profile: true
+      payment_address: true
+      slot_4: true
+    # paymentWidgetBlocks:
+    #   - payment_purposes
+    #   - slot_1
+    #   - payment_amounts_and_intervals
+    #   - payment_cover_fee
+    #   - payment_payment_methods
+    #   - payment_profile
+    #   - payment_address
+    #   - slot_4
+    #   # - slot_2
+    #   # - if: paymentForm(stored_customer_delivery) == recipient
+    #   #   then: slot_3
     # amounts: *SPENDE_BAEUME_AMOUNTS
     # minimumCustomAmount: *SPENDE_BAEUME_MINIMUMCUSTOMAMOUNTS
     translations:
