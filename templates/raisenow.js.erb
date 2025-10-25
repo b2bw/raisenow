@@ -204,14 +204,15 @@ function stfStoreEntry(item, f) {
 function paymentCompleteHandler(widget) {
   // see https://docs.raisenow.com/elements/tamaro/guides/redirect-to-custom-result-page/
   var tx = widget.epmsPaymentInfo
+  // fallback in case of ch_qr_reference
+  if (tx == undefined) { tx = widget.epmsPaymentAgreementInfo }
   window.epmsPaymentInfo = tx
-  if (tx.last_status === 'succeeded') {
+  if (tx.last_status === 'succeeded' || tx.last_status === 'created') {
     try {
       // after payment we have to retrieve info from transactionInfo
       // instead of paymentForm
       var payload = JSON.parse(tx.custom_parameters.recipient_lastname)
-      // TODO: this doesn't work like this anymore it seems
-      payload.name = tx.stored_customer_map_label
+      payload.name = tx.custom_parameters.customer_map_label
       stfStoreEntry(payload, function(data, status, xhr) {
         window.location = 'https://save-the-forest.ch/danke/'
       })
