@@ -38,6 +38,17 @@ features:
           grasspaper: Mit Graspapier Urkunde (7 CHF)
           digital: Mit digitaler Urkunde (2 CHF)
           none: Ohne Urkunde
+    fr:
+      blocks:
+        payment_address:
+          title: Indiquer l'adresse (pour le paiement et éventuellement l'expédition du certificat)
+        slot_1:
+          title: Choisir le certificat
+      payment_form:
+        stored_customer_certificates:
+          grasspaper: Avec certificat sur papier recyclé (7 CHF)
+          digital: Avec certificat numérique (2 CHF)
+          none: Sans certificat
 
   translations-2: &TRANSLATIONS-2
     de:
@@ -101,13 +112,79 @@ features:
           Schweiz erhalten per Post oder E-Mail eine
           Spendenbestätigung für die Steuerbehörden. Die Spenden
           gehen an BOS Schweiz. <a
-          href='https://www.bos-schweiz.ch/de/ueber-bos/datenschutz-bei-bos.htm'>Datenschutzbestimmungen
+          href='https://bos-schweiz.ch/datenschutz/'>Datenschutzbestimmungen
           von BOS Schweiz</a></p>
         salutations:
           neutral: Neutrale Anrede
       validation_errors:
         amount:
           minimum_custom_amount: Bitte einen Betrag über {{min}} eingeben
+    fr:
+      purposes:
+        s1: Don sans restriction
+        s2: Reboisement
+        s3: Stations de sauvetage
+        s4: Réintroductions
+        s5: Ours
+        s6: Protection des forêts
+        s7: Offrir des arbres
+        s8: Faire un cadeau d'arbres
+        s9: Programme éducatif BOS Suisse
+        s10: Don de condoléances
+        s11: Adhésion de soutien
+        s12: Action de don spéciale
+        s13: Biberons
+        s14: Panier de légumes et de fruits
+        s15: Jouets
+        s16: Brouette
+        s17: Approvisionnement pour réintroductions
+        s18: Médicaments
+        s19: Commande de marchandises
+        s20: Protection des forêts
+        p1: Parrainage des stations de sauvetage
+        p2: Parrainage de Topan  # plus disponible dans la sélection !
+        p3: Parrainage de Bumi
+        # p4: Parrainage de Davi
+        p4: Parrainage de Baimah
+        p5: Parrainage de Kopral
+        p6: Parrainage de Shelton # plus disponible dans la sélection !
+        p7: Parrainage de Jeni
+        p8: Parrainage d'Iqo
+      payment_profile:
+        donation_receipt_info_html: >-
+          <p>L'envoi d'un reçu de don nécessite la saisie de l'adresse postale.</p>
+      info_toggle:
+        stored_customer_birthdate:
+          text_html: >-
+            BOS Suisse propose des parrainages à prix réduit pour les
+            mineurs. C'est pourquoi nous demandons une indication d'âge
+            sous forme de date de naissance. De plus, cette information
+            permet d'envoyer un message d'anniversaire.
+        stored_recipient_email:
+          text_html: >-
+            Pour les mises à jour et autres. Veuillez me modifier.
+      payment_form:
+        stored_customer_phone: Numéro de téléphone
+        stored_customer_info_text_long: >-
+          <p style="padding: 1rem; font-size: 80%; border: thin
+          solid lightgray">La transmission des données se fait de manière
+          chiffrée. BOS Suisse ne stocke pas lui-même les données de carte,
+          vos données de paiement transitent directement via RaiseNow, un
+          partenaire certifié par l'industrie des cartes de crédit (PCI DSS).
+          Notre personnel n'est autorisé à utiliser ces informations
+          qu'aux fins de l'exécution de ses tâches et est tenu de respecter
+          les dispositions relatives à la protection des données. Vous
+          pouvez déduire votre don de votre revenu imposable en Suisse.
+          Les donateurs en Suisse reçoivent par courrier postal ou
+          électronique un reçu de don pour les autorités fiscales.
+          Les dons sont versés à BOS Suisse. <a
+          href='https://bos-schweiz.ch/datenschutz/'>Dispositions
+          sur la protection des données de BOS Suisse</a></p>
+        salutations:
+          neutral: Formule d'appel neutre
+      validation_errors:
+        amount:
+          minimum_custom_amount: Veuillez saisir un montant supérieur à {{min}}
 
   translations-3: &TRANSLATIONS-3
     de:
@@ -125,6 +202,21 @@ features:
           <p style="padding: 1rem; font-size: 80%; border: thin
           solid lightgray">Max. 10 Zeichen können angezeigt werden. Die Sichtbarkeit
           Ihrer Benennung auf der Karte ist zeitlich begrenzt.</p>
+    fr:
+      amount_descriptions: "une coupe symbolique, rien de plus"
+      blocks:
+        slot_1:
+          title: Choisir le certificat
+      payment_form:
+        stored_customer_certificates:
+          digital: Avec certificat numérique
+          none: Sans certificat
+        stored_recipient_firstname: Nom sur le certificat
+        stored_customer_map_label: Nom de votre forêt sur la carte
+        stored_customer_map_label_info_text_long: >-
+          <p style="padding: 1rem; font-size: 80%; border: thin
+          solid lightgray">Un maximum de 10 caractères peut être affiché. La visibilité
+          de votre dénomination sur la carte est limitée dans le temps.</p>
 
   translations-4: &TRANSLATIONS-4
     de:
@@ -137,6 +229,16 @@ features:
         stored_customer_map_label_info_text_long: >-
           <p style="padding: 1rem; font-size: 80%; border: thin
           solid lightgray">Max. 10 Zeichen können angezeigt werden.</p>
+    fr:
+      amount_descriptions:
+        - {if: 'amount() == 40', then: [protéger 1 ha de forêt]}
+        - {if: 'amount() == 80', then: [protéger 2 ha de forêt]}
+        - {if: 'amount() == 120', then: [protéger 3 ha de forêt]}
+        - {if: 'amount() == 200', then: [protéger 5 ha de forêt]}
+      payment_form:
+        stored_customer_map_label_info_text_long: >-
+          <p style="padding: 1rem; font-size: 80%; border: thin
+          solid lightgray">Un maximum de 10 caractères peut être affiché.</p>
 
   translations-5: &TRANSLATIONS-5
     de:
@@ -159,10 +261,23 @@ features:
       # payment_form:
       #   supscription_cancelation_policy: >-
       #     hello world 2
+    fr:
+      amount_descriptions:
+        - { if: 'amount() == 60', then: [ Personne physique ] }
+        - { if: 'amount() == 120', then: [ Famille ] }
+        - { if: 'amount() == 300', then: [ Personne morale ] }
+      blocks:
+        payment_amounts_and_intervals:
+          title: Choisir le type d'adhésion
+          payment_types:
+            selected_interval_label:
+              yearly: >-
+                Remarque : Votre cotisation est due annuellement.
+                Vous pouvez résilier votre adhésion à tout moment.
 
   translations-6: &TRANSLATIONS-6
     de:
-      amount_descriptions: &SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
+      amount_descriptions: &SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS_DE
         - {if: 'amount() == 7.65', then: [1 Baum inkl. 5 Jahre Pflege]}
         - {if: 'amount() == 38.25', then: [5 Bäume inkl. 5 Jahre Pflege]}
         - {if: 'amount() == 76.5', then: [10 Bäume inkl. 5 Jahre Pflege]}
@@ -187,12 +302,42 @@ features:
           grasspaper: Mit Graspapier Urkunde (7 CHF)
           digital: Mit digitaler Urkunde (2 CHF)
           none: Ohne Urkunde
+    fr:
+      amount_descriptions: &SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS_FR
+        - {if: 'amount() == 7.65', then: [1 arbre incl. 5 ans d'entretien]}
+        - {if: 'amount() == 38.25', then: [5 arbres incl. 5 ans d'entretien]}
+        - {if: 'amount() == 76.5', then: [10 arbres incl. 5 ans d'entretien]}
+        - {if: 'amount() == 191.25', then: [25 arbres incl. 5 ans d'entretien]}
+        # s8: digital
+        - {if: 'amount() == 9.65', then: [1 arbre incl. 5 ans d'entretien]}
+        - {if: 'amount() == 40.25', then: [5 arbres incl. 5 ans d'entretien]}
+        - {if: 'amount() == 78.5', then: [10 arbres incl. 5 ans d'entretien]}
+        - {if: 'amount() == 193.25', then: [25 arbres incl. 5 ans d'entretien]}
+        # s7: grasspaper
+        - {if: 'amount() == 14.65', then: [1 arbre incl. 5 ans d'entretien]}
+        - {if: 'amount() == 45.25', then: [5 arbres incl. 5 ans d'entretien]}
+        - {if: 'amount() == 83.5', then: [10 arbres incl. 5 ans d'entretien]}
+        - {if: 'amount() == 198.25', then: [25 arbres incl. 5 ans d'entretien]}
+      blocks:
+        payment_address:
+          title: Indiquer l'adresse (pour le paiement et éventuellement l'expédition du certificat)
+        slot_1:
+          title: Choisir le certificat
+      payment_form:
+        stored_customer_certificates:
+          grasspaper: Avec certificat sur papier recyclé (7 CHF)
+          digital: Avec certificat numérique (2 CHF)
+          none: Sans certificat
 
   translations-7: &TRANSLATIONS-7
     de:
       blocks:
         payment_purposes:
           title: Hilfspakete wählen
+    fr:
+      blocks:
+        payment_purposes:
+          title: Choisir les colis d'aide
 
   translations-8: &TRANSLATIONS-8
     de:
@@ -201,6 +346,12 @@ features:
       validation_errors:
         stored_customer_subject:
           field_is_missing: Für die Zuordnung Ihrer Spende benötigen wir einen Namen
+    fr:
+      payment_form:
+        stored_customer_subject: Nom du/de la défunt(e)
+      validation_errors:
+        stored_customer_subject:
+          field_is_missing: Pour attribuer votre don, nous avons besoin d'un nom
 
   translations-9: &TRANSLATIONS-9
       de:
@@ -210,6 +361,13 @@ features:
         validation_errors:
           stored_customer_subject:
             field_is_missing: Für die Zuordnung Ihrer Spende benötigen wir einen Namen
+      fr:
+        payment_form:
+          stored_customer_subject: Détails de l'appel aux dons
+          stored_customer_subject_placeholder: par ex. anniversaire de Hans Muster
+        validation_errors:
+          stored_customer_subject:
+            field_is_missing: Pour attribuer votre don, nous avons besoin d'un nom
 
   translations-10: &TRANSLATIONS-10
     de:
@@ -234,6 +392,28 @@ features:
           title: Adresse angeben (für den Versand der Patenurkunde)
       payment_submit:
         submit: Patenschaftsbeitrag sicher übermitteln
+    fr:
+      amount_descriptions:
+        - if: 'paymentType() == recurring and recurringInterval() == monthly and amount() == 25'
+          then: [Prix normal]
+        - if: 'amount() == 300'
+          then: [Prix normal]
+        - if: 'amount() == custom_amount'
+          then: ['']
+        - Tarif réduit pour enfants
+      payment_form:
+        stored_customer_delivery: Expédition
+        stored_customer_deliveries:
+          customer: Expédition à moi
+          recipient: Expédition à la personne bénéficiaire
+        stored_recipient_salutation_label: Formule d'appel
+      blocks:
+        payment_profile:
+          title: Indiquer les données personnelles (pour le certificat de parrainage et les mises à jour)
+        payment_address:
+          title: Indiquer l'adresse (pour l'expédition du certificat de parrainage)
+      payment_submit:
+        submit: Transmettre en toute sécurité la cotisation de parrainage
 
   translations-11: &TRANSLATIONS-11
     de:
@@ -269,6 +449,39 @@ features:
         stored_recipient_zip_code:      {field_is_missing: Bitte Postleitzahl angeben}
         stored_recipient_city:          {field_is_missing: Bitte Ort angeben}
         stored_recipient_country:       {field_is_missing: Bitte Land auswählen}
+    fr:
+      payment_form:
+        stored_recipient_email: E-mail (facultatif)
+        stored_recipient_birthdate: Date de naissance
+        stored_recipient_birthdate_info_bubble_html: >-
+          BOS Suisse propose des parrainages à prix réduit pour les
+          mineurs. C'est pourquoi nous demandons une indication d'âge
+          sous forme de date de naissance. De plus, cette information
+          permet d'envoyer un message d'anniversaire.
+      blocks:
+        payment_amounts_and_intervals:
+          title: Choisir le montant du don
+        payment_profile:
+          title: Données personnelles du donateur (pour le paiement, les demandes de renseignements et les mises à jour)
+        payment_address:
+          title: Adresse du donateur (pour le paiement)
+        slot_2:
+          title: Expédition du certificat
+        slot_3:
+          title: Nom de la personne bénéficiaire sur le certificat
+        slot_4:
+          title: Adresse de la personne bénéficiaire
+      validation_errors:
+        stored_customer_delivery:       {field_is_missing: Veuillez choisir une option}
+        stored_recipient_salutation:    {field_is_missing: Veuillez sélectionner une formule d'appel}
+        stored_recipient_firstname:     {field_is_missing: Veuillez indiquer le prénom}
+        stored_recipient_lastname:      {field_is_missing: Veuillez indiquer le nom}
+        stored_recipient_email:         {field_is_missing: Veuillez indiquer l'adresse e-mail}
+        stored_recipient_street:        {field_is_missing: Veuillez indiquer la rue}
+        stored_recipient_street_number: {field_is_missing: Veuillez indiquer le numéro}
+        stored_recipient_zip_code:      {field_is_missing: Veuillez indiquer le code postal}
+        stored_recipient_city:          {field_is_missing: Veuillez indiquer la localité}
+        stored_recipient_country:       {field_is_missing: Veuillez sélectionner le pays}
 
   translations-12: &TRANSLATIONS-12
     de:
@@ -276,10 +489,17 @@ features:
       blocks:
         payment_purposes:
           title: Hilfspakete wählen
+    fr:
+      amount_descriptions: []
+      blocks:
+        payment_purposes:
+          title: Choisir les colis d'aide
 
   translations-13: &TRANSLATIONS-13
     de:
-      amount_descriptions: *SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS
+      amount_descriptions: *SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS_DE
+    fr:
+      amount_descriptions: *SPENDE_BAEUME_TRANSLATIONS_AMOUNTDESCRIPTIONS_FR
 
   translations-14: &TRANSLATIONS-14
     de:
@@ -289,6 +509,12 @@ features:
           title: "Bestellwert inkl. Versand"
         payment_purposes:
           title: Zweck
+    fr:
+      blocks:
+        payment_amounts_and_intervals:
+          title: "Valeur de la commande incl. frais d'expédition"
+        payment_purposes:
+          title: But
 
   # --- end of translations
 
@@ -489,6 +715,12 @@ tamaro:
     purposes: [s1]
     amounts: [50, 80, 140]
 
+  rnwSpendeUngebundenFR:
+    <<<: *SPENDE_AUSWAHL
+    purposes: [s1]
+    amounts: [50, 80, 140]
+    language: fr
+
   rnwSpendeUngebundenJubilaeum:
     <<<: *SPENDE_AUSWAHL
     purposes: [s1]
@@ -500,6 +732,11 @@ tamaro:
     <<<: *SPENDE_AUSWAHL
     purposes: [s3]
 
+  rnwSpendeRettungsstationenFR:
+    <<<: *SPENDE_AUSWAHL
+    purposes: [s3]
+    language: fr
+
   rnwSpendeAuswilderungen:
     <<<: *SPENDE_AUSWAHL
     purposes: [s4]
@@ -508,10 +745,21 @@ tamaro:
     <<<: *SPENDE_AUSWAHL
     purposes: [s5]
 
+  rnwSpendeBaerenFR:
+    <<<: *SPENDE_AUSWAHL
+    purposes: [s5]
+    language: fr
+
   rnwSpendeWaldschutz:
     <<<: *SPENDE_AUSWAHL
     purposes: [s6]
     amounts: [40, 80, 120]
+
+  rnwSpendeWaldschutzFR:
+    <<<: *SPENDE_AUSWAHL
+    purposes: [s6]
+    amounts: [40, 80, 120]
+    language: fr
 
   rnwSpendeBildungsprogramm:
     <<<: *SPENDE_AUSWAHL
@@ -861,6 +1109,11 @@ tamaro:
     <<<: *PATENSCHAFT
     purposes: [p7]
 
+  rnwPatenschaftJeniFR:
+    <<<: *PATENSCHAFT
+    purposes: [p7]
+    language: fr
+
   rnwPatenschaftIqo:
     <<<: *PATENSCHAFT
     purposes: [p8]
@@ -1083,6 +1336,11 @@ tamaro:
   rnwSchenkenPatenschaftJeni:
     <<<: *PATENSCHAFT_SCHENKEN
     purposes: [p7]
+
+  rnwSchenkenPatenschaftJeniFR:
+    <<<: *PATENSCHAFT_SCHENKEN
+    purposes: [p7]
+    language: fr
 
   rnwSchenkenPatenschaftIqo:
     <<<: *PATENSCHAFT_SCHENKEN

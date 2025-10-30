@@ -12,7 +12,22 @@
   <body>
     <a href='index.html'>zurück zur Übersicht</a>
     <h1><%= key %></h1>
+    Embed code:
+    <textarea id="myTextarea" rows="1" style="width: 50%">&lt;div id="<%= key %>"&gt;&lt;/div&gt;</textarea>
+    <button onclick="copyToClipboard()">Copy Embed Code</button>
+    <hr/>
     <div id="<%= key %>"></div>
     <a href='index.html'>zurück zur Übersicht</a>
+ <script>
+        async function copyToClipboard() {
+            const textarea = document.getElementById("myTextarea");
+            try {
+                await navigator.clipboard.writeText(textarea.value);
+                console.log("Text copied to clipboard");
+            } catch (err) {
+                console.error("Failed to copy text: ", err);
+            }
+        }
+    </script>
   </body>
 </html>
