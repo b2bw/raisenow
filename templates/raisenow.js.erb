@@ -114,7 +114,7 @@ function stfDonate(details) {
                      de: {
                        amount_descriptions: [details.description]}}};
   const result = deepMerge({}, RNW["rnwSaveTheForest"], dynamic,
-                           {redirectToCustomResultPage: paymentCompleteHandler});
+                           {redirectToCustomResultPage: stfPaymentCompleteHandler});
   // console.log(result)
   window.rnw.tamaro.runWidget("#dynForm", result)
   location.hash = 'popup'
@@ -149,7 +149,7 @@ function stfLoadEntries() {
       return null;
     }
   })
-  .filter(entry => entry !== null); // Remove invalid entries
+    .filter(entry => entry !== null); // Remove invalid entries
 }
 
 // async function stfLoadEntries() {
@@ -201,12 +201,15 @@ function stfStoreEntry(item, f) {
 
 
 // https://save-the-forest.ch/orang-utans/?rnw-view=payment_result&epms_payment_uuid=e5ba1338-1996-49ec-a658-2958cae1a6a1#popup
-function paymentCompleteHandler(widget) {
+function stfPaymentCompleteHandler(widget) {
+  conversionTracking(widget);
+
   // see https://docs.raisenow.com/elements/tamaro/guides/redirect-to-custom-result-page/
   var tx = widget.epmsPaymentInfo
   // fallback in case of ch_qr_reference
   if (tx == undefined) { tx = widget.epmsPaymentAgreementInfo }
   window.epmsPaymentInfo = tx
+
   if (tx.last_status === 'succeeded' || tx.last_status === 'created') {
     try {
       // after payment we have to retrieve info from transactionInfo
@@ -237,6 +240,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // end stf stuff ------------------------------------------------------------
 
+function paymentCompleteHandler(widget) {
+  conversionTracking(widget);
+}
+
+function conversionTracking(widget) {
+  // see https://docs.raisenow.com/elements/tamaro/guides/redirect-to-custom-result-page/
+  var tx = widget.epmsPaymentInfo
+  // fallback in case of ch_qr_reference
+  if (tx == undefined) { tx = widget.epmsPaymentAgreementInfo }
+  window.epmsPaymentInfo = tx
+
+  var amount = tx.amount / 100;
+
+  // New Conversion Tracking 2025
+  //Löschen von Artefakten
+  dataLayer.push({ ecommerce: null });
+  dataLayer.push({
+    event: "purchase",
+    ecommerce: {
+      //Eindeutige "unique" ID für den Spendenvorgang
+      transaction_id: tx.uuid,
+      value: amount,
+      tax: 0,
+      shipping: 0,
+      currency: tx.currency_identifier,
+      items: [
+        {
+          // Spendenzweck ID = KampagnenID aus Salesforce
+          item_id: tx.custom_parameters.campaign_id,
+          item_name: tx.custom_parameters.rnw_purpose_text +
+            " #" + (tx.created_subscription_uuid ? "wiederkehrend" : "einmalig") +
+            " #" + tx.last_status +
+            " #" + tx.payment_method +
+            (tx.custom_parameters.cover_transaction_fee ? " #coverfee" : "") +
+            (tx.wallet_type ? (" #" + tx_wallet_type) : "") +
+            (tx.test_mode ? " #test" : ""),
+          price: amount,
+          quantity: 1
+        }]
+    }
+  });
+}
+
 // on dom ready
 // $(() => {
 document.addEventListener('DOMContentLoaded', () => {
@@ -251,7 +297,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // initialize the widgets
   Object.keys(RNW).forEach(key => {
     const selector = '#'+key;
-    if ($(selector).length) window.rnw.tamaro.runWidget(selector, RNW[key]);
+    if ($(selector).length)
+      window.rnw.tamaro.runWidget(selector,
+                                  deepMerge({},
+                                            RNW[key],
+                                            {redirectToCustomResultPage: paymentCompleteHandler}));
+
   });
 
   // TODO: RaiseNow has an api to set options via query paramater, no need to reinvent the wheel
