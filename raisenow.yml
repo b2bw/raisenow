@@ -718,6 +718,8 @@ tamaro:
   rnwSpendeUngebundenFR:
     <<<: *SPENDE_AUSWAHL
     purposes: [s1]
+    purposeDetails:
+      s1: {stored_campaign_id: '701Vj00000VuzILIAZ'}
     amounts: [50, 80, 140]
     language: fr
 
@@ -735,6 +737,8 @@ tamaro:
   rnwSpendeRettungsstationenFR:
     <<<: *SPENDE_AUSWAHL
     purposes: [s3]
+    purposeDetails:
+      s3: {stored_campaign_id: '701Vj00000VviKGIAZ'}
     language: fr
 
   rnwSpendeAuswilderungen:
@@ -748,6 +752,8 @@ tamaro:
   rnwSpendeBaerenFR:
     <<<: *SPENDE_AUSWAHL
     purposes: [s5]
+    purposeDetails:
+      s5: {stored_campaign_id: '701Vj00000Vl4xaIAB'}
     language: fr
 
   rnwSpendeWaldschutz:
@@ -758,6 +764,8 @@ tamaro:
   rnwSpendeWaldschutzFR:
     <<<: *SPENDE_AUSWAHL
     purposes: [s6]
+    purposeDetails:
+      s6: {stored_campaign_id: '701Vj00000VvFmvIAF'}
     amounts: [40, 80, 120]
     language: fr
 
@@ -1112,6 +1120,8 @@ tamaro:
   rnwPatenschaftJeniFR:
     <<<: *PATENSCHAFT
     purposes: [p7]
+    purposeDetails:
+      s7: {stored_campaign_id: '701Vj00000VkTtKIAV'}
     language: fr
 
   rnwPatenschaftIqo:
@@ -1340,6 +1350,8 @@ tamaro:
   rnwSchenkenPatenschaftJeniFR:
     <<<: *PATENSCHAFT_SCHENKEN
     purposes: [p7]
+    purposeDetails:
+      s7: {stored_campaign_id: '701Vj00000VkltJIAR'}
     language: fr
 
   rnwSchenkenPatenschaftIqo:
