@@ -662,7 +662,7 @@ tamaro:
       p5:  {stored_campaign_id: '70109000000199bAAA'}
       p6:  {stored_campaign_id: '70109000000199qAAA'}
       p7:  {stored_campaign_id: '701Vj00000L8cSHIAZ'} # Jeni
-      p8:  {stored_campaign_id: '701Vj00000L8d8AIAR'} # Iqo
+      p8:  {stored_campaign_id: '701Vj00000L8agZIAR'} # Iqo
     translations: *TRANSLATIONS-2
     showStoredCustomerBirthdate: true
     # minimumCustomAmount:
