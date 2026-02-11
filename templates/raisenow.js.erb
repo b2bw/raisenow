@@ -103,6 +103,7 @@ const deepMerge = (...objects) => {
 };
 
 function stfDonate(details) {
+  console.log("stf checkpoint 2: populate popup")
   const selector = '.brxe-popup-481 .brx-popup-content'
   const content = "<h1>Bitte geben Sie Ihre Spendendaten ein</h1><div id='dynForm'>"
   // $(selector).html(content)
@@ -135,7 +136,10 @@ function stfLoadEntries() {
   xhr.open('GET', api, false); // false for synchronous
   xhr.send();
   // Parse the response
-  return JSON.parse(xhr.responseText);
+
+  const result = JSON.parse(xhr.responseText).events;
+  console.log("stf checkpoint 1: load map", result)
+  return result
 }
 
 // async function stfLoadEntries() {
@@ -188,6 +192,7 @@ function stfStoreEntry(item, f) {
 
 // https://save-the-forest.ch/orang-utans/?rnw-view=payment_result&epms_payment_uuid=e5ba1338-1996-49ec-a658-2958cae1a6a1#popup
 function stfPaymentCompleteHandler(widget) {
+  console.log("stf checkpoint 3: stfPaymentCompleteHandler")
   conversionTracking(widget);
 
   // see https://docs.raisenow.com/elements/tamaro/guides/redirect-to-custom-result-page/
@@ -196,17 +201,19 @@ function stfPaymentCompleteHandler(widget) {
   if (tx == undefined) { tx = widget.epmsPaymentAgreementInfo }
   window.epmsPaymentInfo = tx
 
+  console.log("stf checkpoint 4: tx status", tx.last_status, tx)
   if (tx.last_status === 'succeeded' || tx.last_status === 'created') {
     try {
       // after payment we have to retrieve info from transactionInfo
       // instead of paymentForm
       var payload = JSON.parse(tx.custom_parameters.recipient_lastname)
       payload.name = tx.custom_parameters.customer_map_label
+      console.log("stf checkpoint 5: payload", payload)
       stfStoreEntry(payload, function(data, status, xhr) {
         window.location = 'https://save-the-forest.ch/danke/'
       })
     } catch (error) {
-      // silently fail for all forms but rnwSaveTheForest
+      console.error(error)
     }
   }
 }
