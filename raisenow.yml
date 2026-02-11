@@ -627,6 +627,15 @@ tamaro:
     #   - payment_payment_methods
     #   - payment_profile
     #   - payment_address
+    blocksOrder:
+      - payment_purposes
+      - slot_1
+      - payment_amounts_and_intervals
+      - payment_cover_fee
+      - payment_payment_methods
+      - payment_profile
+      - payment_address
+      - slot_4
     purposes: [s1, s2, s3, s4, s5, s6]
     paymentTypes: [onetime, recurring]
     paymentFormPrefill:
