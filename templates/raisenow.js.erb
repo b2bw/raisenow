@@ -121,7 +121,7 @@ function stfDonate(details) {
   bricksOpenPopup(481)
 }
 
-const comments = "/wp-json/wp/v2/comments"
+const api = "https://bos-event-store.jcloud.ik-server.com/events"
 
 // function stfLoadEntries() {
 //   return $.map($.ajax({url: comments + '?post=572', async: false}).responseJSON, function(e, i) {
@@ -132,24 +132,10 @@ const comments = "/wp-json/wp/v2/comments"
 function stfLoadEntries() {
   // Create and send synchronous XHR request
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', comments + '?post=572', false); // false for synchronous
+  xhr.open('GET', api, false); // false for synchronous
   xhr.send();
   // Parse the response
-  const responseJSON = JSON.parse(xhr.responseText);
-  // Map over the response
-  return responseJSON.map(entry => {
-    // Create temporary div to parse HTML content
-    const div = document.createElement('div');
-    div.innerHTML = entry.content.rendered;
-    try {
-      // Get text content and parse as JSON
-      return JSON.parse(div.textContent);
-    } catch (e) {
-      // Return null or undefined for invalid JSON
-      return null;
-    }
-  })
-    .filter(entry => entry !== null); // Remove invalid entries
+  return JSON.parse(xhr.responseText);
 }
 
 // async function stfLoadEntries() {
@@ -182,8 +168,8 @@ function stfLoadEntries() {
 
 function stfStoreEntry(item, f) {
   const xhr = new XMLHttpRequest();
-  xhr.open('POST', comments);
-  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.open('POST', api);
+  xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.onload = function() {
     if (xhr.status >= 200 && xhr.status < 300) {
       const response = JSON.parse(xhr.responseText);
@@ -195,7 +181,7 @@ function stfStoreEntry(item, f) {
     console.log(xhr.statusText);
   };
   // Format data as URL-encoded string
-  const data = `post=572&content=${encodeURIComponent(JSON.stringify(item))}`;
+  const data = JSON.stringify(item);
   xhr.send(data);
 }
 
@@ -296,13 +282,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // initialize the widgets
   Object.keys(RNW).forEach(key => {
-    const selector = '#'+key;
-    if ($(selector).length)
+    const selector = '#' + key;
+    const element = document.querySelector(selector);
+    if (element) {
       window.rnw.tamaro.runWidget(selector,
                                   deepMerge({},
                                             RNW[key],
-                                            {redirectToCustomResultPage: paymentCompleteHandler}));
-
+                                            { redirectToCustomResultPage: paymentCompleteHandler }));
+    }
   });
 
   // TODO: RaiseNow has an api to set options via query paramater, no need to reinvent the wheel
