@@ -197,8 +197,8 @@ features:
           digital: Mit digitaler Urkunde
           none: Ohne Urkunde
         stored_recipient_firstname: Name auf der Urkunde
-        stored_customer_map_label: Name Ihres Waldes auf der Karte
-        stored_customer_map_label_info_text_long: >-
+        stored_map_label: Name Ihres Waldes auf der Karte
+        stored_map_label_info_text_long: >-
           <p style="padding: 1rem; font-size: 80%; border: thin
           solid lightgray">Max. 10 Zeichen können angezeigt werden. Die Sichtbarkeit
           Ihrer Benennung auf der Karte ist zeitlich begrenzt.</p>
@@ -212,8 +212,8 @@ features:
           digital: Avec certificat numérique
           none: Sans certificat
         stored_recipient_firstname: Nom sur le certificat
-        stored_customer_map_label: Nom de votre forêt sur la carte
-        stored_customer_map_label_info_text_long: >-
+        stored_map_label: Nom de votre forêt sur la carte
+        stored_map_label_info_text_long: >-
           <p style="padding: 1rem; font-size: 80%; border: thin
           solid lightgray">Un maximum de 10 caractères peut être affiché. La visibilité
           de votre dénomination sur la carte est limitée dans le temps.</p>
@@ -226,7 +226,7 @@ features:
         - {if: 'amount() == 120', then: [3 ha Wald schützen]}
         - {if: 'amount() == 200', then: [5 ha Wald schützen]}
       payment_form:
-        stored_customer_map_label_info_text_long: >-
+        stored_map_label_info_text_long: >-
           <p style="padding: 1rem; font-size: 80%; border: thin
           solid lightgray">Max. 10 Zeichen können angezeigt werden.</p>
     fr:
@@ -236,7 +236,7 @@ features:
         - {if: 'amount() == 120', then: [protéger 3 ha de forêt]}
         - {if: 'amount() == 200', then: [protéger 5 ha de forêt]}
       payment_form:
-        stored_customer_map_label_info_text_long: >-
+        stored_map_label_info_text_long: >-
           <p style="padding: 1rem; font-size: 80%; border: thin
           solid lightgray">Un maximum de 10 caractères peut être affiché.</p>
 
@@ -809,7 +809,7 @@ tamaro:
     paymentFormPrefill:
       stored_customer_certificate: none
       stored_recipient_firstname: ""
-      stored_customer_map_label: ""
+      stored_map_label: ""
     slots:
       slot_1:
         - component: block
@@ -844,12 +844,12 @@ tamaro:
                 - component: field
                   type: text
                   formName: payment_form
-                  name: stored_customer_map_label
-                  label: payment_form.stored_customer_map_label
-                  placeholder: payment_form.stored_customer_map_label
+                  name: stored_map_label
+                  label: payment_form.stored_map_label
+                  placeholder: payment_form.stored_map_label
                 - component: content
                   formName: payment_form
-                  text_html: payment_form.stored_customer_map_label_info_text_long
+                  text_html: payment_form.stored_map_label_info_text_long
     translations: *TRANSLATIONS-3
 
   rnwWaldschutzMitOptionalerUrkunde:
@@ -890,7 +890,7 @@ tamaro:
                   placeholder: payment_form.stored_recipient_firstname
                 - component: content
                   formName: payment_form
-                  text_html: payment_form.stored_customer_map_label_info_text_long
+                  text_html: payment_form.stored_map_label_info_text_long
     translations: *TRANSLATIONS-4
 
   rnwSpendeAuswahlNurEmail: &SPENDE_AUSWAHL_NUR_EMAIL
